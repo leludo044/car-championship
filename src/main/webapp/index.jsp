@@ -3,7 +3,7 @@
     <title>Tomcat 7 Hibernate JPA Demo</title>
 </head>
 <body>
-<h1>Tomcat 7 Hibernate JPA Demo</h1>
+<h1>Tomcat 7 Hibernate JPA Demo2</h1>
 <ul>
     <li>
         <a href="/product/list">Products catalog</a>
