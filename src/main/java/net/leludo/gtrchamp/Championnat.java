@@ -17,8 +17,8 @@ public class Championnat {
     public List<net.leludo.gtrchamp.GrandPrix> grandsPrix = new ArrayList<net.leludo.gtrchamp.GrandPrix>();
 
     @objid ("dad02fe6-5ca2-11e1-8c1d-0024210b642e")
-    public GrandPrix organiserGrandPrix(final net.leludo.gtrchamp.Circuit circuit, final Date date) {
-        GrandPrix gp = new GrandPrix();
+    public GrandPrix organiserGrandPrix(final Circuit circuit, final Date date) {
+        GrandPrix gp = new GrandPrix(circuit, date);
         this.grandsPrix.add(gp);
         return gp;
     }
