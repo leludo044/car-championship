@@ -14,21 +14,23 @@ public class GrandPrix {
     public boolean mode2Courses;
 
     @objid ("5a0cb588-5c65-11e1-b2cd-0024210b642e")
-    public List<net.leludo.gtrchamp.Concurrent> concurrents = new ArrayList<net.leludo.gtrchamp.Concurrent> ();
+    public List<Concurrent> concurrents = new ArrayList<Concurrent> ();
 
     @objid ("827ca521-5c65-11e1-b2cd-0024210b642e")
-    public net.leludo.gtrchamp.Circuit circuit;
+    public Circuit circuit;
 
     @objid ("1eda6ed5-57d9-11e1-8a02-0024210b642e")
-    public void inscrire(final net.leludo.gtrchamp.Pilote pilote) {
+    public void inscrire(final Pilote pilote) {
+    	Concurrent concurrent = new Concurrent(pilote);
+    	this.concurrents.add(concurrent);
     }
 
     @objid ("bad22308-57d9-11e1-8a02-0024210b642e")
-    public void classer(final net.leludo.gtrchamp.Pilote pilote, final int points) {
+    public void classer(final Pilote pilote, final int points) {
     }
 
     @objid ("6b75ea0e-5ca3-11e1-8c1d-0024210b642e")
-    public List<net.leludo.gtrchamp.Concurrent> rendreClassement() {
+    public List<Concurrent> rendreClassement() {
         // TODO Auto-generated return
         return null;
     }
@@ -37,4 +39,8 @@ public class GrandPrix {
     public void positionnerSurGrille(final net.leludo.gtrchamp.Pilote pilote, final int position) {
     }
 
+    void GrandPrix(final Circuit circuit, final Date date) {
+    	this.circuit = circuit;
+    	this.date = date ;
+    }
 }
