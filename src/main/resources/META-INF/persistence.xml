@@ -22,6 +22,7 @@
     <persistence-unit name="localdomain.localhost">
         <non-jta-data-source>java:comp/env/jdbc/mydb</non-jta-data-source>
         <class>localdomain.localhost.domain.Product</class>
+        <class>net.leludo.gtrchamp.Championnat</class>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
