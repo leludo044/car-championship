@@ -13,6 +13,9 @@ public class DefaultDao<T, PK> {
 		entityClass = entity ;
 	}
 	
+	public void setEntityManager(EntityManagerFactory emf) {
+		this.emf =emf ;
+	}
 	public T find(PK id) {
 		Class<T> type ;
 		return em.find(entityClass, id);
