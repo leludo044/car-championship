@@ -1,6 +1,5 @@
 package net.leludo.gtrchamp;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 public class Circuit {
     public int id;

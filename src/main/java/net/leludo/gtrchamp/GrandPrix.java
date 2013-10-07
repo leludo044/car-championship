@@ -3,7 +3,6 @@ package net.leludo.gtrchamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 public class GrandPrix {
     private Date date;

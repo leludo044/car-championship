@@ -1,6 +1,5 @@
 package net.leludo.gtrchamp;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 public class Concurrent extends Pilote {
 	public int positionDepart;
