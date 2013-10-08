@@ -22,7 +22,7 @@ public class Championnat {
 
 	public GrandPrix organiserGrandPrix(
 			final net.leludo.gtrchamp.Circuit circuit, final Date date) {
-		GrandPrix gp = new GrandPrix();
+		GrandPrix gp = new GrandPrix(circuit, date);
 		this.grandsPrix.add(gp);
 		return gp;
 	}
