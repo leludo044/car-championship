@@ -15,9 +15,7 @@
  */
 package localdomain.localhost;
 
-import localdomain.localhost.domain.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,7 +24,12 @@ import javax.persistence.Query;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.util.List;
+
+import localdomain.localhost.domain.Product;
+import net.leludo.gtrchamp.dao.ChampionnatDao;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * In charge of the lifecycle of the application components.
@@ -72,7 +75,6 @@ public class ApplicationWebListener implements ServletContextListener {
         } else {
             logger.debug("Don't insert demo products in the database, {} products already found in the db", resultList.size());
         }
-
     }
 
     @Override
