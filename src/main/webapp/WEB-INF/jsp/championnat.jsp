@@ -8,7 +8,7 @@
     <tbody>
         <tr>
             <td>${championnat.id}</td>
-            <td>${championnat.libelle}"/></td>
+            <td>${championnat.libelle}</td>
         </tr>
     </tbody>
 </table>

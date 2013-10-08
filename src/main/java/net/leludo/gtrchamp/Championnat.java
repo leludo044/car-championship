@@ -53,4 +53,8 @@ public class Championnat {
 		this.grandsPrix = new ArrayList<GrandPrix>();
 	}
 
+	public int getId() {
+		return id;
+	}
+
 }

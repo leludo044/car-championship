@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author <a href="mailto:cleclerc@cloudbees.com">Cyrille Le Clerc</a>
  */
-@WebServlet(value = "/championnat/0", loadOnStartup = 1)
+@WebServlet(value = "/championnat/0", loadOnStartup = 0)
 public class ChampionnatServlet extends HttpServlet {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -59,7 +59,7 @@ public class ChampionnatServlet extends HttpServlet {
         ChampionnatDao dao = new ChampionnatDao() ;
         dao.setEntityManager(emf);
         try {
-        	Championnat chp = dao.find(0);
+        	Championnat chp = dao.find(new Integer(1));
 
             req.setAttribute("championnat", chp);
             req.getRequestDispatcher("/WEB-INF/jsp/championnat.jsp").forward(req, resp);
