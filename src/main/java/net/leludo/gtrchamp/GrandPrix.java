@@ -13,9 +13,13 @@ public class GrandPrix {
 
     public Circuit circuit;
 
-    public void inscrire(final Pilote pilote) {
+    public Concurrent inscrire(final Pilote pilote) throws ChampionnatException {
+    	if (pilote == null) {
+    		throw new ChampionnatException() ;
+    	}
     	Concurrent concurrent = new Concurrent(pilote);
     	this.concurrents.add(concurrent);
+    	return concurrent;
     }
 
     public void classer(final Pilote pilote, final int points) {
@@ -26,11 +30,25 @@ public class GrandPrix {
         return null;
     }
 
-    public void positionnerSurGrille(final net.leludo.gtrchamp.Pilote pilote, final int position) {
+	public void positionnerSurGrille(final Concurrent concurrent,
+			final int position) throws ChampionnatException {
+    	if (concurrent == null) {
+    		throw new ChampionnatException();
+    	}
+    	concurrent.setPositionDepart(position);
     }
 
-    void GrandPrix(final Circuit circuit, final Date date) {
+    public GrandPrix(final Circuit circuit, final Date date) {
     	this.circuit = circuit;
     	this.date = date ;
     }
+
+	public Object getCircuit() {
+		return this.circuit;
+	}
+
+	public Object getNbInscrits() {
+		return this.concurrents.size();
+	}
+
 }
