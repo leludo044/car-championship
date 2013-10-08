@@ -9,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
-@objid("08400c4e-5c66-11e1-b2cd-0024210b642e")
 @Entity
 @Table(name = "championnat")
 public class Championnat {
