@@ -1,6 +1,7 @@
 package net.leludo.gtrchamp;
 
 import java.util.Calendar;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -19,11 +20,12 @@ public class GrandPrixTest {
 	@Test
 	public void test() {
 		Assert.assertNotNull(acteur.getCircuit());
+		Assert.assertEquals(0, acteur.getNbInscrits());
 	}
 
 	@Test
 	public void testInscrirePilote() throws ChampionnatException {
-		Concurrent concurrent = inscrirePilote();
+		Concurrent concurrent = inscrirePilote(1);
 		Assert.assertEquals(1, acteur.getNbInscrits());
 		Assert.assertEquals("", concurrent.nom);
 	}
@@ -34,20 +36,80 @@ public class GrandPrixTest {
 	}
 
 	@Test
-	public void testPositionnerPiloteSurGrille() throws ChampionnatException {
-		Concurrent concurrent = inscrirePilote();
-		acteur.positionnerSurGrille(concurrent, 1);
-		Assert.assertTrue(concurrent.hasPolePosition());
+	public void testIsNotTermine() throws ChampionnatException {
+		this.inscrirePilote(1) ;
+		Assert.assertFalse(acteur.isTermine());
 	}
-
-	@Test(expected = ChampionnatException.class)
-	public void testPositionnerPiloteNullSurGrille()
-			throws ChampionnatException {
-		acteur.positionnerSurGrille(null, 1);
+	
+	@Test
+	public void testIsTerminePour1Concurrent() throws ChampionnatException {
+		Concurrent concurrent = this.inscrirePilote(1) ;
+		concurrent.setPositionArrivee(1);
+		Assert.assertTrue(acteur.isTermine());
 	}
-
-	private Concurrent inscrirePilote() throws ChampionnatException {
+	@Test
+	public void testIsNotTerminePour1Concurrent() throws ChampionnatException {
+		Concurrent concurrent1 = this.inscrirePilote(1) ;
+		concurrent1.setPositionArrivee(1);
+		Concurrent concurrent2 = this.inscrirePilote(2) ;
+		Assert.assertFalse(acteur.isTermine());
+	}
+	@Test
+	public void testIsTerminePour2Concurrents() throws ChampionnatException {
+		Concurrent concurrent1 = this.inscrirePilote(1) ;
+		concurrent1.setPositionArrivee(1);
+		Concurrent concurrent2 = this.inscrirePilote(2) ;
+		concurrent2.setPositionArrivee(2);
+		Assert.assertTrue(acteur.isTermine());
+	}
+	
+	@Test(expected=ChampionnatException.class)
+	public void testRendreClassementACreation() throws ChampionnatException {
+		acteur.rendreClassement();		
+	}
+	@Test(expected=ChampionnatException.class)
+	public void testRendreClassementPourGrandsPrixNonTermine() throws ChampionnatException {
+		this.inscrirePilote(1) ;
+		acteur.rendreClassement();		
+	}
+	@Test
+	public void testRendreClassementPour1Concurrent() throws ChampionnatException {
+		Concurrent concurrent = this.inscrirePilote(1) ;
+		concurrent.setPositionArrivee(1);
+		List<Concurrent> classement = acteur.rendreClassement();
+		Assert.assertEquals(1, classement.size());
+	}
+	@Test(expected=ChampionnatException.class)
+	public void testRendreClassementPourPlusieursConcurrentsNonTermine() throws ChampionnatException {
+		Concurrent concurrent1 = this.inscrirePilote(1) ;
+		concurrent1.setPositionArrivee(1);
+		Concurrent concurrent2 = this.inscrirePilote(2) ;
+		List<Concurrent> classement = acteur.rendreClassement();
+	}
+	@Test
+	public void testRendreClassementPourPlusieursConcurrentsTermine() throws ChampionnatException {
+		Concurrent concurrent1 = this.inscrirePilote(1) ;
+		concurrent1.setPositionArrivee(1);
+		Concurrent concurrent2 = this.inscrirePilote(2) ;
+		concurrent2.setPositionArrivee(2);
+		List<Concurrent> classement = acteur.rendreClassement();
+		Assert.assertEquals(2, classement.size());
+	}
+	@Test
+	public void testRendreClassementPourPlusieursConcurrentsTrie() throws ChampionnatException {
+		Concurrent concurrent1 = this.inscrirePilote(1) ;
+		concurrent1.setPositionArrivee(2);
+		Concurrent concurrent2 = this.inscrirePilote(2) ;
+		concurrent2.setPositionArrivee(1);
+		List<Concurrent> classement = acteur.rendreClassement();
+		Assert.assertEquals(2, classement.size());
+		Assert.assertEquals(concurrent2, classement.get(0));
+		Assert.assertEquals(concurrent1, classement.get(1));
+	}
+	
+	private Concurrent inscrirePilote(int id) throws ChampionnatException {
 		Pilote pilote = new Pilote();
+		pilote.id = id ;
 		Concurrent concurrent = acteur.inscrire(pilote);
 		return concurrent;
 	}

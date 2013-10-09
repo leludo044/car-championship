@@ -23,6 +23,7 @@ public class Concurrent extends Pilote {
 
 	public Concurrent(Pilote pilote) {
 		this();
+		this.id = pilote.id;
 		this.nom = pilote.nom;
 		this.dateNaissance = pilote.dateNaissance;
 	}
@@ -54,6 +55,20 @@ public class Concurrent extends Pilote {
 
 	public void abandonner() {
 		this.positionArrivee = -1 ;
+	}
+
+	public boolean hasTermine() {
+		return this.positionArrivee!=0;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals((Pilote)obj) ;
 	}
 
 }

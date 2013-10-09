@@ -72,4 +72,16 @@ public class ConcurrentTest {
 		acteur.abandonner();
 		Assert.assertEquals(-1, acteur.getPositionArrivee());
 	}
+	
+	@Test
+	public void testHasNotTermine() {
+		Assert.assertFalse(acteur.hasTermine());
+	}
+
+	@Test
+	public void testHasTermine() throws ChampionnatException {
+		acteur.setPositionArrivee(1);
+		Assert.assertTrue(acteur.hasTermine());
+	}
+
 }
