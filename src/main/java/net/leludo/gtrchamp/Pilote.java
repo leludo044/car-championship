@@ -13,7 +13,6 @@ public class Pilote {
     	this.nom ="" ;
     	this.dateNaissance = null;
     }
-    
 	@Override
 	public int hashCode() {
 		final int prime = 31;
