@@ -39,7 +39,7 @@ public class GrandPrix {
     public void positionnerSurGrille(final net.leludo.gtrchamp.Pilote pilote, final int position) {
     }
 
-    public GrandPrix(final Circuit circuit, final Date date) {
+    void GrandPrix(final Circuit circuit, final Date date) {
     	this.circuit = circuit;
     	this.date = date ;
     }
