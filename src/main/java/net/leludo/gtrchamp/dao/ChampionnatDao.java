@@ -1,15 +1,10 @@
 package net.leludo.gtrchamp.dao;
 
-import javax.persistence.EntityManagerFactory;
+import net.leludo.gtrchamp.Championnat;
 
-public class ChampionnatDao {
-	private EntityManagerFactory emf;
-	
+public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
+
 	public ChampionnatDao() {
-		
-	}
-	
-	public void find(int id) {
-		
+		super(Championnat.class);
 	}
 }

@@ -11,8 +11,6 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
 /**
  * @author pmzn560
  */

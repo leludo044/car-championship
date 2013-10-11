@@ -1,17 +1,38 @@
 package net.leludo.gtrchamp;
 
 import java.util.Date;
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-@objid ("8d2ada73-57d8-11e1-8a02-0024210b642e")
 public class Pilote {
-    @objid ("9db7863b-57d8-11e1-8a02-0024210b642e")
     public int id;
 
-    @objid ("abf74e25-57d8-11e1-8a02-0024210b642e")
     public String nom;
 
-    @objid ("03b0fe66-1edf-11e3-83b1-e83935331d2a")
     public Date dateNaissance;
+
+    public Pilote() {
+    	this.nom ="" ;
+    	this.dateNaissance = null;
+    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pilote other = (Pilote) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 
 }
