@@ -1,6 +1,8 @@
 package net.leludo.gtrchamp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -29,12 +31,20 @@ public class GrandPrix {
 			throw new ChampionnatException();
 		}
 
-		List<Concurrent> classement = new ArrayList<Concurrent>();
-		for (Concurrent concurrent : this.concurrents) {
-			classement.add(concurrent);
-		}
+		Collections.sort(concurrents, new Comparator<Concurrent>() {
 
-		return classement;
+			@Override
+			public int compare(Concurrent o1, Concurrent o2) {
+				if (o1.positionArrivee < o2.positionArrivee) {
+				return -1;
+				} else {
+					return 0 ;
+				}
+			}
+			
+		});
+		
+		return concurrents;
 	}
 
 	public GrandPrix(final Circuit circuit, final Date date) {
