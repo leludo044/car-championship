@@ -7,6 +7,7 @@
 <ul>
     <li>
         <a href="/product/list">Products catalog</a>
+        <a href="/championnat/0">Championnat</a>
     </li>
 </ul>
 
