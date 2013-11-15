@@ -6,8 +6,8 @@
 <h1>Tomcat 7 Hibernate JPA Demo2</h1>
 <ul>
     <li>
-        <a href="/product/list">Products catalog</a>
-        <a href="/championnat/0">Championnat</a>
+        <a href="product/list">Products catalog</a>
+        <a href="championnat/0">Championnat</a>
     </li>
 </ul>
 
