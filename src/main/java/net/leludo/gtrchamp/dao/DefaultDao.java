@@ -7,11 +7,17 @@ import net.leludo.gtrchamp.Championnat;
 
 public class DefaultDao<T, PK> {
 	private EntityManagerFactory emf;
-	private EntityManager em ;
+	protected EntityManager em ;
 	Class<T> entityClass ;
 	
 	public DefaultDao(Class<T> entity) {
 		entityClass = entity ;
+	}
+	
+	public void close() {
+		if (em != null) {
+			em.close();
+		}
 	}
 	
 	public void setEntityManager(EntityManagerFactory emf) {

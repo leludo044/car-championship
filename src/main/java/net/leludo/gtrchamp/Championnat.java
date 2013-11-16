@@ -54,4 +54,11 @@ public class Championnat {
 		return id;
 	}
 
+	@Override
+	public String toString() {
+		return "Championnat [id=" + id + ", libelle=" + libelle + "]";
+	}
+	
+	
+
 }
