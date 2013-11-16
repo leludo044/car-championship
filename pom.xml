@@ -14,11 +14,9 @@
 		<artifactId>cloudbees-oss-parent</artifactId>
 		<version>2</version>
 	</parent>
-	<groupId>localdomain.localhost</groupId>
-	<artifactId>tomcat7-hibernate-jpa-clickstart</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>tomcat7-hibernate-jpa-clickstart Webapp</name>
+	<name>GtrChamp</name>
 	<dependencies>
 		<dependency>
 			<groupId>javax.persistence</groupId>
@@ -110,6 +108,11 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.26</version>
 		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.4</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -130,4 +133,7 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<groupId>net.leludo</groupId>
+	<artifactId>gtrchamp2</artifactId>
+	<description>Gestion du championnat GTR entre pôtes</description>
 </project>
