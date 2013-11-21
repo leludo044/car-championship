@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "championnat")
+@Table(name = "championnats")
 public class Championnat {
 	@Id
 	private int id;
