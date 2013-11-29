@@ -1,13 +1,31 @@
 package net.leludo.gtrchamp;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
+
+@Entity
+@Table(name="circuits")
 public class Circuit {
-    public int id;
+	@Id
+    private int id;
 
-    public String nom;
+    private String nom;
 
-    public String longueur;
+    private String longueur;
 
-    public net.leludo.gtrchamp.Pays pays;
+    @OneToOne
+    @JoinColumn(name="id", nullable=false)
+    private net.leludo.gtrchamp.Pays pays;
+
+	@Override
+	public String toString() {
+		return "Circuit [id=" + id + ", nom=" + nom + ", longueur=" + longueur
+				+ ", pays=" + pays + "]";
+	}
 
 }

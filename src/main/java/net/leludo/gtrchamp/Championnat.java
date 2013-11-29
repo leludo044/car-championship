@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -17,7 +19,7 @@ public class Championnat {
 
 	private String libelle;
 
-	@Transient
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="championnat")
 	private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
 
 	public GrandPrix organiserGrandPrix(
@@ -56,7 +58,8 @@ public class Championnat {
 
 	@Override
 	public String toString() {
-		return "Championnat [id=" + id + ", libelle=" + libelle + "]";
+		return "Championnat [id=" + id + ", libelle=" + libelle
+				+ ", grandsPrix=" + grandsPrix + "]";
 	}
 	
 	

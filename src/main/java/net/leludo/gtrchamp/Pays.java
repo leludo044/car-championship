@@ -1,9 +1,20 @@
 package net.leludo.gtrchamp;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public final class Pays {
-    public int id;
+@Entity
+@Table(name="pays")
+public class Pays {
+	@Id
+    private int id;
 
-    public String nom;
+	private String nom;
+
+	@Override
+	public String toString() {
+		return "Pays [id=" + id + ", nom=" + nom + "]";
+	}
 
 }

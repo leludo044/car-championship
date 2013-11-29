@@ -6,14 +6,34 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "grandsprix")
 public class GrandPrix {
+
+	@Id
+	private int id;
+
 	private Date date;
 
-	public boolean mode2Courses;
-
-	public List<Concurrent> concurrents = new ArrayList<Concurrent>();
-
-	public Circuit circuit;
+	private boolean mode2Courses;
+	@Transient
+	private List<Concurrent> concurrents = new ArrayList<Concurrent>();
+	
+    @OneToOne
+    @JoinColumn(name="id", nullable=false)
+	private Circuit circuit;
+	
+	@ManyToOne
+    @JoinColumn(name="idChampionnat", nullable=false)
+	private Championnat championnat ;
 
 	public Concurrent inscrire(final Pilote pilote) throws ChampionnatException {
 		if (pilote == null) {
@@ -36,20 +56,24 @@ public class GrandPrix {
 			@Override
 			public int compare(Concurrent o1, Concurrent o2) {
 				if (o1.positionArrivee < o2.positionArrivee) {
-				return -1;
+					return -1;
 				} else {
-					return 0 ;
+					return 0;
 				}
 			}
-			
+
 		});
-		
+
 		return concurrents;
 	}
 
 	public GrandPrix(final Circuit circuit, final Date date) {
 		this.circuit = circuit;
 		this.date = date;
+	}
+
+	public GrandPrix() {
+
 	}
 
 	public Object getCircuit() {
@@ -66,6 +90,13 @@ public class GrandPrix {
 			isTermine &= concurrent.hasTermine();
 		}
 		return isTermine;
+	}
+
+	@Override
+	public String toString() {
+		return "GrandPrix [id=" + id + ", date=" + date + ", mode2Courses="
+				+ mode2Courses + ", concurrents=" + concurrents + ", circuit="
+				+ circuit + "]";
 	}
 
 }
