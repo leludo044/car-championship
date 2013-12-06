@@ -76,7 +76,7 @@ public class GrandPrix {
 
 	}
 
-	public Object getCircuit() {
+	public Circuit getCircuit() {
 		return this.circuit;
 	}
 
@@ -97,6 +97,10 @@ public class GrandPrix {
 		return "GrandPrix [id=" + id + ", date=" + date + ", mode2Courses="
 				+ mode2Courses + ", concurrents=" + concurrents + ", circuit="
 				+ circuit + "]";
+	}
+
+	public Date getDate() {
+		return date;
 	}
 
 }

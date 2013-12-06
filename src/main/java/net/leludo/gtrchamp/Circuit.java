@@ -28,4 +28,8 @@ public class Circuit {
 				+ ", pays=" + pays + "]";
 	}
 
+	public String getNom() {
+		return nom;
+	}
+
 }
