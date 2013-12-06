@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import net.leludo.gtrchamp.Championnat;
+import net.leludo.gtrchamp.GrandPrix;
 import net.leludo.gtrchamp.dao.ChampionnatDao;
 
 import org.codehaus.jackson.JsonFactory;
@@ -91,6 +92,42 @@ public class JsonChampionnat {
 				// (yet?)
 				// 12 byte[] binaryData = ...;
 				// 13 g.writeBinary(binaryData);
+				g.writeEndObject();
+				g.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return sw.toString();
+		}
+	}
+
+	@GET
+	@Path("/getjson/gps/{idChp}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getJsonGrandsPrix(@PathParam("idChp") int idChp) {
+		init();
+		System.out.println(idChp);
+		Championnat chp = dao.find(new Integer(idChp));
+		dao.close();
+		if (chp == null) {
+			return "Inconnu !";
+		} else {
+			JsonFactory jsonFactory = new JsonFactory(); // or, for data
+															// binding,
+															// org.codehaus.jackson.mapper.MappingJsonFactory
+			StringWriter sw = new StringWriter() ;
+			try{
+				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				g.writeStartObject();
+				g.writeArrayFieldStart("grandsprix");;
+				for (GrandPrix gp : chp.getGrandsPrix()) {
+					g.writeStartObject();
+					g.writeStringField("nom", gp.getCircuit().getNom());
+					g.writeStringField("date", gp.getDate().toString());
+					g.writeEndObject();
+				}
+				g.writeEndArray();
 				g.writeEndObject();
 				g.close();
 			} catch (IOException e) {
