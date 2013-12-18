@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<link href="css/reset.css" type="text/css"
+	media="screen,projection" rel="stylesheet" />
+<link href="css/main.css" type="text/css"
+	media="screen,projection" rel="stylesheet" />
+<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/main-msie.css" /><![endif]-->
+<link href="css/style.css" type="text/css"
+	media="screen,projection" rel="stylesheet" />
+<link href="css/print.css" type="text/css" media="print"
+	rel="stylesheet" />
+	<title>Championnat GTR privÈ</title>
+
+</head>
+<body>
+
+<div id="main">
+
+		<!-- Header -->
+		<div id="header">
+
+			<h1 id="logo">
+				<a title="[Go to homepage]" href="./"><img alt=""
+					src="logogtr.png" /></a>
+			</h1>
+			<hr class="noscreen" />
+
+			<!-- Navigation -->
+			<!--
+        <div id="nav">
+            <a id="nav-active" href="#">Homepage</a> <span>|</span>
+            <a href="#">About us</a> <span>|</span>
+            <a href="#">Support</a> <span>|</span>
+            <a href="#">Contact</a>
+        </div>-->
+			<!-- /nav -->
+
+		</div>
+		<!-- /header -->
+
+		<!-- Tray -->
+		<div id="tray">
+
+			<ul>
+				<li id="tray-active"><a
+					href="controleur.php?action=Index&amp;championnat=2">Accueil</a></li>
+				<!-- Active page -->
+				<li id="tray-active"><a
+					href="controleur.php?action=Index&amp;championnat=1">Championnat
+						2012</a></li>
+				<!-- Active page -->
+				<!--
+            <li><a href="#">Pilotes<br /></a></li>
+            <li><a href="#">Circuits<br /></a></li>
+            <li><a href="controleur.php?action=Stats&championnat=1">Statistiques<br /></a></li>
+            -->
+			</ul>
+	<div data-ng-controller="ChampionnatController">
+		<ul>
+			<li data-ng-repeat="champ in championnat">{{champ.libelle}}</li>
+		</ul>
+	</div>
+			<!-- Search -->
+			<!--
+        <div class="box" id="search">
+            <form method="get" action="#">
+                <div class="box">
+                    <div id="search-input"><span class="noscreen">Search:</span><input type="text" value="Search" name="" size="30" /></div>
+                    <div id="search-submit"><input type="image" value="OK" src="../../design/search-submit.gif" /></div>
+                </div>
+            </form>
+        </div> -->
+			<!-- /search -->
+
+			<hr class="noscreen" />
+		</div>
+		<!-- /tray -->
+		<!-- Promo -->
+		<div id="col-top"></div>
+		<div class="box" id="col">
+
+			<!--div id="ribbon"></div-->
+			<!-- /ribbon (design/ribbon.gif) -->
+
+			<!-- Screenshot in browser (replace tmp/browser.gif) -->
+			<div id="col-browser">
+				<!--a href="#"><img width="255" height="204" alt="" src="d_1280x1024.jpg" /></a-->
+			</div>
+
+			<div id="col-text">
+
+				<h2>
+					<?php echo $mv->getModel('chp')->getLibelle(); ?>
+					- Classement g√©n√©ral
+				</h2>
+
+				<table id="jquery">
+					<thead>
+						<tr>
+							<th>Classement</th>
+							<th>Pilote</th>
+							<th>Points</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<?php
+				$resultats = $mv->getModel('resgen');
+				$classement = 0;
+				foreach($resultats as &$participant) {
+                    $classement += 1;
+                    echo "<tr><td>".$classement."</td><td>".$participant->getPilote()->getName()."</td><td>".$participant->getPoints()."</td></tr>";
+                }
+                ?>
+
+					</tbody>
+				</table>
+
+			</div>
+			<!-- /col-text -->
+
+		</div>
+		<!-- /col -->
+		<div id="col-bottom"></div>
+
+		<hr class="noscreen" />
+
+		<!-- 3 columns -->
+		<div class="box" id="cols3">
+
+			<!-- Column I. -->
+			<div class="col un">
+
+				<h3>Grands prix</h3>
+				<div class="col-text">
+					<?php
+			$all = $mv->getModel('gps');
+			$tag = new GrandsPrixTag($all);
+			$tag->render();
+			?>
+				</div>
+			</div>
+			<!-- /col -->
+
+			<hr class="noscreen" />
+
+			<!-- Column II. -->
+			<div class="col deux">
+
+				<h3>R√©sultats</h3>
+				<div id="results" class="col-text">Veuillez s√©lectionner un
+					grand prix !</div>
+				<!--
+            <?php
+            $resultats = $mv->getModel('res');
+            foreach($resultats as $participant) {
+                echo $participant."<br />";
+            }
+            ?>            <?php
+            $resultats = $mv->getModel('resgen');
+            foreach($resultats as $participant) {
+                echo $participant."<br />";
+            }
+            ?>
+-->
+			</div>
+			<!-- /col -->
+
+			<hr class="noscreen" />
+
+		</div>
+		<!-- /cols3 -->
+
+		<hr class="noscreen" />
+		<!-- Footer -->
+		<div id="footer">
+
+			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
+			<p class="f-right">
+				<a href="http://www.nuviotemplates.com/">Free web templates</a>
+				presented by <a href="http://www.qartin.cz/">QARTIN</a> ñ Our tip: <a
+					href="http://last-minute.invia.pl">Wakacje</a> <a
+					href="http://dovolenka.invia.sk">Dovolenka</a>
+			</p>
+			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
+
+			<p>
+				Copyright ©†2012 <strong><a href="#">Ludovic THOMAS</a></strong>,
+				All Rights Reserved Æ
+			</p>
+
+		</div>
+		<!-- /footer -->
+
+	</div>
+	<!-- /main -->
+<script src="angular-1.0.7/angular.min.js"></script>
+<script>
+function ChampionnatController($scope) {
+	// Initialising the variable.
+    $scope.championnat = [{"id":1,"libelle":"Championnat 2012"}];
+   
+    // Getting the list of users through ajax call.
+    $http({
+      url: 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/1',
+      method: 'GET',
+    }).success(function (data, status, headers, config) {
+      $scope.championnat = data;
+    }).
+    error(function(data, status, headers, config) {
+    	// called asynchronously if an error occurs
+    	// or server returns response with an error status.
+        $scope.championnat = [{"id":1,"libelle":"Championnat 2012"}];
+    	});
+}
+</script>
+</body>
+</html>
