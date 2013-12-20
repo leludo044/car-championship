@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html ng-app="chpApp">
+<html data-ng-app="chpApp">
 <head>
-<link href="css/reset.css" type="text/css"
-	media="screen,projection" rel="stylesheet" />
-<link href="css/main.css" type="text/css"
-	media="screen,projection" rel="stylesheet" />
+<link href="css/reset.css" type="text/css" media="screen,projection"
+	rel="stylesheet" />
+<link href="css/main.css" type="text/css" media="screen,projection"
+	rel="stylesheet" />
 <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/main-msie.css" /><![endif]-->
-<link href="css/style.css" type="text/css"
-	media="screen,projection" rel="stylesheet" />
+<link href="css/style.css" type="text/css" media="screen,projection"
+	rel="stylesheet" />
 <link href="css/print.css" type="text/css" media="print"
 	rel="stylesheet" />
-	<title>Championnat GTR priv�</title>
+<title>Championnat GTR privé</title>
 
 </head>
 <body>
 
-<div id="main">
+	<div id="main" data-ng-controller="ChampionnatController">
 
 		<!-- Header -->
 		<div id="header">
@@ -56,11 +56,11 @@
             <li><a href="controleur.php?action=Stats&championnat=1">Statistiques<br /></a></li>
             -->
 			</ul>
-	<div data-ng-controller="ChampionnatController">
-		<ul>
-			<li data-ng-repeat="champ in championnat">{{champ.libelle}}</li>
-		</ul>
-	</div>
+			<div>
+				<ul>
+					<li data-ng-repeat="champ in championnat">{{champ.libelle}}</li>
+				</ul>
+			</div>
 			<!-- Search -->
 			<!--
         <div class="box" id="search">
@@ -89,11 +89,7 @@
 			</div>
 
 			<div id="col-text">
-
-				<h2>
-					<?php echo $mv->getModel('chp')->getLibelle(); ?>
-					- Classement général
-				</h2>
+				<h2>{{championnat.championnat.libelle}} - Classement général</h2>
 
 				<table id="jquery">
 					<thead>
@@ -104,7 +100,6 @@
 						</tr>
 					</thead>
 					<tbody>
-
 						<?php
 				$resultats = $mv->getModel('resgen');
 				$classement = 0;
@@ -134,11 +129,24 @@
 
 				<h3>Grands prix</h3>
 				<div class="col-text">
-					<?php
-			$all = $mv->getModel('gps');
-			$tag = new GrandsPrixTag($all);
-			$tag->render();
-			?>
+					<table>
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Circuit</th>
+								<th>Longueur</th>
+								<th>Pays</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="gp in gps">
+								<td>{{gp.date}}</td>
+								<td>{{gp.nom}}</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<!-- /col -->
@@ -148,8 +156,8 @@
 			<!-- Column II. -->
 			<div class="col deux">
 
-				<h3>Résultats</h3>
-				<div id="results" class="col-text">Veuillez sélectionner un
+				<h3>RÃ©sultats</h3>
+				<div id="results" class="col-text">Veuillez sÃ©lectionner un
 					grand prix !</div>
 				<!--
             <?php
@@ -179,15 +187,15 @@
 			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
 			<p class="f-right">
 				<a href="http://www.nuviotemplates.com/">Free web templates</a>
-				presented by <a href="http://www.qartin.cz/">QARTIN</a> � Our tip: <a
+				presented by <a href="http://www.qartin.cz/">QARTIN</a> – Our tip: <a
 					href="http://last-minute.invia.pl">Wakacje</a> <a
 					href="http://dovolenka.invia.sk">Dovolenka</a>
 			</p>
 			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
 
 			<p>
-				Copyright ��2012 <strong><a href="#">Ludovic THOMAS</a></strong>,
-				All Rights Reserved �
+				Copyright © 2012 <strong><a href="#">Ludovic THOMAS</a></strong>,
+				All Rights Reserved ®
 			</p>
 
 		</div>
@@ -195,7 +203,7 @@
 
 	</div>
 	<!-- /main -->
-<script src="angular-1.0.7/angular.min.js"></script>
-<script src="js/championnat.module.js"></script>
+	<script src="angular-1.0.7/angular.min.js"></script>
+	<script src="js/championnat.module.js"></script>
 </body>
 </html>
