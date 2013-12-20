@@ -46,9 +46,7 @@
 				<li id="tray-active"><a
 					href="controleur.php?action=Index&amp;championnat=2">Accueil</a></li>
 				<!-- Active page -->
-				<li id="tray-active"><a
-					href="controleur.php?action=Index&amp;championnat=1">Championnat
-						2012</a></li>
+					<li id="tray-active" data-ng-repeat="champ in championnats"><a href="#">{{champ.libelle}}</a></li>
 				<!-- Active page -->
 				<!--
             <li><a href="#">Pilotes<br /></a></li>
@@ -56,11 +54,6 @@
             <li><a href="controleur.php?action=Stats&championnat=1">Statistiques<br /></a></li>
             -->
 			</ul>
-			<div>
-				<ul>
-					<li data-ng-repeat="champ in championnat">{{champ.libelle}}</li>
-				</ul>
-			</div>
 			<!-- Search -->
 			<!--
         <div class="box" id="search">
@@ -89,7 +82,7 @@
 			</div>
 
 			<div id="col-text">
-				<h2>{{championnat.championnat.libelle}} - Classement général</h2>
+				<h2>{{championnat.libelle}} - Classement général</h2>
 
 				<table id="jquery">
 					<thead>

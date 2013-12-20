@@ -139,5 +139,38 @@ public class JsonChampionnat {
 			return sw.toString();
 		}
 	}
+	
+	@GET
+	@Path("/listjson")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String listJsonChampionnat() {
+		init();
+		List<Championnat> chps = dao.findAll();
+		dao.close();
+		if (chps == null) {
+			return "Inconnu !";
+		} else {
+			JsonFactory jsonFactory = new JsonFactory(); // or, for data
+															// binding,
+															// org.codehaus.jackson.mapper.MappingJsonFactory
+			StringWriter sw = new StringWriter() ;
+			try{
+				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				g.writeStartArray();;
+				for (Championnat chp : chps) {
+					g.writeStartObject();
+					g.writeNumberField("id", chp.getId());
+					g.writeStringField("libelle", chp.getLibelle());
+					g.writeEndObject();
+				}
+				g.writeEndArray();
+				g.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return sw.toString();
+		}
+	}
 
 }
