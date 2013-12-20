@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="chpApp">
 <head>
 <link href="css/reset.css" type="text/css"
 	media="screen,projection" rel="stylesheet" />
@@ -196,24 +196,6 @@
 	</div>
 	<!-- /main -->
 <script src="angular-1.0.7/angular.min.js"></script>
-<script>
-function ChampionnatController($scope) {
-	// Initialising the variable.
-    $scope.championnat = [{"id":1,"libelle":"Championnat 2012"}];
-   
-    // Getting the list of users through ajax call.
-    $http({
-      url: 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/1',
-      method: 'GET',
-    }).success(function (data, status, headers, config) {
-      $scope.championnat = data;
-    }).
-    error(function(data, status, headers, config) {
-    	// called asynchronously if an error occurs
-    	// or server returns response with an error status.
-        $scope.championnat = [{"id":1,"libelle":"Championnat 2012"}];
-    	});
-}
-</script>
+<script src="js/championnat.module.js"></script>
 </body>
 </html>
