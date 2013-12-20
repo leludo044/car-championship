@@ -16,11 +16,12 @@ public class Circuit {
 
     private String nom;
 
+    // FIXME Positionner la longueur sur un float
     private String longueur;
 
     @OneToOne
     @JoinColumn(name="id", nullable=false)
-    private net.leludo.gtrchamp.Pays pays;
+    private Pays pays;
 
 	@Override
 	public String toString() {
@@ -30,6 +31,14 @@ public class Circuit {
 
 	public String getNom() {
 		return nom;
+	}
+
+	public String getLongueur() {
+		return longueur;
+	}
+
+	public Pays getPays() {
+		return pays;
 	}
 
 }

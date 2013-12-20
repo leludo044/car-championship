@@ -124,7 +124,9 @@ public class JsonChampionnat {
 				for (GrandPrix gp : chp.getGrandsPrix()) {
 					g.writeStartObject();
 					g.writeStringField("nom", gp.getCircuit().getNom());
-					g.writeStringField("date", gp.getDate().toString());
+					g.writeStringField("longueur", gp.getCircuit().getLongueur());
+					g.writeStringField("date", gp.getDateFr());
+					g.writeStringField("pays", gp.getCircuit().getPays().getNom());
 					g.writeEndObject();
 				}
 				g.writeEndArray();

@@ -1,5 +1,6 @@
 package net.leludo.gtrchamp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,6 +102,11 @@ public class GrandPrix {
 
 	public Date getDate() {
 		return date;
+	}
+
+	public String getDateFr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(this.date);
 	}
 
 }

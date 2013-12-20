@@ -17,4 +17,8 @@ public class Pays {
 		return "Pays [id=" + id + ", nom=" + nom + "]";
 	}
 
+	public String getNom() {
+		return nom;
+	}
+
 }
