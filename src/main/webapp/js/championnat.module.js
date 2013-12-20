@@ -3,16 +3,21 @@
  */
 var chpApp = angular.module('chpApp', []);
 
-chpApp.controller('ChampionnatController', function($scope, $http) {
+chpApp.controller('ChampionnatController', function($scope, $http,
+		grandsPrixFactory) {
 	// Initialising the variable.
 	$scope.championnat = [ {
-		"id" : 0,
+		"id" : 1,
 		"libelle" : "Aucun"
 	} ];
 
-	$scope.gps = [] ;
-	
-	// Getting the list of users through ajax call.
+	$scope.gps = grandsPrixFactory.getGrandsPrix($scope.championnat[0].id)
+			.success(function(data, status, headers, config) {
+				$scope.gps = data.grandsprix;
+			}).error(function(data, status, headers, config) {
+				$scope.gps = [];
+			});
+
 	$http({
 		url : 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/1',
 		method : 'GET',
@@ -26,13 +31,21 @@ chpApp.controller('ChampionnatController', function($scope, $http) {
 			"libelle" : "Championnat 2012"
 		} ];
 	});
-	
-	// Getting the list of users through ajax call.
-	$http({
-		url : 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/gps/1',
-		method : 'GET',
-	}).success(function(data, status, headers, config) {
-		$scope.gps = data.grandsprix;
-	});
-
 });
+
+chpApp
+		.factory(
+				'grandsPrixFactory',
+				function($http) {
+					return {
+						getGrandsPrix : function(idChampionnat) {
+							/*
+							 * Attention : AJAX est asynchrone. le traitement
+							 * des callbacks se fait sur l'appel
+							 */
+							return $http
+									.get('http://localhost:8080/gtrchamp2/ws/championnat/getjson/gps/'
+											+ idChampionnat);
+						}
+					};
+				});
