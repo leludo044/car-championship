@@ -1,24 +1,37 @@
 package net.leludo.gtrchamp;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-//@Entity
-//@Table(name="resultats")
+@Entity
+@Table(name = "resultats")
 public class Concurrent {
-	
-//    @OneToOne
-//    @JoinColumn(name="idPilote", nullable=false)
-	private Pilote pilote ;
-	
-//    @Column(name="grille")
+	// @AttributeOverride(name="idPilote", @Column(name="idPilote"))
+	@EmbeddedId
+	ConcurrentId id;
+
+	@MapsId("idPilote")
+	@OneToOne
+	@JoinColumn(name = "idPilote")
+	private Pilote pilote;
+
+	@MapsId("idGrandPrix")
+	@OneToOne
+	@JoinColumn(name = "idGrandPrix")
+	private GrandPrix grandPrix;
+
+	@Column(name = "grille")
 	private int positionDepart;
 
+	@Column(name = "place")
 	private int positionArrivee;
 
+	@Column(name = "numCourse")
 	private int numeroCourse;
 
 	public boolean hasPolePosition() {
@@ -35,14 +48,14 @@ public class Concurrent {
 		this.positionArrivee = 0;
 	}
 
-public Concurrent(Pilote pilote) {
+	public Concurrent(Pilote pilote) {
 		this();
 		this.setPilote(pilote);
 	}
 
 	public void setPilote(Pilote pilote) {
-	this.pilote = pilote;
-}
+		this.pilote = pilote;
+	}
 
 	public Pilote getPilote() {
 		return pilote;
@@ -57,11 +70,12 @@ public Concurrent(Pilote pilote) {
 		}
 	}
 
-	public void setPositionArrivee(int positionArrivee) throws ChampionnatException {
+	public void setPositionArrivee(int positionArrivee)
+			throws ChampionnatException {
 		if (positionArrivee > 0) {
 			this.positionArrivee = positionArrivee;
 		} else {
-			throw new ChampionnatException() ;
+			throw new ChampionnatException();
 		}
 	}
 
@@ -74,11 +88,11 @@ public Concurrent(Pilote pilote) {
 	}
 
 	public void abandonner() {
-		this.positionArrivee = -1 ;
+		this.positionArrivee = -1;
 	}
 
 	public boolean hasTermine() {
-		return this.positionArrivee!=0;
+		return this.positionArrivee != 0;
 	}
 
 	@Override
@@ -108,7 +122,5 @@ public Concurrent(Pilote pilote) {
 			return false;
 		return true;
 	}
-
-
 
 }
