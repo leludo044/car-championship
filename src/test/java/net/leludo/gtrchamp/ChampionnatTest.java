@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,7 @@ public class ChampionnatTest {
      * Test method for {@link net.leludo.gtrchamp.Championnat#rendreClassement()}.
      */
     @Test
+    @Ignore
     public final void testRendreClassement() {
         fail("Not yet implemented"); // TODO
     }

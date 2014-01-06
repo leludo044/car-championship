@@ -27,7 +27,7 @@ public class GrandPrixTest {
 	public void testInscrirePilote() throws ChampionnatException {
 		Concurrent concurrent = inscrirePilote(1);
 		Assert.assertEquals(1, acteur.getNbInscrits());
-		Assert.assertEquals("", concurrent.nom);
+		Assert.assertEquals("", concurrent.getPilote().getNom());
 	}
 
 	@Test(expected = ChampionnatException.class)
@@ -109,7 +109,7 @@ public class GrandPrixTest {
 	
 	private Concurrent inscrirePilote(int id) throws ChampionnatException {
 		Pilote pilote = new Pilote();
-		pilote.id = id ;
+		pilote.setId(id);
 		Concurrent concurrent = acteur.inscrire(pilote);
 		return concurrent;
 	}
