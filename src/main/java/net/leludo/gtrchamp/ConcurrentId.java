@@ -39,4 +39,15 @@ public class ConcurrentId implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ConcurrentId [idPilote=");
+		builder.append(idPilote);
+		builder.append(", idGrandPrix=");
+		builder.append(idGrandPrix);
+		builder.append("]");
+		return builder.toString();
+	}
 }

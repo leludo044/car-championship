@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "resultats")
 public class Concurrent {
-	// @AttributeOverride(name="idPilote", @Column(name="idPilote"))
 	@EmbeddedId
 	ConcurrentId id;
 
@@ -121,6 +120,25 @@ public class Concurrent {
 		} else if (!pilote.equals(other.pilote))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Concurrent [id=");
+		builder.append(id);
+		builder.append(", pilote=");
+		builder.append(pilote);
+		builder.append(", grandPrix=");
+		builder.append(grandPrix);
+		builder.append(", positionDepart=");
+		builder.append(positionDepart);
+		builder.append(", positionArrivee=");
+		builder.append(positionArrivee);
+		builder.append(", numeroCourse=");
+		builder.append(numeroCourse);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
