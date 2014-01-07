@@ -2,17 +2,35 @@ package net.leludo.gtrchamp;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="pilotes")
 public class Pilote {
-    public int id;
+	@Id
+    private int id;
 
-    public String nom;
+    private String nom;
 
-    public Date dateNaissance;
+    @Transient
+    private Date dateNaissance;
 
     public Pilote() {
     	this.nom ="" ;
     	this.dateNaissance = null;
     }
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getId() {
+		return id;
+	}
+	public String getNom() {
+		return nom;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -33,6 +51,18 @@ public class Pilote {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pilote [id=");
+		builder.append(id);
+		builder.append(", nom=");
+		builder.append(nom);
+		builder.append(", dateNaissance=");
+		builder.append(dateNaissance);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

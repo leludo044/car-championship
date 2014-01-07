@@ -25,16 +25,17 @@ public class GrandPrix {
 	private Date date;
 
 	private boolean mode2Courses;
+
 	@Transient
 	private List<Concurrent> concurrents = new ArrayList<Concurrent>();
-	
-    @OneToOne
-    @JoinColumn(name="id", nullable=false)
+
+	@OneToOne
+	@JoinColumn(name = "id", nullable = false)
 	private Circuit circuit;
-	
+
 	@ManyToOne
-    @JoinColumn(name="idChampionnat", nullable=false)
-	private Championnat championnat ;
+	@JoinColumn(name = "idChampionnat", nullable = false)
+	private Championnat championnat;
 
 	public Concurrent inscrire(final Pilote pilote) throws ChampionnatException {
 		if (pilote == null) {
@@ -56,7 +57,7 @@ public class GrandPrix {
 
 			@Override
 			public int compare(Concurrent o1, Concurrent o2) {
-				if (o1.positionArrivee < o2.positionArrivee) {
+				if (o1.getPositionArrivee() < o2.getPositionArrivee()) {
 					return -1;
 				} else {
 					return 0;
