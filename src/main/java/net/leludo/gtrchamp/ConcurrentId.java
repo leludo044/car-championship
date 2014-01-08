@@ -17,12 +17,20 @@ public class ConcurrentId implements Serializable {
 	int idPilote ;
 	@Column(name="idGrandPrix")
 	int idGrandPrix ;
+	@Column(name="numCourse")
+	int numCourse ;
 	
+	public int getNumCourse() {
+		return numCourse;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + idGrandPrix;
 		result = prime * result + idPilote;
+		result = prime * result + numCourse;
 		return result;
 	}
 
@@ -35,19 +43,14 @@ public class ConcurrentId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ConcurrentId other = (ConcurrentId) obj;
+		if (idGrandPrix != other.idGrandPrix)
+			return false;
 		if (idPilote != other.idPilote)
+			return false;
+		if (numCourse != other.numCourse)
 			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ConcurrentId [idPilote=");
-		builder.append(idPilote);
-		builder.append(", idGrandPrix=");
-		builder.append(idGrandPrix);
-		builder.append("]");
-		return builder.toString();
-	}
+
 }

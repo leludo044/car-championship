@@ -5,8 +5,7 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import net.leludo.gtrchamp.Championnat;
-
-import org.hibernate.Query;
+import net.leludo.gtrchamp.Concurrent;
 
 @Singleton
 public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
@@ -19,5 +18,12 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 		String queryString = "from Championnat" ;
 		javax.persistence.Query query = this.em.createQuery(queryString) ;
 		return query.getResultList() ;
+	}
+	
+	public List<Concurrent> findResultats(final int idGrandPrix) {
+		String queryString = "from Concurrent where grandPrix.id=:id order by numCourse, place" ;
+		javax.persistence.Query query = this.em.createQuery(queryString) ;
+		query.setParameter("id", idGrandPrix);
+		return query.getResultList() ;	
 	}
 }
