@@ -57,6 +57,16 @@ chpApp
 										+ idChampionnat);
 					};
 
+					factory.getResultats = function(idGrandPrix) {
+						/*
+						 * Attention : AJAX est asynchrone. le traitement des
+						 * callbacks se fait sur l'appel
+						 */
+						return $http
+								.get('http://localhost:8080/gtrchamp2/ws/championnat/resultats/'
+										+ idGrandprix);
+					};
+
 					factory.getChampionnats = function() {
 						/*
 						 * Attention : AJAX est asynchrone. le traitement des
