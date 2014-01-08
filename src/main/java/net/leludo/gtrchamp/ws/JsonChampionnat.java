@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import net.leludo.gtrchamp.Championnat;
+import net.leludo.gtrchamp.Concurrent;
 import net.leludo.gtrchamp.GrandPrix;
 import net.leludo.gtrchamp.dao.ChampionnatDao;
 
@@ -78,8 +79,8 @@ public class JsonChampionnat {
 			JsonFactory jsonFactory = new JsonFactory(); // or, for data
 															// binding,
 															// org.codehaus.jackson.mapper.MappingJsonFactory
-			StringWriter sw = new StringWriter() ;
-			try{
+			StringWriter sw = new StringWriter();
+			try {
 				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
 				g.writeStartObject();
 				g.writeObjectFieldStart("championnat");
@@ -116,17 +117,20 @@ public class JsonChampionnat {
 			JsonFactory jsonFactory = new JsonFactory(); // or, for data
 															// binding,
 															// org.codehaus.jackson.mapper.MappingJsonFactory
-			StringWriter sw = new StringWriter() ;
-			try{
+			StringWriter sw = new StringWriter();
+			try {
 				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
 				g.writeStartObject();
-				g.writeArrayFieldStart("grandsprix");;
+				g.writeArrayFieldStart("grandsprix");
+				;
 				for (GrandPrix gp : chp.getGrandsPrix()) {
 					g.writeStartObject();
 					g.writeStringField("nom", gp.getCircuit().getNom());
-					g.writeStringField("longueur", gp.getCircuit().getLongueur());
+					g.writeStringField("longueur", gp.getCircuit()
+							.getLongueur());
 					g.writeStringField("date", gp.getDateFr());
-					g.writeStringField("pays", gp.getCircuit().getPays().getNom());
+					g.writeStringField("pays", gp.getCircuit().getPays()
+							.getNom());
 					g.writeEndObject();
 				}
 				g.writeEndArray();
@@ -139,7 +143,7 @@ public class JsonChampionnat {
 			return sw.toString();
 		}
 	}
-	
+
 	@GET
 	@Path("/listjson")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -153,14 +157,49 @@ public class JsonChampionnat {
 			JsonFactory jsonFactory = new JsonFactory(); // or, for data
 															// binding,
 															// org.codehaus.jackson.mapper.MappingJsonFactory
-			StringWriter sw = new StringWriter() ;
-			try{
+			StringWriter sw = new StringWriter();
+			try {
 				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
-				g.writeStartArray();;
+				g.writeStartArray();
 				for (Championnat chp : chps) {
 					g.writeStartObject();
 					g.writeNumberField("id", chp.getId());
 					g.writeStringField("libelle", chp.getLibelle());
+					g.writeEndObject();
+				}
+				g.writeEndArray();
+				g.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return sw.toString();
+		}
+	}
+
+	@GET
+	@Path("/resultats/{idGp}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String listJsonResultats(@PathParam("idGp") int idGp) {
+		init();
+		List<Concurrent> resultats = dao.findResultats(idGp);
+		dao.close();
+		if (resultats == null) {
+			return "Inconnu !";
+		} else {
+			JsonFactory jsonFactory = new JsonFactory(); // or, for data
+															// binding,
+															// org.codehaus.jackson.mapper.MappingJsonFactory
+			StringWriter sw = new StringWriter();
+			try {
+				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				g.writeStartArray();
+				for (Concurrent concurrent : resultats) {
+					g.writeStartObject();
+					g.writeNumberField("idPilote", concurrent.getPilote().getId());
+					g.writeStringField("nom", concurrent.getPilote().getNom());
+					g.writeNumberField("depart", concurrent.getPositionDepart());
+					g.writeNumberField("arrivee", concurrent.getPositionArrivee());
 					g.writeEndObject();
 				}
 				g.writeEndArray();
