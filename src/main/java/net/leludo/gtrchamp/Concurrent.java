@@ -30,9 +30,6 @@ public class Concurrent {
 	@Column(name = "place")
 	private int positionArrivee;
 
-	@Column(name = "numCourse")
-	private int numeroCourse;
-
 	public boolean hasPolePosition() {
 		return this.positionDepart == 1;
 	}
@@ -86,6 +83,10 @@ public class Concurrent {
 		return positionArrivee;
 	}
 
+	public int getNumeroCourse() {
+		return this.id.getNumCourse();
+	}
+
 	public void abandonner() {
 		this.positionArrivee = -1;
 	}
@@ -98,7 +99,7 @@ public class Concurrent {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + numeroCourse;
+		result = prime * result + this.getNumeroCourse();
 		result = prime * result + ((pilote == null) ? 0 : pilote.hashCode());
 		return result;
 	}
@@ -112,7 +113,7 @@ public class Concurrent {
 		if (getClass() != obj.getClass())
 			return false;
 		Concurrent other = (Concurrent) obj;
-		if (numeroCourse != other.numeroCourse)
+		if (this.getNumeroCourse() != other.getNumeroCourse())
 			return false;
 		if (pilote == null) {
 			if (other.pilote != null)
@@ -136,7 +137,7 @@ public class Concurrent {
 		builder.append(", positionArrivee=");
 		builder.append(positionArrivee);
 		builder.append(", numeroCourse=");
-		builder.append(numeroCourse);
+		builder.append(this.getNumeroCourse());
 		builder.append("]");
 		return builder.toString();
 	}

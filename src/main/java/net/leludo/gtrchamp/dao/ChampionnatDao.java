@@ -21,7 +21,7 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 	}
 	
 	public List<Concurrent> findResultats(final int idGrandPrix) {
-		String queryString = "from Concurrent where grandPrix.id=:id" ;
+		String queryString = "from Concurrent where grandPrix.id=:id order by numCourse, place" ;
 		javax.persistence.Query query = this.em.createQuery(queryString) ;
 		query.setParameter("id", idGrandPrix);
 		return query.getResultList() ;	
