@@ -7,7 +7,7 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 		grandsPrixFactory) {
 	// Initialising the variable.
 	$scope.championnat = {
-		"id" : 1,
+		"id" : 2,
 		"libelle" : "Aucun"
 	};
 
@@ -24,14 +24,6 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 			}).error(function(data, status, headers, config) {
 				$scope.gps = [];
 			});
-/*
-	$scope.concurrents = grandsPrixFactory.getResultats(11)
-	.success(function(data, status, headers, config) {
-		$scope.concurrents = data;
-	}).error(function(data, status, headers, config) {
-		$scope.concurrents = [];
-	});
-*/
 	
 	$scope.resultats = function(idGp) {
 		grandsPrixFactory.getResultats(idGp)
@@ -42,7 +34,7 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 		});	}
 	
 	$http({
-		url : 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/1',
+		url : 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/2',
 		method : 'GET',
 	}).success(function(data, status, headers, config) {
 		$scope.championnat = data.championnat;
