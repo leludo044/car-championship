@@ -34,7 +34,7 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 		});	}
 	
 	$http({
-		url : 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/2',
+		url : 'ws/championnat/getjson/2',
 		method : 'GET',
 	}).success(function(data, status, headers, config) {
 		$scope.championnat = data.championnat;
@@ -61,7 +61,7 @@ chpApp
 						 * callbacks se fait sur l'appel
 						 */
 						return $http
-								.get('http://localhost:8080/gtrchamp2/ws/championnat/getjson/gps/'
+								.get('ws/championnat/getjson/gps/'
 										+ idChampionnat);
 					};
 
@@ -71,7 +71,7 @@ chpApp
 						 * callbacks se fait sur l'appel
 						 */
 						return $http
-								.get('http://localhost:8080/gtrchamp2/ws/championnat/resultats/'
+								.get('ws/championnat/resultats/'
 										+ idGrandPrix);
 					};
 
@@ -81,7 +81,7 @@ chpApp
 						 * callbacks se fait sur l'appel
 						 */
 						return $http
-								.get('http://localhost:8080/gtrchamp2/ws/championnat/listjson');
+								.get('ws/championnat/listjson');
 					};
 
 					return factory;
