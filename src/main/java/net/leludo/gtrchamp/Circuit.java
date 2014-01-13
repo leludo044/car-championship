@@ -20,7 +20,7 @@ public class Circuit {
     private String longueur;
 
     @OneToOne
-    @JoinColumn(name="id", nullable=false)
+    @JoinColumn(name="idPays", nullable=false)
     private Pays pays;
 
 	@Override

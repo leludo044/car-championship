@@ -30,7 +30,7 @@ public class GrandPrix {
 	private List<Concurrent> concurrents = new ArrayList<Concurrent>();
 
 	@OneToOne
-	@JoinColumn(name = "id", nullable = false)
+	@JoinColumn(name = "idCircuit", nullable = false)
 	private Circuit circuit;
 
 	@ManyToOne
