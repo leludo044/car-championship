@@ -78,6 +78,10 @@ public class GrandPrix {
 
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public Circuit getCircuit() {
 		return this.circuit;
 	}

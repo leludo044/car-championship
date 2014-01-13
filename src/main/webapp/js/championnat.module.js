@@ -24,14 +24,23 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 			}).error(function(data, status, headers, config) {
 				$scope.gps = [];
 			});
-
+/*
 	$scope.concurrents = grandsPrixFactory.getResultats(11)
 	.success(function(data, status, headers, config) {
 		$scope.concurrents = data;
 	}).error(function(data, status, headers, config) {
 		$scope.concurrents = [];
 	});
-
+*/
+	
+	$scope.resultats = function(idGp) {
+		grandsPrixFactory.getResultats(idGp)
+		.success(function(data, status, headers, config) {
+			$scope.concurrents = data;
+		}).error(function(data, status, headers, config) {
+			$scope.concurrents = [];
+		});	}
+	
 	$http({
 		url : 'http://localhost:8080/gtrchamp2/ws/championnat/getjson/1',
 		method : 'GET',
@@ -71,7 +80,7 @@ chpApp
 						 */
 						return $http
 								.get('http://localhost:8080/gtrchamp2/ws/championnat/resultats/'
-										+ idGrandprix);
+										+ idGrandPrix);
 					};
 
 					factory.getChampionnats = function() {

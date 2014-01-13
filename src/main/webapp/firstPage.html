@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html data-ng-app="chpApp">
+<html data-ng-app="chpApp" >
 <head>
+<meta charset="UTF-8">
 <link href="css/reset.css" type="text/css" media="screen,projection"
 	rel="stylesheet" />
 <link href="css/main.css" type="text/css" media="screen,projection"
@@ -93,15 +94,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-				$resultats = $mv->getModel('resgen');
-				$classement = 0;
-				foreach($resultats as &$participant) {
-                    $classement += 1;
-                    echo "<tr><td>".$classement."</td><td>".$participant->getPilote()->getName()."</td><td>".$participant->getPoints()."</td></tr>";
-                }
-                ?>
-
 					</tbody>
 				</table>
 
@@ -125,6 +117,7 @@
 					<table>
 						<thead>
 							<tr>
+								<th>ID</th>
 								<th>Date</th>
 								<th>Circuit</th>
 								<th>Longueur</th>
@@ -132,7 +125,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="gp in gps">
+							<tr data-ng-repeat="gp in gps" ng-click="resultats(gp.id)">
+								<td>{{gp.id}}</td>
 								<td>{{gp.date}}</td>
 								<td>{{gp.nom}}</td>
 								<td>{{gp.longueur}}</td>
@@ -149,8 +143,8 @@
 			<!-- Column II. -->
 			<div class="col deux">
 
-				<h3>RÃ©sultats</h3>
-				<div id="results" class="col-text">Veuillez sÃ©lectionner un
+				<h3>Résultats</h3>
+				<div id="results" class="col-text">Veuillez sélectionner un
 					grand prix !</div>
 					<table>
 						<thead>
@@ -163,11 +157,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="conc in concurents">
-								<td>{{conc.numeroCourse}}</td>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr data-ng-repeat="conc in concurrents">
+								<td>{{conc.numCourse}}</td>
+								<td>{{conc.arrivee}}</td>
+								<td>{{conc.pole}}</td>
+								<td>{{conc.nom}}</td>
 								<td></td>
 							</tr>
 						</tbody>

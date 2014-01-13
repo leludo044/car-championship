@@ -125,6 +125,7 @@ public class JsonChampionnat {
 				;
 				for (GrandPrix gp : chp.getGrandsPrix()) {
 					g.writeStartObject();
+					g.writeNumberField("id", gp.getId());
 					g.writeStringField("nom", gp.getCircuit().getNom());
 					g.writeStringField("longueur", gp.getCircuit()
 							.getLongueur());
@@ -201,6 +202,7 @@ public class JsonChampionnat {
 					g.writeNumberField("depart", concurrent.getPositionDepart());
 					g.writeNumberField("arrivee", concurrent.getPositionArrivee());
 					g.writeNumberField("numCourse", concurrent.getNumeroCourse());
+					g.writeBooleanField("pole", concurrent.getPositionDepart()==1);
 					g.writeEndObject();
 				}
 				g.writeEndArray();
