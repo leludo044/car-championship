@@ -10,6 +10,7 @@ public class Point {
 
 	@Id
 	private int place ;
+	
 	private int points ;
 	
 	@Override
