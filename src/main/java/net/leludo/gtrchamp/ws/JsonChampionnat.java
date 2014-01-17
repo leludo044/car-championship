@@ -205,6 +205,7 @@ public class JsonChampionnat {
 					g.writeNumberField("arrivee", concurrent.getPositionArrivee());
 					g.writeNumberField("numCourse", concurrent.getNumeroCourse());
 					g.writeBooleanField("pole", concurrent.getPositionDepart()==1);
+					g.writeNumberField("points", concurrent.getPoints());
 					g.writeEndObject();
 				}
 				g.writeEndArray();
