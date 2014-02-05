@@ -4,9 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.taglibs.standard.tag.common.core.OtherwiseTag;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @Table(name = "resultats")
@@ -28,8 +34,14 @@ public class Concurrent {
 	private int positionDepart;
 
 	@Column(name = "place")
+//	@Transient
 	private int positionArrivee;
 
+//	@ManyToOne()
+//	@Fetch(org.hibernate.annotations.FetchMode.JOIN)
+//	@JoinColumn(name = "place")
+//	private Point points;
+	
 	public boolean hasPolePosition() {
 		return this.positionDepart == 1;
 	}
@@ -85,6 +97,17 @@ public class Concurrent {
 
 	public int getNumeroCourse() {
 		return this.id.getNumCourse();
+	}
+	
+	public int getPoints() {
+		int points = 0 ;
+		
+		switch (this.positionArrivee) {
+		case 1 : points =10 ; break;
+		case 2 : points = 8 ; break;
+		}
+		
+		return points ;
 	}
 
 	public void abandonner() {
