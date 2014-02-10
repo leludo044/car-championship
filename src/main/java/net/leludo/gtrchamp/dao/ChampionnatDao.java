@@ -1,11 +1,13 @@
 package net.leludo.gtrchamp.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Singleton;
 
 import net.leludo.gtrchamp.Championnat;
 import net.leludo.gtrchamp.Concurrent;
+import net.leludo.gtrchamp.Pilote;
 
 @Singleton
 public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
@@ -26,4 +28,14 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 		query.setParameter("id", idGrandPrix);
 		return query.getResultList() ;	
 	}
+	
+	public List findClassement(final int idChampionnat) {
+		String queryString = "select pilote, sum(c.points.points) from Concurrent c	where c.grandPrix.championnat.id = :id group by c.pilote order by sum(c.points.points) desc";
+
+		javax.persistence.Query query = this.em.createQuery(queryString) ;
+		query.setParameter("id", idChampionnat);
+		List toto = query.getResultList() ;
+		return toto ;
+	}
+	
 }

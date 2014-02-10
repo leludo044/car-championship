@@ -47,7 +47,7 @@
 				<li id="tray-active"><a
 					href="controleur.php?action=Index&amp;championnat=2">Accueil</a></li>
 				<!-- Active page -->
-					<li id="tray-active" data-ng-repeat="champ in championnats"><a href="#">{{champ.libelle}}</a></li>
+					<li id="tray-active" data-ng-repeat="champ in championnats"><a href="#" ng-click="selectChampionnat(champ.id)">{{champ.libelle}}</a></li>
 				<!-- Active page -->
 				<!--
             <li><a href="#">Pilotes<br /></a></li>
@@ -55,17 +55,6 @@
             <li><a href="controleur.php?action=Stats&championnat=1">Statistiques<br /></a></li>
             -->
 			</ul>
-			<!-- Search -->
-			<!--
-        <div class="box" id="search">
-            <form method="get" action="#">
-                <div class="box">
-                    <div id="search-input"><span class="noscreen">Search:</span><input type="text" value="Search" name="" size="30" /></div>
-                    <div id="search-submit"><input type="image" value="OK" src="../../design/search-submit.gif" /></div>
-                </div>
-            </form>
-        </div> -->
-			<!-- /search -->
 
 			<hr class="noscreen" />
 		</div>
@@ -94,6 +83,11 @@
 						</tr>
 					</thead>
 					<tbody>
+							<tr data-ng-repeat="cl in classement">
+								<td>{{cl.rang}}</td>
+								<td>{{cl.nom}}</td>
+								<td>{{cl.points}}</td>
+							</tr>
 					</tbody>
 				</table>
 

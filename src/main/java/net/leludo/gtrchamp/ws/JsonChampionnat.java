@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import net.leludo.gtrchamp.Championnat;
 import net.leludo.gtrchamp.Concurrent;
 import net.leludo.gtrchamp.GrandPrix;
+import net.leludo.gtrchamp.Pilote;
+import net.leludo.gtrchamp.Point;
 import net.leludo.gtrchamp.dao.ChampionnatDao;
 
 import org.codehaus.jackson.JsonFactory;
@@ -203,6 +205,41 @@ public class JsonChampionnat {
 					g.writeNumberField("arrivee", concurrent.getPositionArrivee());
 					g.writeNumberField("numCourse", concurrent.getNumeroCourse());
 					g.writeBooleanField("pole", concurrent.getPositionDepart()==1);
+					g.writeEndObject();
+				}
+				g.writeEndArray();
+				g.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return sw.toString();
+		}
+	}
+	
+	@GET
+	@Path("/classement/{idChp}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String listJsonClassement(@PathParam("idChp") int idChp) {
+		init();
+		List<Object[]> classement = dao.findClassement(idChp);
+		dao.close();
+		if (classement == null) {
+			return "Inconnu !";
+		} else {
+			JsonFactory jsonFactory = new JsonFactory(); // or, for data
+															// binding,
+															// org.codehaus.jackson.mapper.MappingJsonFactory
+			StringWriter sw = new StringWriter();
+			try {
+				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				g.writeStartArray();
+				int rang = 1 ;
+				for (Object[] pilote : classement) {
+					g.writeStartObject();
+					g.writeNumberField("rang", rang++);
+					g.writeStringField("nom", ((Pilote)pilote[0]).getNom());
+					g.writeNumberField("points", (Long)pilote[1]);
 					g.writeEndObject();
 				}
 				g.writeEndArray();
