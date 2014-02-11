@@ -4,24 +4,22 @@
 var chpApp = angular.module('chpApp', []);
 
 chpApp.controller('ChampionnatController', function($scope, $http,
-		grandsPrixFactory) {
+		grandsPrixFactory, Championnat) {
 	// Initialising the variable.
-//	$scope.championnat = {
-//		"id" : 2,
-//		"libelle" : "Aucun"
-//	};
-
-	$scope.selectChampionnat = function (idChp) {
-		grandsPrixFactory.selectChampionnat(idChp).success(
-				function(data, status, headers, config) {
-					$scope.championnat = data.championnat;
-					$scope.resultats($scope.championnat.id);
-				}).error(function(data, status, headers, config) {
-			$scope.championnat = [];
-		});
+	$scope.championnat = {
+		"id" : 2,
+		"libelle" : "Aucun"
 	};
-	$scope.selectChampionnat(2) ;
+
+	$scope.selectChampionnat = function(idChp) {
+		//Championnat.setIdChampionnat(idChp) ;
+		Championnat.getClassement(idChp).success(function(data){
+			$scope.classement = data.data ;
+		}) ;
+	};
 	
+	$scope.selectChampionnat(2);
+
 	$scope.championnats = grandsPrixFactory.getChampionnats().success(
 			function(data, status, headers, config) {
 				$scope.championnats = data;
@@ -45,12 +43,12 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 		});
 	};
 
-	grandsPrixFactory.getClassement($scope.championnat.id).success(
-				function(data, status, headers, config) {
-					$scope.classement = data;
-				}).error(function(data, status, headers, config) {
-			$scope.classement = [];
-		});
+//	grandsPrixFactory.getClassement($scope.championnat.id).success(
+//			function(data, status, headers, config) {
+//				$scope.classement = data;
+//			}).error(function(data, status, headers, config) {
+//		$scope.classement = [];
+//	});
 
 	$http({
 		url : 'ws/championnat/getjson/2',
@@ -112,4 +110,30 @@ chpApp.factory('grandsPrixFactory', function($http) {
 	};
 
 	return factory;
+});
+
+chpApp.provider('Championnat', function() {
+	var baseUrl = '/gtrchamp2';
+	var idChampionnat;
+
+	this.setIdChampionnat = function(id) {
+		idChampionnat = id;
+	}
+	// Service interface
+	this.$get = function($http) {
+		var service = {
+			// Define our service API here
+			getClassement : function(idChp) {
+				return $http({
+					method : 'JSONP',
+					url : baseUrl + '/ws/championnat/classement/' + idChp,
+					params : {
+						'jsoncallback' : 'JSON_CALLBACK'
+					}
+				});
+			}
+		};
+
+		return service;
+	}
 });
