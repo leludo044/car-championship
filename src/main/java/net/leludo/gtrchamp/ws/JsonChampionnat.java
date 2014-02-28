@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,7 +18,6 @@ import net.leludo.gtrchamp.Championnat;
 import net.leludo.gtrchamp.Concurrent;
 import net.leludo.gtrchamp.GrandPrix;
 import net.leludo.gtrchamp.Pilote;
-import net.leludo.gtrchamp.Point;
 import net.leludo.gtrchamp.dao.ChampionnatDao;
 
 import org.codehaus.jackson.JsonFactory;
@@ -32,6 +32,8 @@ public class JsonChampionnat {
 
 	@Context
 	ServletContext servletContext;
+	
+	private HttpServletResponse servletResponse ;
 
 	EntityManagerFactory emf;
 	ChampionnatDao dao = new ChampionnatDao();
@@ -143,6 +145,7 @@ public class JsonChampionnat {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 			return sw.toString();
 		}
 	}
@@ -205,7 +208,7 @@ public class JsonChampionnat {
 					g.writeNumberField("arrivee", concurrent.getPositionArrivee());
 					g.writeNumberField("numCourse", concurrent.getNumeroCourse());
 					g.writeBooleanField("pole", concurrent.getPositionDepart()==1);
-					g.writeNumberField("points", concurrent.getPoints());
+					g.writeNumberField("points", concurrent.getPoints().getPoints());
 					g.writeEndObject();
 				}
 				g.writeEndArray();
@@ -253,4 +256,14 @@ public class JsonChampionnat {
 		}
 	}
 
+	
+	/**
+	 * Fixe la réponse et y place les headers par défaut
+	 * @param pServletResponse
+	 */
+	@Context
+	public void setHttpServletResponse(HttpServletResponse pServletResponse) {
+		this.servletResponse = pServletResponse ;
+		this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+	}
 }
