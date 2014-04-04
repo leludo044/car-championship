@@ -72,7 +72,7 @@
 			</div>
 
 			<div id="col-text">
-				<h2>{{championnat.libelle}} - Classement général</h2>
+				<h2>{{championnat.championnat.libelle}} - Classement général</h2>
 
 				<table id="jquery">
 					<thead>
@@ -119,7 +119,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="gp in gps" ng-click="resultats(gp.id)">
+							<tr data-ng-repeat="gp in gps.grandsprix" ng-click="resultats(gp.id)">
 								<td>{{gp.id}}</td>
 								<td>{{gp.date}}</td>
 								<td>{{gp.nom}}</td>
@@ -191,7 +191,8 @@
 
 	</div>
 	<!-- /main -->
-	<script src="angular-1.0.7/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-resource.min.js"></script>
 	<script src="js/championnat.module.js"></script>
 </body>
 </html>

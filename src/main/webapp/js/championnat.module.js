@@ -1,22 +1,42 @@
 /**
  * 
  */
-var chpApp = angular.module('chpApp', []);
+var chpApp = angular.module('chpApp', ['controllers', 'raceServices', 'championnatServices', 'resultatsServices']);
+var controllers = angular.module('controllers', []);
 
-chpApp.controller('ChampionnatController', function($scope, $http,
-		grandsPrixFactory, Championnat) {
+controllers.controller('ChampionnatController', ['$scope', 'Championnats', 'Races', 'Resultats',
+    function($scope, Championnats, Races, Resultats) {
 	// Initialising the variable.
 	$scope.championnat = {
 		"id" : 2,
 		"libelle" : "Aucun"
 	};
+    $scope.championnats = Championnats.query() ;
 
+        $scope.championnat = Championnats.get({chpId:'2'});
+/*
+        $scope.selectChampionnat(2);
+*/
+
+        $scope.selectChampionnat = function(idChp) {
+            $scope.championnat = Championnats.get({chpId:idChp});
+            $scope.gps = Races.query({chpId:idChp});
+            $scope.classement = Championnats.classement({chpId:idChp});
+            $scope.concurrents = null ;
+        };
+        $scope.selectChampionnat(2);
+
+        $scope.resultats = function(idGp) {
+            $scope.concurrents = Resultats.query({gpId:idGp}) ;
+        };
+
+
+    /*
 	$scope.selectChampionnat = function(idChp) {
-		//Championnat.setIdChampionnat(idChp) ;
-		Championnat.getClassement(idChp).success(function(data){
-			$scope.classement = data.data ;
-		}) ;
-	};
+		// Championnat.setIdChampionnat(idChp) ;
+        $scope.classement = Championnat.getClassement(idChp) ;
+        alert("toto");
+		} ;
 	
 	$scope.selectChampionnat(2);
 
@@ -26,7 +46,7 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 			}).error(function(data, status, headers, config) {
 		$scope.championnats = [];
 	});
-
+/*
 	$scope.gps = grandsPrixFactory.getGrandsPrix($scope.championnat.id)
 			.success(function(data, status, headers, config) {
 				$scope.gps = data.grandsprix;
@@ -42,98 +62,116 @@ chpApp.controller('ChampionnatController', function($scope, $http,
 			$scope.concurrents = [];
 		});
 	};
+*/
+// grandsPrixFactory.getClassement($scope.championnat.id).success(
+// function(data, status, headers, config) {
+// $scope.classement = data;
+// }).error(function(data, status, headers, config) {
+// $scope.classement = [];
+// });
 
-//	grandsPrixFactory.getClassement($scope.championnat.id).success(
-//			function(data, status, headers, config) {
-//				$scope.classement = data;
-//			}).error(function(data, status, headers, config) {
-//		$scope.classement = [];
-//	});
+}]);
 
-	$http({
-		url : 'ws/championnat/getjson/2',
-		method : 'GET',
-	}).success(function(data, status, headers, config) {
-		$scope.championnat = data.championnat;
-	}).error(function(data, status, headers, config) {
-		// called asynchronously if an error occurs
-		// or server returns response with an error status.
-		$scope.championnat = {
-			"id" : 1,
-			"libelle" : "Championnat 2012"
-		};
-	});
-});
-
+/*
 chpApp.factory('grandsPrixFactory', function($http) {
 
 	var factory = {};
 
 	factory.getGrandsPrix = function(idChampionnat) {
-		/*
-		 * Attention : AJAX est asynchrone. le traitement des callbacks se fait
-		 * sur l'appel
-		 */
 		return $http.get('ws/championnat/getjson/gps/' + idChampionnat);
 	};
 
 	factory.getResultats = function(idGrandPrix) {
-		/*
-		 * Attention : AJAX est asynchrone. le traitement des callbacks se fait
-		 * sur l'appel
-		 */
 		return $http.get('ws/championnat/resultats/' + idGrandPrix);
 	};
 
 	factory.getChampionnats = function() {
-		/*
-		 * Attention : AJAX est asynchrone. le traitement des callbacks se fait
-		 * sur l'appel
-		 */
 		return $http.get('ws/championnat/listjson');
 	};
 
 	factory.getClassement = function(idChampionnat) {
-		/*
-		 * Attention : AJAX est asynchrone. le traitement des callbacks se fait
-		 * sur l'appel
-		 */
 		return $http.get('ws/championnat/classement/' + idChampionnat);
 	};
 
 	factory.selectChampionnat = function(idChampionnat) {
-		/*
-		 * Attention : AJAX est asynchrone. le traitement des callbacks se fait
-		 * sur l'appel
-		 */
 		return $http.get('ws/championnat/getjson/' + idChampionnat);
 	};
 
 	return factory;
 });
+*/
 
-chpApp.provider('Championnat', function() {
+/*
+chpApp.provider('Championnat', [$resource, function() {
 	var baseUrl = '/gtrchamp2';
 	var idChampionnat;
 
 	this.setIdChampionnat = function(id) {
 		idChampionnat = id;
-	}
+	};
+
+	var championnatResource = $resource(url+'/ws/championnat/classement/:chpId',
+			{chpId:2}
+		);
+
 	// Service interface
 	this.$get = function($http) {
 		var service = {
 			// Define our service API here
 			getClassement : function(idChp) {
-				return $http({
-					method : 'JSONP',
-					url : baseUrl + '/ws/championnat/classement/' + idChp,
-					params : {
-						'jsoncallback' : 'JSON_CALLBACK'
-					}
+				chps =  championnatResource.query(function() {
+					return chps ;
 				});
 			}
 		};
 
 		return service;
-	}
-});
+	};
+}]);
+*/
+
+var raceServices = angular.module('raceServices', ['ngResource']);
+raceServices.factory('Races', ['$resource',
+    function ($resource) {
+        return $resource('http://gtrchamp2.leludo.cloudbees.net/ws/championnat/getjson/gps/:chpId', {}, {
+            query: {
+                method: 'GET',
+                params:{chpId:'2'},
+                isArray: false
+            }
+        });
+    }]);
+
+var resultatsServices = angular.module('resultatsServices', ['ngResource']);
+raceServices.factory('Resultats', ['$resource',
+    function ($resource) {
+        return $resource('http://gtrchamp2.leludo.cloudbees.net/ws/championnat/resultats/:gpId', {}, {
+            query: {
+                method: 'GET',
+                params:{gpId:'2'},
+                isArray: true
+            }
+        });
+    }]);
+
+var championnatServices = angular.module('championnatServices', ['ngResource']);
+championnatServices.factory('Championnats', ['$resource',
+    function ($resource) {
+        return $resource('http://gtrchamp2.leludo.cloudbees.net/ws/championnat/:type/:chpId', {}, {
+            query: {
+                method: 'GET',
+                params:{type:'listjson'},
+                isArray: true
+            },
+            get : {
+                method:'GET',
+                params: {type: 'getjson'}
+            },
+            classement: {
+                method: 'GET',
+                params: {type:'classement'},
+                isArray: true
+
+            }
+        });
+    }]);
