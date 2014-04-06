@@ -24,10 +24,17 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 
 /**
- * Classe de service cocnernant les championnats. Permet de lister tous les
+ * Classe de service concernant les championnats. Permet de lister tous les
  * championnats ou de récupérer un championnat en particulier via son ID
+ * 
+ * - /championnat/list
+ * - /championnat/:idChp
+ * - /championnat/:idChp/grandprix/list
+ * - /championnat/:idChp/classement
+ * - /grandprix/:idGrandPrix
+ * - /grandprix/:idGrandPrix/resultat/list
  */
-@Path("championnat")
+@Path("json")
 public class JsonChampionnat {
 
 	@Context
@@ -69,8 +76,13 @@ public class JsonChampionnat {
 		}
 	}
 
+	/**
+	 * Obtention des données de base d'un championnat
+	 * @param id L'id du championnat concerné
+	 * @return Les données de base du championnat
+	 */
 	@GET
-	@Path("/getjson/{id}")
+	@Path("championnat/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getJson(@PathParam("id") int id) {
 		init();
@@ -107,8 +119,13 @@ public class JsonChampionnat {
 		}
 	}
 
+	/**
+	 * Obtention de la liste des grands prix prévus pour un championnat
+	 * @param idChp L'id du championnat concerné
+	 * @returnLa liste des grands prix du championnat
+	 */
 	@GET
-	@Path("/getjson/gps/{idChp}")
+	@Path("/championnat/{idChp}/grandprix/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getJsonGrandsPrix(@PathParam("idChp") int idChp) {
 		init();
@@ -150,8 +167,12 @@ public class JsonChampionnat {
 		}
 	}
 
+	/**
+	 * Obtention de la liste des championnats
+	 * @return La liste des championnats
+	 */
 	@GET
-	@Path("/listjson")
+	@Path("/championnat/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String listJsonChampionnat() {
 		init();
@@ -183,8 +204,13 @@ public class JsonChampionnat {
 		}
 	}
 
+	/**
+	 * Obtention des résultats d'un grand prix
+	 * @param idGp L'id du grand prix concerné
+	 * @return Les résultats du grand prix
+	 */
 	@GET
-	@Path("/resultats/{idGp}")
+	@Path("/grandprix/{idGp}/resultat/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String listJsonResultats(@PathParam("idGp") int idGp) {
 		init();
@@ -221,8 +247,13 @@ public class JsonChampionnat {
 		}
 	}
 	
+	/**
+	 * Obtention du classement général d'un championnat
+	 * @param idChp L'id du championnat concerné
+	 * @return Le classement général du championnat
+	 */
 	@GET
-	@Path("/classement/{idChp}")
+	@Path("/championnat/{idChp}/classement")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String listJsonClassement(@PathParam("idChp") int idChp) {
 		init();

@@ -133,7 +133,7 @@ chpApp.provider('Championnat', [$resource, function() {
 var raceServices = angular.module('raceServices', ['ngResource']);
 raceServices.factory('Races', ['$resource',
     function ($resource) {
-        return $resource('http://gtrchamp2.leludo.cloudbees.net/ws/championnat/getjson/gps/:chpId', {}, {
+        return $resource('./ws/json/championnat/:chpId/grandprix/list', {}, {
             query: {
                 method: 'GET',
                 params:{chpId:'2'},
@@ -145,7 +145,7 @@ raceServices.factory('Races', ['$resource',
 var resultatsServices = angular.module('resultatsServices', ['ngResource']);
 raceServices.factory('Resultats', ['$resource',
     function ($resource) {
-        return $resource('http://gtrchamp2.leludo.cloudbees.net/ws/championnat/resultats/:gpId', {}, {
+        return $resource('./ws/json/grandprix/:gpId/resultat/list', {}, {
             query: {
                 method: 'GET',
                 params:{gpId:'2'},
@@ -157,15 +157,15 @@ raceServices.factory('Resultats', ['$resource',
 var championnatServices = angular.module('championnatServices', ['ngResource']);
 championnatServices.factory('Championnats', ['$resource',
     function ($resource) {
-        return $resource('http://gtrchamp2.leludo.cloudbees.net/ws/championnat/:type/:chpId', {}, {
+        return $resource('./ws/json/championnat/:chpId/:type', {}, {
             query: {
                 method: 'GET',
-                params:{type:'listjson'},
+                params:{chpId:'list', type:null},
                 isArray: true
             },
             get : {
                 method:'GET',
-                params: {type: 'getjson'}
+                params: {type: null}
             },
             classement: {
                 method: 'GET',
