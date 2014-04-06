@@ -138,7 +138,7 @@
 			<div class="col deux">
 
 				<h3>Résultats</h3>
-				<div id="results" class="col-text">Veuillez sélectionner un
+				<div ng-hide="hideMsgSelectionGp" id="results" class="col-text">Veuillez sélectionner un
 					grand prix !</div>
 					<table>
 						<thead>
@@ -154,7 +154,7 @@
 							<tr data-ng-repeat="conc in concurrents">
 								<td>{{conc.numCourse}}</td>
 								<td>{{conc.arrivee}}</td>
-								<td>{{conc.pole}}</td>
+								<td><img ng-hide="{{!conc.pole}}" src="design/Accept16.png" /></td>
 								<td>{{conc.nom}}</td>
 								<td>{{conc.points}}</td>
 							</tr>

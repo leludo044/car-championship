@@ -23,11 +23,13 @@ controllers.controller('ChampionnatController', ['$scope', 'Championnats', 'Race
             $scope.gps = Races.query({chpId:idChp});
             $scope.classement = Championnats.classement({chpId:idChp});
             $scope.concurrents = null ;
+            $scope.hideMsgSelectionGp = false ;
         };
         $scope.selectChampionnat(2);
 
         $scope.resultats = function(idGp) {
             $scope.concurrents = Resultats.query({gpId:idGp}) ;
+            $scope.hideMsgSelectionGp = true ;
         };
 
 
