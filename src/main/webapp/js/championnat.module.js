@@ -137,7 +137,7 @@ raceServices.factory('Races', ['$resource',
             query: {
                 method: 'GET',
                 params:{chpId:'2'},
-                isArray: false
+                isArray: true
             }
         });
     }]);

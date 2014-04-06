@@ -82,7 +82,7 @@ public class JsonChampionnat {
 	 * @return Les données de base du championnat
 	 */
 	@GET
-	@Path("championnat/{id}")
+	@Path("/championnat/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getJson(@PathParam("id") int id) {
 		init();
@@ -99,10 +99,10 @@ public class JsonChampionnat {
 			try {
 				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
 				g.writeStartObject();
-				g.writeObjectFieldStart("championnat");
+				//g.writeObjectFieldStart("championnat");
 				g.writeNumberField("id", chp.getId());
 				g.writeStringField("libelle", chp.getLibelle());
-				g.writeEndObject(); // for field 'name'
+				//g.writeEndObject(); // for field 'name'
 				// 9 g.writeStringField("gender", Gender.MALE);
 				// 10 g.writeBooleanField("verified", false);
 				// 11 g.writeFieldName("userImage"); // no 'writeBinaryField'
@@ -141,9 +141,8 @@ public class JsonChampionnat {
 			StringWriter sw = new StringWriter();
 			try {
 				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
-				g.writeStartObject();
-				g.writeArrayFieldStart("grandsprix");
-				;
+				g.writeStartArray();
+				//g.writeArrayFieldStart("grandsprix");
 				for (GrandPrix gp : chp.getGrandsPrix()) {
 					g.writeStartObject();
 					g.writeNumberField("id", gp.getId());
@@ -155,8 +154,8 @@ public class JsonChampionnat {
 							.getNom());
 					g.writeEndObject();
 				}
+				//g.writeEndArray();
 				g.writeEndArray();
-				g.writeEndObject();
 				g.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
