@@ -1,41 +1,22 @@
 <!DOCTYPE html>
-<html ng-app>
+<html data-ng-app="chpApp" >
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<meta content="en" http-equiv="content-language" />
-<meta content="all,follow" name="robots" />
-
-<meta lang="en"
-	content="All: Your name [www.url.com]; e-mail: info@url.com"
-	name="author" />
-<meta lang="en"
-	content="Webdesign: Nuvio [www.nuvio.cz]; e-mail: ahoj@nuvio.cz"
-	name="copyright" />
-
-<meta content="..." name="description" />
-<meta content="..." name="keywords" />
-
-<link href="css/reset.css" type="text/css"
-	media="screen,projection" rel="stylesheet" />
-<link href="css/main.css" type="text/css"
-	media="screen,projection" rel="stylesheet" />
+<meta charset="UTF-8">
+<link href="css/reset.css" type="text/css" media="screen,projection"
+	rel="stylesheet" />
+<link href="css/main.css" type="text/css" media="screen,projection"
+	rel="stylesheet" />
 <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/main-msie.css" /><![endif]-->
-<link href="css/style.css" type="text/css"
-	media="screen,projection" rel="stylesheet" />
+<link href="css/style.css" type="text/css" media="screen,projection"
+	rel="stylesheet" />
 <link href="css/print.css" type="text/css" media="print"
 	rel="stylesheet" />
-
 <title>Championnat GTR privé</title>
 
-<script type="text/javascript" src="js/f.js"></script>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
 </head>
-
 <body>
 
-	<div id="main">
+	<div id="main" data-ng-controller="ChampionnatController">
 
 		<!-- Header -->
 		<div id="header">
@@ -66,9 +47,7 @@
 				<li id="tray-active"><a
 					href="controleur.php?action=Index&amp;championnat=2">Accueil</a></li>
 				<!-- Active page -->
-				<li id="tray-active"><a
-					href="controleur.php?action=Index&amp;championnat=1">Championnat
-						2012</a></li>
+					<li id="tray-active" data-ng-repeat="champ in championnats"><a href="#" ng-click="selectChampionnat(champ.id)">{{champ.libelle}}</a></li>
 				<!-- Active page -->
 				<!--
             <li><a href="#">Pilotes<br /></a></li>
@@ -76,22 +55,6 @@
             <li><a href="controleur.php?action=Stats&championnat=1">Statistiques<br /></a></li>
             -->
 			</ul>
-	<div data-ng-init="persons1=['Ludovic', 'Marie', 'Alex', 'Lucie']">
-		<ul>
-			<li data-ng-repeat="person in persons1">{{person}}</li>
-		</ul>
-	</div>
-			<!-- Search -->
-			<!--
-        <div class="box" id="search">
-            <form method="get" action="#">
-                <div class="box">
-                    <div id="search-input"><span class="noscreen">Search:</span><input type="text" value="Search" name="" size="30" /></div>
-                    <div id="search-submit"><input type="image" value="OK" src="../../design/search-submit.gif" /></div>
-                </div>
-            </form>
-        </div> -->
-			<!-- /search -->
 
 			<hr class="noscreen" />
 		</div>
@@ -109,11 +72,7 @@
 			</div>
 
 			<div id="col-text">
-
-				<h2>
-					<?php echo $mv->getModel('chp')->getLibelle(); ?>
-					- Classement gÃ©nÃ©ral
-				</h2>
+				<h2>{{championnat.libelle}} - Classement général</h2>
 
 				<table id="jquery">
 					<thead>
@@ -124,16 +83,11 @@
 						</tr>
 					</thead>
 					<tbody>
-
-						<?php
-				$resultats = $mv->getModel('resgen');
-				$classement = 0;
-				foreach($resultats as &$participant) {
-                    $classement += 1;
-                    echo "<tr><td>".$classement."</td><td>".$participant->getPilote()->getName()."</td><td>".$participant->getPoints()."</td></tr>";
-                }
-                ?>
-
+							<tr data-ng-repeat="cl in classement">
+								<td>{{cl.rang}}</td>
+								<td>{{cl.nom}}</td>
+								<td>{{cl.points}}</td>
+							</tr>
 					</tbody>
 				</table>
 
@@ -154,11 +108,26 @@
 
 				<h3>Grands prix</h3>
 				<div class="col-text">
-					<?php
-			$all = $mv->getModel('gps');
-			$tag = new GrandsPrixTag($all);
-			$tag->render();
-			?>
+					<table>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Date</th>
+								<th>Circuit</th>
+								<th>Longueur</th>
+								<th>Pays</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="gp in gps" ng-click="resultats(gp.id)">
+								<td>{{gp.id}}</td>
+								<td>{{gp.date}}</td>
+								<td>{{gp.nom}}</td>
+								<td>{{gp.longueur}}</td>
+								<td>{{gp.pays}}</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<!-- /col -->
@@ -168,22 +137,29 @@
 			<!-- Column II. -->
 			<div class="col deux">
 
-				<h3>RÃ©sultats</h3>
-				<div id="results" class="col-text">Veuillez sÃ©lectionner un
+				<h3>Résultats</h3>
+				<div ng-hide="hideMsgSelectionGp" id="results" class="col-text">Veuillez sélectionner un
 					grand prix !</div>
-				<!--
-            <?php
-            $resultats = $mv->getModel('res');
-            foreach($resultats as $participant) {
-                echo $participant."<br />";
-            }
-            ?>            <?php
-            $resultats = $mv->getModel('resgen');
-            foreach($resultats as $participant) {
-                echo $participant."<br />";
-            }
-            ?>
--->
+					<table>
+						<thead>
+							<tr>
+								<th>Course</th>
+								<th>Place</th>
+								<th>Pole</th>
+								<th>Pilote</th>
+								<th>Points</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="conc in concurrents">
+								<td>{{conc.numCourse}}</td>
+								<td>{{conc.arrivee}}</td>
+								<td><img ng-hide="{{!conc.pole}}" src="design/Accept16.png" /></td>
+								<td>{{conc.nom}}</td>
+								<td>{{conc.points}}</td>
+							</tr>
+						</tbody>
+					</table>
 			</div>
 			<!-- /col -->
 
@@ -215,6 +191,8 @@
 
 	</div>
 	<!-- /main -->
-	<script src="angular-1.0.7/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-resource.min.js"></script>
+	<script src="js/championnat.module.js"></script>
 </body>
 </html>
