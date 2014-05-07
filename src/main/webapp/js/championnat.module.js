@@ -1,11 +1,17 @@
 /**
  * 
  */
-var chpApp = angular.module('chpApp', ['controllers', 'raceServices', 'championnatServices', 'resultatsServices']);
+var chpApp = angular.module('chpApp', ['ngRoute', 'controllers', 'raceServices', 'championnatServices', 'resultatsServices']);
+
+chpApp.config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when('/championnat/:id', {controller: 'ChampionnatController'}) ;
+}]);
+
+
 var controllers = angular.module('controllers', []);
 
-controllers.controller('ChampionnatController', ['$scope', 'Championnats', 'Races', 'Resultats',
-    function($scope, Championnats, Races, Resultats) {
+controllers.controller('ChampionnatController', ['$scope', '$routeParams', 'Championnats', 'Races', 'Resultats',
+    function($scope, $routeParams, Championnats, Races, Resultats) {
 	// Initialising the variable.
 	$scope.championnat = {
 		"id" : 2,
