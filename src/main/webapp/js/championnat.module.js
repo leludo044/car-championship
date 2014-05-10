@@ -1,10 +1,26 @@
+'use strict';
+
 /**
  * 
  */
-var chpApp = angular.module('chpApp', ['ngRoute', 'controllers', 'raceServices', 'championnatServices', 'resultatsServices']);
+var chpApp = angular.module('chpApp', [
+	'ngRoute', 
+	'controllers', 
+	'raceServices', 
+	'championnatServices', 
+	'resultatsServices'
+]);
 
-chpApp.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/championnat/:id', {controller: 'ChampionnatController'}) ;
+chpApp.config(['$routeProvider',
+    function($routeProvider) {
+		$routeProvider.
+			when('/championnat/:id', {
+				templateUrl: 'partials/classement.html',
+				controller: 'ChampionnatController'
+			}).
+			otherwise( {
+				redirectTo: '/championnat/2'
+			}) ;
 }]);
 
 
@@ -19,7 +35,7 @@ controllers.controller('ChampionnatController', ['$scope', '$routeParams', 'Cham
 	};
     $scope.championnats = Championnats.query() ;
 
-        $scope.championnat = Championnats.get({chpId:'2'});
+        $scope.championnat = Championnats.get({chpId:$routeParams.id});
 /*
         $scope.selectChampionnat(2);
 */
@@ -31,7 +47,7 @@ controllers.controller('ChampionnatController', ['$scope', '$routeParams', 'Cham
             $scope.concurrents = null ;
             $scope.hideMsgSelectionGp = false ;
         };
-        $scope.selectChampionnat(2);
+        $scope.selectChampionnat($routeParams.id);
 
         $scope.resultats = function(idGp) {
             $scope.concurrents = Resultats.query({gpId:idGp}) ;
