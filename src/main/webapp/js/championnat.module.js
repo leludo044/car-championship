@@ -16,7 +16,7 @@ chpApp.config(['$routeProvider',
 		$routeProvider.
 			when('/championnat/:id', {
 				templateUrl: 'partials/classement.html',
-				controller: 'ChampionnatController'
+				controller: 'ChampionnatDetailController'
 			}).
 			otherwise( {
 				redirectTo: '/championnat/2'
@@ -26,14 +26,20 @@ chpApp.config(['$routeProvider',
 
 var controllers = angular.module('controllers', []);
 
-controllers.controller('ChampionnatController', ['$scope', '$routeParams', 'Championnats', 'Races', 'Resultats',
+controllers.controller('ChampionnatListController', ['$scope', 'Championnats',
+    function($scope, Championnats) {
+    $scope.championnats = Championnats.query() ;
+}]);
+
+
+controllers.controller('ChampionnatDetailController', ['$scope', '$routeParams', 'Championnats', 'Races', 'Resultats',
     function($scope, $routeParams, Championnats, Races, Resultats) {
 	// Initialising the variable.
 	$scope.championnat = {
 		"id" : 2,
 		"libelle" : "Aucun"
 	};
-    $scope.championnats = Championnats.query() ;
+    //$scope.championnats = Championnats.query() ;
 
         $scope.championnat = Championnats.get({chpId:$routeParams.id});
 /*
