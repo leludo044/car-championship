@@ -1,0 +1,174 @@
+<div id="main">
+
+		<!-- Header -->
+		<div id="header">
+
+			<h1 id="logo">
+				<a title="[Go to homepage]" href="./"><img alt=""
+					src="logogtr.png" /></a>
+			</h1>
+			<hr class="noscreen" />
+
+			<!-- Navigation -->
+			<!--
+        <div id="nav">
+            <a id="nav-active" href="#">Homepage</a> <span>|</span>
+            <a href="#">About us</a> <span>|</span>
+            <a href="#">Support</a> <span>|</span>
+            <a href="#">Contact</a>
+        </div>-->
+			<!-- /nav -->
+
+		</div>
+		<!-- /header -->
+
+		<!-- Tray -->
+		<div id="tray">
+
+			<ul>
+				<li id="tray-active"><a
+					href="controleur.php?action=Index&amp;championnat=2">Accueil</a></li>
+				<!-- Active page --><!-- ng-click="selectChampionnat(champ.id)" -->
+					<li id="tray-active" data-ng-repeat="champ in championnats"><a href="#/championnat/{{champ.id}}">{{champ.libelle}}</a></li>
+				<!-- Active page -->
+				<!--
+            <li><a href="#">Pilotes<br /></a></li>
+            <li><a href="#">Circuits<br /></a></li>
+            <li><a href="controleur.php?action=Stats&championnat=1">Statistiques<br /></a></li>
+            -->
+			</ul>
+
+			<hr class="noscreen" />
+		</div>
+		<!-- /tray -->
+		<!-- Promo -->
+		<div id="col-top"></div>
+		<div class="box" id="col">
+
+			<!--div id="ribbon"></div-->
+			<!-- /ribbon (design/ribbon.gif) -->
+
+			<!-- Screenshot in browser (replace tmp/browser.gif) -->
+			<div id="col-browser">
+				<!--a href="#"><img width="255" height="204" alt="" src="d_1280x1024.jpg" /></a-->
+			</div>
+
+			<div id="col-text">
+				<h2>{{championnat.libelle}} - Classement général</h2>
+
+				<table id="jquery">
+					<thead>
+						<tr>
+							<th>Classement</th>
+							<th>Pilote</th>
+							<th>Points</th>
+						</tr>
+					</thead>
+					<tbody>
+							<tr data-ng-repeat="cl in classement">
+								<td>{{cl.rang}}</td>
+								<td>{{cl.nom}}</td>
+								<td>{{cl.points}}</td>
+							</tr>
+					</tbody>
+				</table>
+
+			</div>
+			<!-- /col-text -->
+
+		</div>
+		<!-- /col -->
+		<div id="col-bottom"></div>
+
+		<hr class="noscreen" />
+
+		<!-- 3 columns -->
+		<div class="box" id="cols3">
+
+			<!-- Column I. -->
+			<div class="col un">
+
+				<h3>Grands prix</h3>
+				<div class="col-text">
+					<table>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Date</th>
+								<th>Circuit</th>
+								<th>Longueur</th>
+								<th>Pays</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="gp in gps" ng-click="resultats(gp.id)">
+								<td>{{gp.id}}</td>
+								<td>{{gp.date}}</td>
+								<td>{{gp.nom}}</td>
+								<td>{{gp.longueur}}</td>
+								<td>{{gp.pays}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- /col -->
+
+			<hr class="noscreen" />
+
+			<!-- Column II. -->
+			<div class="col deux">
+
+				<h3>Résultats</h3>
+				<div ng-hide="hideMsgSelectionGp" id="results" class="col-text">Veuillez sélectionner un
+					grand prix !</div>
+					<table>
+						<thead>
+							<tr>
+								<th>Course</th>
+								<th>Place</th>
+								<th>Pole</th>
+								<th>Pilote</th>
+								<th>Points</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="conc in concurrents">
+								<td>{{conc.numCourse}}</td>
+								<td>{{conc.arrivee}}</td>
+								<td><img ng-hide="{{!conc.pole}}" src="design/Accept16.png" /></td>
+								<td>{{conc.nom}}</td>
+								<td>{{conc.points}}</td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+			<!-- /col -->
+
+			<hr class="noscreen" />
+
+		</div>
+		<!-- /cols3 -->
+
+		<hr class="noscreen" />
+		<!-- Footer -->
+		<div id="footer">
+
+			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
+			<p class="f-right">
+				<a href="http://www.nuviotemplates.com/">Free web templates</a>
+				presented by <a href="http://www.qartin.cz/">QARTIN</a> – Our tip: <a
+					href="http://last-minute.invia.pl">Wakacje</a> <a
+					href="http://dovolenka.invia.sk">Dovolenka</a>
+			</p>
+			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
+
+			<p>
+				Copyright © 2012 <strong><a href="#">Ludovic THOMAS</a></strong>,
+				All Rights Reserved ®
+			</p>
+
+		</div>
+		<!-- /footer -->
+
+	</div>
