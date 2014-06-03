@@ -19,15 +19,9 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 
 /**
- * Classe de service concernant les championnats. Permet de lister tous les
- * championnats ou de récupérer un championnat en particulier via son ID
+ * Classe de service prenant en charge la génération des données statistiques.
  * 
- * - /championnat/list
- * - /championnat/:idChp
- * - /championnat/:idChp/grandprix/list
- * - /championnat/:idChp/classement
- * - /grandprix/:idGrandPrix
- * - /grandprix/:idGrandPrix/resultat/list
+ * - /stat/victory
  */
 @Path("stat")
 public class Stats {
@@ -46,17 +40,17 @@ public class Stats {
 		dao.setEntityManager(emf);
 	}
 
+	/**
+	 * Retourne les pilotes et leur nombre de victoires en grand prix
+	 * @return Les pilotes et leur nombre de victoires en grand prix
+	 */
 	@GET
 	@Path("/victory")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List list() throws JsonGenerationException, JsonMappingException, IOException {
+	public List<Stat> list() {
 		init();
 		List<Stat> stats = dao.findNbVictories();
-		
-		//ObjectMapper mapper = new ObjectMapper() ;
-		
 		dao.close();
-		//return mapper.writeValueAsString(stats) ;
 		return stats;
 	}
 

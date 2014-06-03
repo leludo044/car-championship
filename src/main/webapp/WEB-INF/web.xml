@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="tomcat7-hibernate-jpa-clickstart" metadata-complete="false" version="3.0">
+<!--
 <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -28,4 +29,5 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/ws/*</url-pattern>
     </servlet-mapping>
+    -->
 </web-app>
