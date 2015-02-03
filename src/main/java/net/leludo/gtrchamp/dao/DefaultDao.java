@@ -3,8 +3,6 @@ package net.leludo.gtrchamp.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import net.leludo.gtrchamp.Championnat;
-
 public class DefaultDao<T, PK> {
 	private EntityManagerFactory emf;
 	protected EntityManager em ;
@@ -28,4 +26,5 @@ public class DefaultDao<T, PK> {
 		T entity = em.find(entityClass, id);
 		return entity;
 	}
+
 }

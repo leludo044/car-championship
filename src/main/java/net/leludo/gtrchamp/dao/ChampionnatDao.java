@@ -2,6 +2,7 @@ package net.leludo.gtrchamp.dao;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
 import javax.inject.Singleton;
 

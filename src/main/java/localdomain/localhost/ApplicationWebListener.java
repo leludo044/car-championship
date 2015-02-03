@@ -15,6 +15,8 @@
  */
 package localdomain.localhost;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -44,7 +46,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author <a href="mailto:cleclerc@cloudbees.com">Cyrille Le Clerc</a>
  */
-@WebListener
+//@WebListener
 public class ApplicationWebListener implements ServletContextListener {
     private static EntityManagerFactory entityManagerFactory;
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -84,4 +86,5 @@ public class ApplicationWebListener implements ServletContextListener {
             logger.debug("JPA EntityManagerFactory closed");
         }
     }
+    
 }
