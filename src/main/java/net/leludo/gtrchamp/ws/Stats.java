@@ -1,6 +1,5 @@
 package net.leludo.gtrchamp.ws;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -14,9 +13,6 @@ import javax.ws.rs.core.MediaType;
 
 import net.leludo.gtrchamp.dao.StatDao;
 import net.leludo.gtrchamp.stat.Stat;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 
 /**
  * Classe de service prenant en charge la génération des données statistiques.

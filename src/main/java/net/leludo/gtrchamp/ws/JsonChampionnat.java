@@ -20,8 +20,8 @@ import net.leludo.gtrchamp.GrandPrix;
 import net.leludo.gtrchamp.Pilote;
 import net.leludo.gtrchamp.dao.ChampionnatDao;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 /**
  * Classe de service concernant les championnats. Permet de lister tous les
