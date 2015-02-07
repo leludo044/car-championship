@@ -44,9 +44,11 @@
 
 			<ul>
 				<li id="tray-active"><a
-					href="controleur.php?action=Index&amp;championnat=2">Accueil</a></li>
+					href="#/championnat/2">Accueil</a></li>
 				<!-- Active page --><!-- ng-click="selectChampionnat(champ.id)" -->
 					<li id="tray-active" data-ng-repeat="champ in championnats"><a href="#/championnat/{{champ.id}}">{{champ.libelle}}</a></li>
+					<li id="tray-active"><a
+					href="#/stats">Statistiques</a><li>
 				<!-- Active page -->
 				<!--
             <li><a href="#">Pilotes<br /></a></li>
