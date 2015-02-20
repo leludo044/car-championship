@@ -6,16 +6,14 @@
 var chpApp = angular.module('chpApp', [ 'ngRoute', 'controllers',
 		'raceServices', 'championnatServices', 'resultatsServices', 'statsServices' ]);
 
-chpApp.config([ '$routeProvider', function($routeProvider) {
+chpApp.config([ '$routeProvider', function ($routeProvider) {
 	$routeProvider.when('/championnat/:id', {
 		templateUrl : 'partials/classement.html',
 		controller : 'ChampionnatDetailController'
-	})
-	.when('/stats', {
+	}).when('/stats', {
 		templateUrl : 'partials/stats.html',
 		controller : 'ChampionnatStatController'
-	})
-	.otherwise({
+	}).otherwise({
 		redirectTo : '/championnat/2'
 	});
 } ]);
@@ -34,7 +32,7 @@ controllers.controller('ChampionnatDetailController', [ '$scope',
 			$scope.championnat = {
 				"id" : 2,
 				"libelle" : "Aucun"
-			};
+            };
 			// $scope.championnats = Championnats.query() ;
 
 			$scope.championnat = Championnats.get({
@@ -65,36 +63,6 @@ controllers.controller('ChampionnatDetailController', [ '$scope',
 				});
 				$scope.hideMsgSelectionGp = true;
 			};
-
-			/*
-			 * $scope.selectChampionnat = function(idChp) { //
-			 * Championnat.setIdChampionnat(idChp) ; $scope.classement =
-			 * Championnat.getClassement(idChp) ; alert("toto"); } ;
-			 * 
-			 * $scope.selectChampionnat(2);
-			 * 
-			 * $scope.championnats =
-			 * grandsPrixFactory.getChampionnats().success( function(data,
-			 * status, headers, config) { $scope.championnats = data;
-			 * }).error(function(data, status, headers, config) {
-			 * $scope.championnats = []; }); /* $scope.gps =
-			 * grandsPrixFactory.getGrandsPrix($scope.championnat.id)
-			 * .success(function(data, status, headers, config) { $scope.gps =
-			 * data.grandsprix; }).error(function(data, status, headers, config) {
-			 * $scope.gps = []; });
-			 * 
-			 * $scope.resultats = function(idGp) {
-			 * grandsPrixFactory.getResultats(idGp).success( function(data,
-			 * status, headers, config) { $scope.concurrents = data;
-			 * }).error(function(data, status, headers, config) {
-			 * $scope.concurrents = []; }); };
-			 */
-			// grandsPrixFactory.getClassement($scope.championnat.id).success(
-			// function(data, status, headers, config) {
-			// $scope.classement = data;
-			// }).error(function(data, status, headers, config) {
-			// $scope.classement = [];
-			// });
 		} ]);
 
 
