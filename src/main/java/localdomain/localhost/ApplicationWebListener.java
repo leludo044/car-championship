@@ -15,8 +15,6 @@
  */
 package localdomain.localhost;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -25,10 +23,8 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 
 import localdomain.localhost.domain.Product;
-import net.leludo.gtrchamp.dao.ChampionnatDao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -25,8 +25,6 @@ public class Stats {
 	@Context
 	ServletContext servletContext;
 	
-	private HttpServletResponse servletResponse ;
-
 	EntityManagerFactory emf;
 	StatDao dao = new StatDao();
 

@@ -8,11 +8,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.apache.taglibs.standard.tag.common.core.OtherwiseTag;
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Fetch;
 
 @Entity
 @Table(name = "resultats")

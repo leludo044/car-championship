@@ -1,14 +1,11 @@
 package net.leludo.gtrchamp.dao;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Observer;
 
 import javax.inject.Singleton;
 
 import net.leludo.gtrchamp.Championnat;
 import net.leludo.gtrchamp.Concurrent;
-import net.leludo.gtrchamp.Pilote;
 
 @Singleton
 public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
