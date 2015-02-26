@@ -1,99 +1,79 @@
 <!DOCTYPE html>
-<html data-ng-app="chpApp" >
+<html lang="fr" data-ng-app="chpApp">
 <head>
-<meta charset="UTF-8">
-<link href="css/reset.css" type="text/css" media="screen,projection"
-	rel="stylesheet" />
-<link href="css/main.css" type="text/css" media="screen,projection"
-	rel="stylesheet" />
-<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/main-msie.css" /><![endif]-->
-<link href="css/style.css" type="text/css" media="screen,projection"
-	rel="stylesheet" />
-<link href="css/print.css" type="text/css" media="print"
-	rel="stylesheet" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Championnat GTR privé</title>
-
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <body>
-<div id="main" data-ng-controller="ChampionnatListController">
+	<div class="container" data-ng-controller="ChampionnatListController">
 
-		<!-- Header -->
-		<div id="header">
 
-			<h1 id="logo">
-				<a title="[Go to homepage]" href="./"><img alt=""
-					src="logogtr.png" /></a>
-			</h1>
-			<hr class="noscreen" />
+		<h1 id="logo">
+			<a title="[Go to homepage]" href="./"><img alt=""
+				src="logogtr.png" /></a>
+		</h1>
 
-			<!-- Navigation -->
-			<!--
-        <div id="nav">
-            <a id="nav-active" href="#">Homepage</a> <span>|</span>
-            <a href="#">About us</a> <span>|</span>
-            <a href="#">Support</a> <span>|</span>
-            <a href="#">Contact</a>
-        </div>-->
-			<!-- /nav -->
+     <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#/championnat/2">Accueil</a></li>
+ 			<li data-ng-repeat="champ in championnats"><a
+				href="#/championnat/{{champ.id}}">{{champ.libelle}}</a></li>
+              <li><a href="#/stats">Statistiques</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+              <li><a href="../navbar-static-top/">Static top</a></li>
+              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
 
+		<div class="view-container">
+			<div ng-view class="view-frame"></div>
 		</div>
-		<!-- /header -->
 
-		<!-- Tray -->
-		<div id="tray">
-
-			<ul>
-				<li id="tray-active"><a
-					href="#/championnat/2">Accueil</a></li>
-				<!-- Active page --><!-- ng-click="selectChampionnat(champ.id)" -->
-					<li id="tray-active" data-ng-repeat="champ in championnats"><a href="#/championnat/{{champ.id}}">{{champ.libelle}}</a></li>
-					<li id="tray-active"><a
-					href="#/stats">Statistiques</a><li>
-				<!-- Active page -->
-				<!--
-            <li><a href="#">Pilotes<br /></a></li>
-            <li><a href="#">Circuits<br /></a></li>
-            <li><a href="controleur.php?action=Stats&championnat=1">Statistiques<br /></a></li>
-            -->
-			</ul>
-
-			<hr class="noscreen" />
-		</div>
-		<!-- /tray -->
-		
-		
-	  <div class="view-container">
-    <div ng-view class="view-frame"></div>
-    
-    
-  </div>
-  		<hr class="noscreen" />
 		<!-- Footer -->
-		<div id="footer">
-
-			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
-			<p class="f-right">
-				<a href="http://www.nuviotemplates.com/">Free web templates</a>
-				presented by <a href="http://www.qartin.cz/">QARTIN</a> – Our tip: <a
-					href="http://last-minute.invia.pl">Wakacje</a> <a
-					href="http://dovolenka.invia.sk">Dovolenka</a>
-			</p>
-			<!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
+		<footer>
 
 			<p>
 				Copyright © 2012 <strong><a href="#">Ludovic THOMAS</a></strong>,
 				All Rights Reserved ®
 			</p>
 
-		</div>
+		</footer>
 		<!-- /footer -->
-	</div>  
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-resource.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-resource.min.js"></script>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
 	<script src="js/championnat.module.js"></script>
 	<script src="app/directives/stats.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
 </html>
