@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 
 import net.leludo.gtrchamp.stat.Stat;
 
-import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;

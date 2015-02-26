@@ -1,9 +1,10 @@
 package net.leludo.gtrchamp;
 
-import java.util.Calendar;
 
-import junit.framework.Assert;
 
+import static org.junit.Assert.*;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,15 +19,15 @@ public class ConcurrentTest {
 
 	@Test
 	public void test() {
-		Assert.assertNotNull(acteur);
-		Assert.assertEquals(0, acteur.getPositionDepart());
-		Assert.assertEquals(0, acteur.getPositionArrivee());
+		assertNotNull(acteur);
+		assertEquals(0, acteur.getPositionDepart());
+		assertEquals(0, acteur.getPositionArrivee());
 	}
 
 	@Test
 	public void testHasPolePosition() throws ChampionnatException {
 		acteur.setPositionDepart(1);
-		Assert.assertTrue(acteur.hasPolePosition());
+		assertTrue(acteur.hasPolePosition());
 	}
 
 	@Test

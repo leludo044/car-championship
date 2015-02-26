@@ -2,7 +2,6 @@ package net.leludo.connector;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Observable;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
