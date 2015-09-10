@@ -40,9 +40,23 @@ public class Stats {
 	@GET
 	@Path("/victory")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Stat> list() {
+	public List<Stat> victory() {
 		init();
 		List<Stat> stats = dao.findNbVictories();
+		dao.close();
+		return stats;
+	}
+
+	/**
+	 * Retourne les pilotes et leur nombre de pôles position en grand prix
+	 * @return Les pilotes et leur nombre de pôles position en grand prix
+	 */
+	@GET
+	@Path("/pole")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Stat> pole() {
+		init();
+		List<Stat> stats = dao.findNbPoles();
 		dao.close();
 		return stats;
 	}
