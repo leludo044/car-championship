@@ -46,7 +46,7 @@ m/heroku_7dedb7d29129dd2?reconnect=true
             properties.put("hibernate.connection.username", connector.getUsername());
             properties.put("hibernate.connection.password", connector.getPassword());
             properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-            properties.put("hibernate.show-sql", "false");
+            properties.put("hibernate.show_sql", "false");
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(
                 "gtrchamp", properties);
