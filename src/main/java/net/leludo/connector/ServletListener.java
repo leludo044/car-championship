@@ -49,7 +49,7 @@ m/heroku_7dedb7d29129dd2?reconnect=true
             properties.put("hibernate.show-sql", "false");
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(
-                "localdomain.localhost", properties);
+                "gtrchamp", properties);
             entityManager = emf.createEntityManager();
             
             arg0.getServletContext().setAttribute(EntityManagerFactory.class.getName(), emf);
