@@ -48,8 +48,8 @@ public class Stats {
 	}
 
 	/**
-	 * Retourne les pilotes et leur nombre de pôles position en grand prix
-	 * @return Les pilotes et leur nombre de pôles position en grand prix
+	 * Retourne les pilotes et leur nombre de poles position en grand prix
+	 * @return Les pilotes et leur nombre de poles position en grand prix
 	 */
 	@GET
 	@Path("/pole")
