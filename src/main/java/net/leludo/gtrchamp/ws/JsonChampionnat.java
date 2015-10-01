@@ -97,7 +97,7 @@ public class JsonChampionnat {
 															// org.codehaus.jackson.mapper.MappingJsonFactory
 			StringWriter sw = new StringWriter();
 			try {
-				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartObject();
 				//g.writeObjectFieldStart("championnat");
 				g.writeNumberField("id", chp.getId());
@@ -140,7 +140,7 @@ public class JsonChampionnat {
 															// org.codehaus.jackson.mapper.MappingJsonFactory
 			StringWriter sw = new StringWriter();
 			try {
-				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartArray();
 				//g.writeArrayFieldStart("grandsprix");
 				for (GrandPrix gp : chp.getGrandsPrix()) {
@@ -185,7 +185,7 @@ public class JsonChampionnat {
 															// org.codehaus.jackson.mapper.MappingJsonFactory
 			StringWriter sw = new StringWriter();
 			try {
-				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartArray();
 				for (Championnat chp : chps) {
 					g.writeStartObject();
@@ -223,7 +223,7 @@ public class JsonChampionnat {
 															// org.codehaus.jackson.mapper.MappingJsonFactory
 			StringWriter sw = new StringWriter();
 			try {
-				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartArray();
 				for (Concurrent concurrent : resultats) {
 					g.writeStartObject();
@@ -266,7 +266,7 @@ public class JsonChampionnat {
 															// org.codehaus.jackson.mapper.MappingJsonFactory
 			StringWriter sw = new StringWriter();
 			try {
-				JsonGenerator g = jsonFactory.createJsonGenerator(sw);
+				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartArray();
 				int rang = 1 ;
 				for (Object[] pilote : classement) {
