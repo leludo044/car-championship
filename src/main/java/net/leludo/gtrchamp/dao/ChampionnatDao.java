@@ -27,12 +27,12 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 		return query.getResultList() ;	
 	}
 	
-	public List findClassement(final int idChampionnat) {
+	public List<Object[]> findClassement(final int idChampionnat) {
 		String queryString = "select pilote, sum(c.points.points) from Concurrent c	where c.grandPrix.championnat.id = :id group by c.pilote order by sum(c.points.points) desc";
 
 		javax.persistence.Query query = this.em.createQuery(queryString) ;
 		query.setParameter("id", idChampionnat);
-		List toto = query.getResultList() ;
+		List<Object[]> toto = query.getResultList() ;
 		return toto ;
 	}
 	
