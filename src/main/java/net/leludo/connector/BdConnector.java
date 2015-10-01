@@ -2,8 +2,12 @@ package net.leludo.connector;
 
 import java.net.URI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BdConnector
 {
+	private static final Logger LOG = LoggerFactory.getLogger(ServletListener.class);
 
     private String driverClass;
     private String url;
@@ -15,14 +19,15 @@ public class BdConnector
 	}
 
     public BdConnector(URI dbUri) {
-		System.out.println(dbUri.toString());
-		System.out.println(dbUri.getUserInfo());
 		
 		username = dbUri.getUserInfo().split(":")[0] ;
 		password = dbUri.getUserInfo().split(":")[1] ;
 		
 		url = "jdbc:"+dbUri.getScheme()+"://"+dbUri.getHost()+(dbUri.getPort()==-1?"":":"+dbUri.getPort())+dbUri.getPath()+"?"+dbUri.getQuery();
-		System.out.println(url);
+		
+		LOG.debug(dbUri.toString());
+		LOG.debug(dbUri.getUserInfo());
+		LOG.debug(url);
 
 	}
 
