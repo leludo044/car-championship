@@ -66,7 +66,6 @@ public class JsonChampionnat {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String get(@PathParam("id") int id) {
 		init();
-		System.out.println(id);
 		Championnat chp = dao.find(new Integer(id));
 		dao.close();
 		if (chp == null) {
@@ -86,7 +85,6 @@ public class JsonChampionnat {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getJson(@PathParam("id") int id) {
 		init();
-		System.out.println(id);
 		Championnat chp = dao.find(new Integer(id));
 		dao.close();
 		if (chp == null) {
@@ -129,7 +127,6 @@ public class JsonChampionnat {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getJsonGrandsPrix(@PathParam("idChp") int idChp) {
 		init();
-		System.out.println(idChp);
 		Championnat chp = dao.find(new Integer(idChp));
 		dao.close();
 		if (chp == null) {
