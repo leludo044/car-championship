@@ -1,18 +1,4 @@
-
-<h2>Nombre de victoires</h2>
-<table class="table">
-	<thead>
-		<tr>
-			<th>Pilote</th>
-			<th>Victoires</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr data-ng-repeat="victoire in stats">
-			<td>{{victoire.name}}</td>
-			<td>{{victoire.count}}</td>
-		</tr>
-	</tbody>
-</table>
-<stats-victories />
-
+<h2>Statistiques</h2>
+<div ng-repeat="graph in graphs" class="row">
+	<stats label="graph.label" url="graph.url"></stats>
+</div>

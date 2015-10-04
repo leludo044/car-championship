@@ -4,7 +4,7 @@
  * 
  */
 var chpApp = angular.module('chpApp', [ 'ngRoute', 'controllers',
-		'raceServices', 'championnatServices', 'resultatsServices', 'statsServices' ]);
+		'raceServices', 'championnatServices', 'resultatsServices', 'statsServices', 'highcharts-ng' ]);
 
 chpApp.config([ '$routeProvider', function ($routeProvider) {
 	$routeProvider.when('/championnat/:id', {
@@ -12,7 +12,7 @@ chpApp.config([ '$routeProvider', function ($routeProvider) {
 		controller : 'ChampionnatDetailController'
 	}).when('/stats', {
 		templateUrl : 'partials/stats.html',
-		controller : 'ChampionnatStatController'
+		controller : 'StatsCtrl'
 	}).otherwise({
 		redirectTo : '/championnat/2'
 	});
@@ -66,16 +66,7 @@ controllers.controller('ChampionnatDetailController', [ '$scope',
 		} ]);
 
 
-controllers.controller('ChampionnatStatController', [ '$scope',
-		'$routeParams', 'Stats',
-		function($scope, $routeParams, Stats) {
-			$scope.championnat = {
-				"id" : 2,
-				"libelle" : "Aucun"
-			};
 
-			$scope.stats = Stats.query();
-		} ]);
 
 /*
  * chpApp.factory('grandsPrixFactory', function($http) {
