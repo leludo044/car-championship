@@ -61,4 +61,18 @@ public class Stats {
 		return stats;
 	}
 
+	/**
+	 * Retourne les pilotes et leur nombre de poles position en grand prix
+	 * @return Les pilotes et leur nombre de poles position en grand prix
+	 */
+	@GET
+	@Path("/podium")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Stat> podium() {
+		init();
+		List<Stat> stats = dao.findNbPodium();
+		dao.close();
+		return stats;
+	}
+
 }

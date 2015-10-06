@@ -12,6 +12,10 @@ controllers.controller('StatsCtrl', [ '$scope', '$routeParams', '$http',
 			}, {
 				label : "Poles position",
 				url : "pole"
-			} ];
+			},
+			{
+				label : "Podiums",
+				url : "podium"
+			}];
 
 		} ]);
