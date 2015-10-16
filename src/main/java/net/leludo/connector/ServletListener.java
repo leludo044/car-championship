@@ -33,12 +33,6 @@ public class ServletListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		/*
-		 * 
-		 * CLEARDB_DATABASE_URL:
-		 * mysql://b4620b09acec2f:ab5c04c3@eu-cdbr-west-01.cleardb.co
-		 * m/heroku_7dedb7d29129dd2?reconnect=true
-		 */
 		try {
 			String uri = System.getenv(DATABASE_URL);
 			if (uri != null) {
