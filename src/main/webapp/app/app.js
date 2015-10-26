@@ -4,7 +4,7 @@
  * 
  */
 var chpApp = angular.module('chpApp', [ 'ngRoute', 'controllers',
-		'raceServices', 'championnatServices', 'resultatsServices', 'statsServices', 'highcharts-ng' ]);
+		'raceServices', 'championnatServices', 'resultatsServices', 'statsServices', 'highcharts-ng', 'pilotesServices' ]);
 
 chpApp.config([ '$routeProvider', function ($routeProvider) {
 	$routeProvider.when('/championnat/:id', {
@@ -13,6 +13,9 @@ chpApp.config([ '$routeProvider', function ($routeProvider) {
 	}).when('/stats', {
 		templateUrl : 'partials/stats.html',
 		controller : 'StatsCtrl'
+	}).when('/pilotes', {
+		templateUrl : 'partials/pilote.html',
+		controller : 'PiloteCtrl'
 	}).otherwise({
 		redirectTo : '/championnat/2'
 	});
