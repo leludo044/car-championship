@@ -22,6 +22,7 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 	public List<Pilote> findAll() {
 		String queryString = "from Pilote";
 		javax.persistence.Query query = this.em.createQuery(queryString);
+		this.em.clear();
 		return query.getResultList();
 	}
 
@@ -35,8 +36,9 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 		this.em.getTransaction().begin();
 		this.em.persist(pilote);
 		this.em.getTransaction().commit();
+		this.em.clear();
 	}
-	
+
 	/**
 	 * Modifie un pilote en base
 	 * 
@@ -47,9 +49,9 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 		this.em.getTransaction().begin();
 		this.em.merge(pilote);
 		this.em.getTransaction().commit();
+		this.em.clear();
 	}
 
-	
 	/**
 	 * Supprime un pilote en base
 	 * 
@@ -60,6 +62,7 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 		this.em.getTransaction().begin();
 		this.em.remove(pilote);
 		this.em.getTransaction().commit();
+		this.em.clear();
 	}
 	
 	/**
