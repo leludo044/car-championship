@@ -17,6 +17,18 @@ controllers.controller('PiloteCtrl', [ '$scope', '$routeParams', 'Pilotes',
 				$scope.selection = true;
 				$scope.message = "";
 				$scope.index = index;
+				Pilotes.acouru({id:$scope.formPilote.id}, function(response) {
+					if (response.code == 1) {
+						$scope.formPilote.supprimable = false ;
+					} else {
+						$scope.formPilote.supprimable = true ;
+					}
+				}) ;
+				/*
+				if ($scope.formPilote.supprimable) {
+					alert(toto) ;
+				}
+				*/
 			}
 
 			$scope.ajouter = function() {

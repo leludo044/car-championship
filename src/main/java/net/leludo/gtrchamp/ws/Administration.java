@@ -188,4 +188,13 @@ public class Administration {
 		return response;
 	}
 
+	@GET
+	@Path("/{id}/acouru")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response  aCouru(@PathParam("id") Integer id) {
+		init() ;
+		
+		boolean aCouru = dao.aCouru(id);
+		return Response.ok().entity(new WsReturn(aCouru?1:0, "")).build();
+	}
 }

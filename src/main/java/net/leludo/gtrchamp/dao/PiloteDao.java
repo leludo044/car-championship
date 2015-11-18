@@ -3,6 +3,7 @@ package net.leludo.gtrchamp.dao;
 import java.util.List;
 
 import javax.inject.Singleton;
+import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Pilote;
 
@@ -60,5 +61,19 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 		this.em.remove(pilote);
 		this.em.getTransaction().commit();
 	}
-
+	
+	/**
+	 * Indique si un pilote à déjà participé à au moins un grnd prix
+	 * @param piloteId L'ID du pilote concerné
+	 * @return true ou false
+	 */
+	public boolean aCouru(int piloteId) {
+		this.em.getTransaction().begin();
+		Query query = this.em.createQuery("select count(*) from Concurrent where pilote.id=:id");
+		query.setParameter("id", piloteId);
+		Long nbCourses = (Long) query.getSingleResult();
+		this.em.getTransaction().commit();
+		
+		return nbCourses > 0 ;
+	}
 }
