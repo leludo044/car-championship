@@ -1,36 +1,62 @@
 package net.leludo.gtrchamp;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import net.leludo.gtrchamp.dao.converter.LocalDateConverter;
 
 @Entity
-@Table(name="pilotes")
+@Table(name = "pilotes")
 public class Pilote {
 	@Id
-    private int id;
+	@GeneratedValue
+	private int id;
 
-    private String nom;
+	private String nom;
 
-    @Transient
-    private Date dateNaissance;
+	@Convert(converter = LocalDateConverter.class)
+	private LocalDate dateNaissance;
 
-    public Pilote() {
-    	this.nom ="" ;
-    	this.dateNaissance = null;
-    }
+	public Pilote() {
+		this.nom = "";
+		this.dateNaissance = null;
+	}
+
+	public Pilote(final String name, final LocalDate date) {
+		this.nom = name;
+		this.dateNaissance = date;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public int getId() {
 		return id;
 	}
+
 	public String getNom() {
 		return nom;
 	}
+
+	public void setPrenom(final String prenom) {
+		this.nom = prenom;
+	}
+
+	public String getDateNaissance() {
+		return dateNaissance.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	}
+	
+	public void setDateNaissance(LocalDate date) {
+		this.dateNaissance = date ;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,6 +78,7 @@ public class Pilote {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
