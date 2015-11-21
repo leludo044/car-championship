@@ -69,8 +69,7 @@ public class Administration {
 	 * @param prenom
 	 *            Le prénom du pilote à ajouter. Ne doit pas être null.
 	 * @param dateNaissance
-	 *            La date de naissance du pilote à ajouter. Ne doit pas être
-	 *            null.
+	 *            La date de naissance du pilote à ajouter.
 	 * @return HTTP 200 si la création du pilote est un succès, HTTP 406 (not
 	 *         acceptable) si un des paramètre attendu est incorrect.
 	 */
@@ -90,11 +89,11 @@ public class Administration {
 			response = Response.status(Status.NOT_ACCEPTABLE).entity(
 					new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Le prénom du pilote doit être renseigné !"))
 					.build();
-		} else if (dateNaissance == null) {
-			response = Response.status(Status.NOT_ACCEPTABLE).entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-					"La date de naissance du pilote doit être renseignée !")).build();
 		} else {
-			LocalDate date = LocalDate.parse(dateNaissance, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			LocalDate date = null;
+			if (dateNaissance != null && !dateNaissance.equals("")) {
+				date = LocalDate.parse(dateNaissance, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			}
 			Pilote pilote = new Pilote(prenom, date);
 			dao.create(pilote);
 			response = Response.ok(new WsReturn(pilote.getId(), "Pilote " + pilote.getNom() + " ajouté !")).build();
