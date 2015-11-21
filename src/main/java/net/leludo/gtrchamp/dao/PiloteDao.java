@@ -66,8 +66,8 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 	}
 	
 	/**
-	 * Indique si un pilote ‡ dÈj‡ participÈ ‡ au moins un grnd prix
-	 * @param piloteId L'ID du pilote concernÈ
+	 * Indique si un pilote √† d√©j√† particip√© au moins un grand prix
+	 * @param piloteId L'ID du pilote concern√©
 	 * @return true ou false
 	 */
 	public boolean aCouru(int piloteId) {

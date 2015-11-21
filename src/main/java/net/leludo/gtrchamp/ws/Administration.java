@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
-import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -126,7 +124,7 @@ public class Administration {
 		init();
 
 		Response response;
-		
+
 		String prenom = params.getNom();
 		String dateNaissance = params.getDateNaissance();
 
@@ -148,8 +146,8 @@ public class Administration {
 						.ok(new WsReturn(Status.OK.getStatusCode(), "Pilote " + pilote.getNom() + " modifié !"))
 						.build();
 			} else {
-				response = Response.status(Status.NOT_FOUND)
-						.entity(new WsReturn(Status.NOT_FOUND.getStatusCode(), "Pilote #" + params.getId() + " introuvable !"))
+				response = Response.status(Status.NOT_FOUND).entity(
+						new WsReturn(Status.NOT_FOUND.getStatusCode(), "Pilote #" + params.getId() + " introuvable !"))
 						.build();
 			}
 		}
@@ -188,13 +186,21 @@ public class Administration {
 		return response;
 	}
 
+	/**
+	 * Indique si un pilote à déjà couru au moins un grnd prix
+	 * 
+	 * @param id
+	 *            L'ID du pilote concerné
+	 * @return {code:1,message:""} s'il a couru ou {code:0,message:""} s'il n'
+	 *         pas couru
+	 */
 	@GET
 	@Path("/{id}/acouru")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response  aCouru(@PathParam("id") Integer id) {
-		init() ;
-		
+	public Response aCouru(@PathParam("id") Integer id) {
+		init();
+
 		boolean aCouru = dao.aCouru(id);
-		return Response.ok().entity(new WsReturn(aCouru?1:0, "")).build();
+		return Response.ok().entity(new WsReturn(aCouru ? 1 : 0, "")).build();
 	}
 }
