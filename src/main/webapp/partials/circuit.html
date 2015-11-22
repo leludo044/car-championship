@@ -34,9 +34,12 @@
 									placeholder="nom" ng-model="formCircuit.nom"></td>
 								<td><input type="text" class="form-control" id="longueur"
 									placeholder="Longueur" ng-model="formCircuit.longueur"></td>
-								<td><select class="form-control" ng-model="formCircuit.idPays">
-										<option>1</option>
+								<td><select class="form-control"
+									ng-model="formCircuit.indexPays">
+										<option value="-1"></option>
+										<option ng-repeat="aPays in pays" value="{{$index}}">{{aPays.nom}}</option>
 								</select></td>
+
 								<td>
 									<button type="submit" class="btn btn-default"
 										ng-click="ajouter()" ng-hide="selection">
