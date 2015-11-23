@@ -17,7 +17,7 @@ public class Circuit {
 	private String nom;
 
 	// FIXME Positionner la longueur sur un float
-	private String longueur;
+	private Float longueur;
 
 	@OneToOne
 	@JoinColumn(name = "idPays", nullable = false)
@@ -25,11 +25,11 @@ public class Circuit {
 
 	public Circuit() {
 		this.nom = "";
-		this.longueur = "0";
+		this.longueur = 0f;
 		this.pays = null;
 	}
 
-	public Circuit(String nom, String longueur, Pays pays) {
+	public Circuit(String nom, Float longueur, Pays pays) {
 		this.nom = nom;
 		this.longueur = longueur;
 		this.pays = pays;
@@ -52,20 +52,22 @@ public class Circuit {
 	}
 
 	/**
-	 * @param nom the nom to set
+	 * @param nom
+	 *            the nom to set
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-	public String getLongueur() {
+	public Float getLongueur() {
 		return longueur;
 	}
 
 	/**
-	 * @param longueur the longueur to set
+	 * @param longueur
+	 *            the longueur to set
 	 */
-	public void setLongueur(String longueur) {
+	public void setLongueur(Float longueur) {
 		this.longueur = longueur;
 	}
 
@@ -74,7 +76,8 @@ public class Circuit {
 	}
 
 	/**
-	 * @param pays the pays to set
+	 * @param pays
+	 *            the pays to set
 	 */
 	public void setPays(Pays pays) {
 		this.pays = pays;

@@ -3,7 +3,7 @@ package net.leludo.gtrchamp.ws;
 public class CircuitParams {
 	private Integer id;
 	private String nom;
-	private String longueur;
+	private Float longueur;
 	private String idPays;
 
 	/**
@@ -39,7 +39,7 @@ public class CircuitParams {
 	/**
 	 * @return the longueur
 	 */
-	public String getLongueur() {
+	public Float getLongueur() {
 		return longueur;
 	}
 
@@ -47,7 +47,7 @@ public class CircuitParams {
 	 * @param longueur
 	 *            the longueur to set
 	 */
-	public void setLongueur(String longueur) {
+	public void setLongueur(Float longueur) {
 		this.longueur = longueur;
 	}
 

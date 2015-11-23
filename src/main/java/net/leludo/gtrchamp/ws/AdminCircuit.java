@@ -120,7 +120,7 @@ public class AdminCircuit {
 
 		if (nom == null || nom.equals("")) {
 			message = "Le nom du circuit doit être renseigné !";
-		} else if (StringUtils.isEmpty(params.getLongueur())) {
+		} else if (params.getLongueur() == null) {
 			message = "La longueur du circuit doit être renseignée !";
 		} else if (idPays == null || idPays.equals("")) {
 			message = "Le pays doit être renseigné !";

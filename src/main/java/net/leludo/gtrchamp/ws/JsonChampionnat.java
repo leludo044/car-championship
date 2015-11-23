@@ -144,7 +144,7 @@ public class JsonChampionnat {
 					g.writeStartObject();
 					g.writeNumberField("id", gp.getId());
 					g.writeStringField("nom", gp.getCircuit().getNom());
-					g.writeStringField("longueur", gp.getCircuit()
+					g.writeNumberField("longueur", gp.getCircuit()
 							.getLongueur());
 					g.writeStringField("date", gp.getDateFr());
 					g.writeStringField("pays", gp.getCircuit().getPays()
