@@ -42,13 +42,15 @@ controllers.controller('CircuitCtrl', [ '$scope', '$routeParams', 'Circuits',
 			}
 
 			$scope.ajouter = function() {
+				var selectedPays = $scope.pays[$scope.formCircuit.indexPays];
 				var circuit = new Circuits();
 				circuit.nom = $scope.formCircuit.nom;
 				circuit.longueur = $scope.formCircuit.longueur;
-				circuit.idPays = $scope.formCircuit.idPays;
+				circuit.idPays = selectedPays.id;
 				Circuits.save(circuit, function(response) {
 					$scope.message = response.message;
 					circuit.id = response.code;
+					circuit.pays = selectedPays;
 					$scope.circuits.push(circuit);
 				});
 				initForm();
