@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Représente un pays
+ * ReprÃ©sente un pays
  */
 @Entity
 @Table(name = "pays")

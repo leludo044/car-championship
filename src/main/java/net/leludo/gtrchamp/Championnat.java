@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Représente un championnat
+ * ReprÃ©sente un championnat
  */
 @Entity
 @Table(name = "championnats")
@@ -24,10 +24,10 @@ public class Championnat {
 	private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
 
 	/**
-	 * Constructeur. La liste des grands prix est vide par défaut.
+	 * Constructeur. La liste des grands prix est vide par dÃ©faut.
 	 * 
 	 * @param pLibelle
-	 *            Le libellé du championnat créer
+	 *            Le libellÃ© du championnat crÃ©er
 	 */
 	public Championnat(final String pLibelle) {
 		this.libelle = pLibelle;
@@ -40,9 +40,9 @@ public class Championnat {
 	}
 
 	/**
-	 * Retourne le libellé du championnat
+	 * Retourne le libellÃ© du championnat
 	 * 
-	 * @return Le libellé du championnat
+	 * @return Le libellÃ© du championnat
 	 */
 	public String getLibelle() {
 		return this.libelle;
@@ -72,7 +72,7 @@ public class Championnat {
 	}
 
 	/*
-	 * Fonctionnalité DDD
+	 * FonctionnalitÃ© DDD
 	 */
 
 	public GrandPrix organiserGrandPrix(final net.leludo.gtrchamp.Circuit circuit, final Date date) {

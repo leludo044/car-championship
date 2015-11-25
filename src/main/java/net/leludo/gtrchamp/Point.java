@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Représente une valeur de point ne fonction d'une position finale sur un grand
+ * ReprÃ©sente une valeur de point ne fonction d'une position finale sur un grand
  * prix
  */
 @Entity

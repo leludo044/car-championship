@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * Représente un grand prix : un circuit couru à une certaine date
+ * ReprÃ©sente un grand prix : un circuit couru Ã  une certaine date
  */
 @Entity
 @Table(name = "grandsprix")
@@ -38,7 +38,7 @@ public class GrandPrix {
 	private Championnat championnat;
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par dÃ©faut
 	 */
 	public GrandPrix() {
 	}
@@ -47,7 +47,7 @@ public class GrandPrix {
 	 * Constructeur
 	 * 
 	 * @param circuit
-	 *            Le circuit concerné
+	 *            Le circuit concernÃ©
 	 * @param date
 	 *            La date de la course
 	 */
@@ -66,9 +66,9 @@ public class GrandPrix {
 	}
 
 	/**
-	 * Retourne le circuit concerné
+	 * Retourne le circuit concernÃ©
 	 * 
-	 * @return Le circuit concerné
+	 * @return Le circuit concernÃ©
 	 */
 	public Circuit getCircuit() {
 		return this.circuit;
@@ -94,7 +94,7 @@ public class GrandPrix {
 	}
 
 	/*
-	 * Fonctionnalités DDD
+	 * FonctionnalitÃ©s DDD
 	 */
 
 	public Concurrent inscrire(final Pilote pilote) throws ChampionnatException {

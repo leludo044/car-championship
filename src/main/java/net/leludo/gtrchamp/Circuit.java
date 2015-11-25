@@ -7,7 +7,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * Représente un circuit
+ * ReprÃ©sente un circuit
  *
  */
 @Entity

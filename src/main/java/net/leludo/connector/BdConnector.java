@@ -29,8 +29,8 @@ public class BdConnector {
 	 * Constructeur
 	 * 
 	 * @param dbUri
-	 *            L'URI à partir de laquelle le connecteur va extraire les
-	 *            données de connexion
+	 *            L'URI Ã  partir de laquelle le connecteur va extraire les
+	 *            donnÃ©es de connexion
 	 */
 	public BdConnector(URI dbUri) {
 

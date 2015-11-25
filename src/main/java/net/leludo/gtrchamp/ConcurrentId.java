@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- * Clé primaire identifiant un concurrent
+ * ClÃ© primaire identifiant un concurrent
  * 
  * @see Concurrent
  */
@@ -23,9 +23,9 @@ public class ConcurrentId implements Serializable {
 	int numCourse;
 
 	/**
-	 * Retourne le n° de course de la clé
+	 * Retourne le nÂ° de course de la clÃ©
 	 * 
-	 * @return le n° de cours de la clé
+	 * @return le nÂ° de cours de la clÃ©
 	 */
 	public int getNumCourse() {
 		return numCourse;

@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * Représente la participation d'un pilote à un grand prix
+ * ReprÃ©sente la participation d'un pilote Ã  un grand prix
  */
 @Entity
 @Table(name = "resultats")
@@ -39,7 +39,7 @@ public class Concurrent {
 	private Point points;
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par dÃ©faut
 	 */
 	public Concurrent() {
 		super();
@@ -59,7 +59,7 @@ public class Concurrent {
 	}
 
 	/**
-	 * Indique si le pilote s'est positionné en pole position
+	 * Indique si le pilote s'est positionnÃ© en pole position
 	 * 
 	 * @return true ou false
 	 */
@@ -68,7 +68,7 @@ public class Concurrent {
 	}
 
 	/**
-	 * Indique si un pilote à terminé premier
+	 * Indique si un pilote Ã  terminÃ© premier
 	 * 
 	 * @return true ou false
 	 */
@@ -77,31 +77,31 @@ public class Concurrent {
 	}
 
 	/**
-	 * Fixe le pilote concerné
+	 * Fixe le pilote concernÃ©
 	 * 
 	 * @param pilote
-	 *            Le nouveau pilote concerné
+	 *            Le nouveau pilote concernÃ©
 	 */
 	public void setPilote(Pilote pilote) {
 		this.pilote = pilote;
 	}
 
 	/**
-	 * Retourne le pilote concerné
+	 * Retourne le pilote concernÃ©
 	 * 
-	 * @return Le pilote concerné
+	 * @return Le pilote concernÃ©
 	 */
 	public Pilote getPilote() {
 		return pilote;
 	}
 
 	/**
-	 * Fixe la position de départ du pilote
+	 * Fixe la position de dÃ©part du pilote
 	 * 
 	 * @param positionDepart
-	 *            La position de départ
+	 *            La position de dÃ©part
 	 * @throws ChampionnatException
-	 *             Exception levée si la position de départ n'est pas > 0
+	 *             Exception levÃ©e si la position de dÃ©part n'est pas > 0
 	 */
 	public void setPositionDepart(int positionDepart) throws ChampionnatException {
 		if (positionDepart > 0) {
@@ -112,12 +112,12 @@ public class Concurrent {
 	}
 
 	/**
-	 * Fixe la position d'arrivée du pilote
+	 * Fixe la position d'arrivÃ©e du pilote
 	 * 
 	 * @param positionArrivee
-	 *            La position d'arrivée
+	 *            La position d'arrivÃ©e
 	 * @throws ChampionnatException
-	 *             Exception levée si la position d'arrivée n'est pas > 0
+	 *             Exception levÃ©e si la position d'arrivÃ©e n'est pas > 0
 	 */
 	public void setPositionArrivee(int positionArrivee) throws ChampionnatException {
 		if (positionArrivee > 0) {
@@ -128,44 +128,44 @@ public class Concurrent {
 	}
 
 	/**
-	 * Retourne la position de départ du pilote
+	 * Retourne la position de dÃ©part du pilote
 	 * 
-	 * @return La position de départ du pilote
+	 * @return La position de dÃ©part du pilote
 	 */
 	public int getPositionDepart() {
 		return positionDepart;
 	}
 
 	/**
-	 * Retourne la position d'arrivée du pilote
+	 * Retourne la position d'arrivÃ©e du pilote
 	 * 
-	 * @return La position d'arrivée du pilote
+	 * @return La position d'arrivÃ©e du pilote
 	 */
 	public int getPositionArrivee() {
 		return positionArrivee;
 	}
 
 	/**
-	 * Retourne le n° de course. Cas ou un grand prix est couru sur plusieurs
+	 * Retourne le nÂ° de course. Cas ou un grand prix est couru sur plusieurs
 	 * courses
 	 * 
-	 * @return Le n° de course
+	 * @return Le nÂ° de course
 	 */
 	public int getNumeroCourse() {
 		return this.id.getNumCourse();
 	}
 
 	/**
-	 * Retourne le nombre de points marqués par le pilote
+	 * Retourne le nombre de points marquÃ©s par le pilote
 	 * 
-	 * @return Le nombre de points marqués par le pilote
+	 * @return Le nombre de points marquÃ©s par le pilote
 	 */
 	public Point getPoints() {
 		return points;
 	}
 
 	/**
-	 * Indique si un pilote à terminé le grand prix
+	 * Indique si un pilote Ã  terminÃ© le grand prix
 	 * 
 	 * @return true ou false
 	 */

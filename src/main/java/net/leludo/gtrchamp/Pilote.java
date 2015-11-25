@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * Représente un pilote
+ * ReprÃ©sente un pilote
  */
 @Entity
 @Table(name = "pilotes")
