@@ -5,26 +5,41 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BdConnector
-{
+/**
+ * Connecteur SGBD
+ */
+public class BdConnector {
+
+	/** Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(ServletListener.class);
 
-    private String driverClass;
-    private String url;
-    private String username;
-    private String password;
+	/** Driver */
+	private String driverClass;
 
-    
-    public BdConnector() {
-	}
+	/** URL de connexion au SGBD */
+	private String url;
 
-    public BdConnector(URI dbUri) {
-		
-		username = dbUri.getUserInfo().split(":")[0] ;
-		password = dbUri.getUserInfo().split(":")[1] ;
-		
-		url = "jdbc:"+dbUri.getScheme()+"://"+dbUri.getHost()+(dbUri.getPort()==-1?"":":"+dbUri.getPort())+dbUri.getPath()+"?"+dbUri.getQuery();
-		
+	/** Login de connexion au SGBD */
+	private String username;
+
+	/** Mot de passe de connexion au SGBD */
+	private String password;
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param dbUri
+	 *            L'URI à partir de laquelle le connecteur va extraire les
+	 *            données de connexion
+	 */
+	public BdConnector(URI dbUri) {
+
+		username = dbUri.getUserInfo().split(":")[0];
+		password = dbUri.getUserInfo().split(":")[1];
+
+		url = "jdbc:" + dbUri.getScheme() + "://" + dbUri.getHost()
+				+ (dbUri.getPort() == -1 ? "" : ":" + dbUri.getPort()) + dbUri.getPath() + "?" + dbUri.getQuery();
+
 		LOG.debug(dbUri.toString());
 		LOG.debug(dbUri.getUserInfo());
 		LOG.debug(url);
@@ -32,70 +47,38 @@ public class BdConnector
 	}
 
 	/**
-     * @return the driverClass
-     */
-    public String getDriverClass()
-    {
-        return driverClass;
-    }
+	 * Retourne le driver SGBD
+	 * 
+	 * @return Le driver SGBD
+	 */
+	public String getDriverClass() {
+		return driverClass;
+	}
 
-    /**
-     * @param driverClass
-     *            the driverClass to set
-     */
-    public void setDriverClass(String driverClass)
-    {
-        this.driverClass = driverClass;
-    }
+	/**
+	 * Retourne l'URL de connexion au SGBD
+	 * 
+	 * @return L'URL de connexion au SGBD
+	 */
+	public String getUrl() {
+		return url;
+	}
 
-    /**
-     * @return the url
-     */
-    public String getUrl()
-    {
-        return url;
-    }
+	/**
+	 * Retourne le login de connexion au SGBD
+	 * 
+	 * @return Le login de connexion au SGBD
+	 */
+	public String getUsername() {
+		return username;
+	}
 
-    /**
-     * @param url
-     *            the url to set
-     */
-    public void setUrl(String url)
-    {
-        this.url = url;
-    }
-
-    /**
-     * @return the username
-     */
-    public String getUsername()
-    {
-        return username;
-    }
-
-    /**
-     * @param username
-     *            the username to set
-     */
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword()
-    {
-        return password;
-    }
-
-    /**
-     * @param password
-     *            the password to set
-     */
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
+	/**
+	 * Retourne le mot de passe de connexion au SGBD
+	 * 
+	 * @return Le mot de passe de connexion au SGBD
+	 */
+	public String getPassword() {
+		return password;
+	}
 }

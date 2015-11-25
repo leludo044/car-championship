@@ -7,30 +7,54 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * Représente un pilote
+ */
 @Entity
-@Table(name="pilotes")
+@Table(name = "pilotes")
 public class Pilote {
 	@Id
-    private int id;
+	private int id;
+	private String nom;
 
-    private String nom;
+	@Transient
+	private Date dateNaissance;
 
-    @Transient
-    private Date dateNaissance;
-
-    public Pilote() {
-    	this.nom ="" ;
-    	this.dateNaissance = null;
-    }
-	public void setId(int id) {
-		this.id = id;
+	/**
+	 * Constructeur. Le nom est vide et la date de naissance est nulle.
+	 */
+	public Pilote() {
+		this.nom = "";
+		this.dateNaissance = null;
 	}
+
+	/**
+	 * Retourne l'ID du pilote
+	 * 
+	 * @return L'ID du pilote
+	 */
 	public int getId() {
 		return id;
 	}
+
+	/**
+	 * Fixe l'ID du pilote
+	 * 
+	 * @param id
+	 *            Le nouvel ID du pilote
+	 */
+	public void setId(int id) {
+	}
+
+	/**
+	 * Retourne le nom du pilote
+	 * 
+	 * @return Le nom du pilote
+	 */
 	public String getNom() {
 		return nom;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,6 +76,7 @@ public class Pilote {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

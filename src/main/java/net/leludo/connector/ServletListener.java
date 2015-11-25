@@ -23,11 +23,11 @@ public class ServletListener implements ServletContextListener {
 	/** Nom de la variable d'environnement portant l'URL de connexion au SGBD */
 	private static final String DATABASE_URL = "CLEARDB_DATABASE_URL";
 
-	EntityManager entityManager;
+	/** JPA */
+	private EntityManager entityManager;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -62,5 +62,4 @@ public class ServletListener implements ServletContextListener {
 			LOG.error("Variable " + DATABASE_URL + " malformée ! Connexion au SGBD impossible");
 		}
 	}
-
 }

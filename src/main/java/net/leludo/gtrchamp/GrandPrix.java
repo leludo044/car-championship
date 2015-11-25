@@ -15,15 +15,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * Représente un grand prix : un circuit couru à une certaine date
+ */
 @Entity
 @Table(name = "grandsprix")
 public class GrandPrix {
-
 	@Id
 	private int id;
-
 	private Date date;
-
 	private boolean mode2Courses;
 
 	@Transient
@@ -36,6 +36,66 @@ public class GrandPrix {
 	@ManyToOne
 	@JoinColumn(name = "idChampionnat", nullable = false)
 	private Championnat championnat;
+
+	/**
+	 * Constructeur par défaut
+	 */
+	public GrandPrix() {
+	}
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param circuit
+	 *            Le circuit concerné
+	 * @param date
+	 *            La date de la course
+	 */
+	public GrandPrix(final Circuit circuit, final Date date) {
+		this.circuit = circuit;
+		this.date = date;
+	}
+
+	/**
+	 * Retourne l'ID du grand prix
+	 * 
+	 * @return L'ID du grand prix
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Retourne le circuit concerné
+	 * 
+	 * @return Le circuit concerné
+	 */
+	public Circuit getCircuit() {
+		return this.circuit;
+	}
+
+	/**
+	 * Retourne la date de course du grand prix
+	 * 
+	 * @return La date de course du grand prix
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * Retourne la date de course du grand prix au format jj/mm/aaaa
+	 * 
+	 * @return La date de course du grand prix jj/mm/aaaa
+	 */
+	public String getDateFr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(this.date);
+	}
+
+	/*
+	 * Fonctionnalités DDD
+	 */
 
 	public Concurrent inscrire(final Pilote pilote) throws ChampionnatException {
 		if (pilote == null) {
@@ -69,23 +129,6 @@ public class GrandPrix {
 		return concurrents;
 	}
 
-	public GrandPrix(final Circuit circuit, final Date date) {
-		this.circuit = circuit;
-		this.date = date;
-	}
-
-	public GrandPrix() {
-
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public Circuit getCircuit() {
-		return this.circuit;
-	}
-
 	public Object getNbInscrits() {
 		return this.concurrents.size();
 	}
@@ -100,18 +143,7 @@ public class GrandPrix {
 
 	@Override
 	public String toString() {
-		return "GrandPrix [id=" + id + ", date=" + date + ", mode2Courses="
-				+ mode2Courses + ", concurrents=" + concurrents + ", circuit="
-				+ circuit + "]";
+		return "GrandPrix [id=" + id + ", date=" + date + ", mode2Courses=" + mode2Courses + ", concurrents="
+				+ concurrents + ", circuit=" + circuit + "]";
 	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public String getDateFr() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return sdf.format(this.date);
-	}
-
 }

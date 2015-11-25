@@ -5,21 +5,28 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * Clé primaire identifiant un concurrent
+ * 
+ * @see Concurrent
+ */
 @Embeddable
 public class ConcurrentId implements Serializable {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -4792327019267435193L;
 
-	@Column(name="idPilote")
-	int idPilote ;
-	@Column(name="idGrandPrix")
-	int idGrandPrix ;
-	@Column(name="numCourse")
-	int numCourse ;
-	
+	@Column(name = "idPilote")
+	int idPilote;
+	@Column(name = "idGrandPrix")
+	int idGrandPrix;
+	@Column(name = "numCourse")
+	int numCourse;
+
+	/**
+	 * Retourne le n° de course de la clé
+	 * 
+	 * @return le n° de cours de la clé
+	 */
 	public int getNumCourse() {
 		return numCourse;
 	}
@@ -51,6 +58,4 @@ public class ConcurrentId implements Serializable {
 			return false;
 		return true;
 	}
-
-
 }
