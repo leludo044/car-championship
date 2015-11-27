@@ -14,43 +14,47 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+
 import net.leludo.gtrchamp.Championnat;
 import net.leludo.gtrchamp.Concurrent;
 import net.leludo.gtrchamp.GrandPrix;
 import net.leludo.gtrchamp.Pilote;
 import net.leludo.gtrchamp.dao.ChampionnatDao;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-
 /**
  * Classe de service concernant les championnats. Permet de lister tous les
  * championnats ou de récupérer un championnat en particulier via son ID
  * 
- * - /championnat/list
- * - /championnat/:idChp
- * - /championnat/:idChp/grandprix/list
- * - /championnat/:idChp/classement
- * - /grandprix/:idGrandPrix
- * - /grandprix/:idGrandPrix/resultat/list
+ * - /championnat/list - /championnat/:idChp -
+ * /championnat/:idChp/grandprix/list - /championnat/:idChp/classement -
+ * /grandprix/:idGrandPrix - /grandprix/:idGrandPrix/resultat/list
  */
 @Path("json")
 public class JsonChampionnat {
 
 	@Context
-	ServletContext servletContext;
-	
-	private HttpServletResponse servletResponse ;
+	private ServletContext servletContext;
 
-	EntityManagerFactory emf;
-	ChampionnatDao dao = new ChampionnatDao();
+	private HttpServletResponse servletResponse;
 
+	private EntityManagerFactory emf;
+	private ChampionnatDao dao = new ChampionnatDao();
+
+	/**
+	 * Initialisation. Récupère le contexte JPA et l'injecte dans le DAO.
+	 */
 	public void init() {
-		emf = (EntityManagerFactory) servletContext
-				.getAttribute(EntityManagerFactory.class.getName());
+		emf = (EntityManagerFactory) servletContext.getAttribute(EntityManagerFactory.class.getName());
 		dao.setEntityManager(emf);
 	}
 
+	/**
+	 * Retourne la liste des championnats
+	 * 
+	 * @return La liste des championnats
+	 */
 	@GET
 	@Path("/list")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -61,6 +65,13 @@ public class JsonChampionnat {
 		return chps.toString();
 	}
 
+	/**
+	 * Retourne un championnat au format texte en fonction de son id
+	 * 
+	 * @param id
+	 *            L'id du championnat à rechercher
+	 * @return Le championnat au format texte
+	 */
 	@GET
 	@Path("/get/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -76,9 +87,11 @@ public class JsonChampionnat {
 	}
 
 	/**
-	 * Obtention des données de base d'un championnat
-	 * @param id L'id du championnat concerné
-	 * @return Les données de base du championnat
+	 * Retourne un championnat au format JSON en fonction de son id
+	 * 
+	 * @param id
+	 *            L'id du championnat à rechercher
+	 * @return Le championnat au format JSO
 	 */
 	@GET
 	@Path("/championnat/{id}")
@@ -97,10 +110,10 @@ public class JsonChampionnat {
 			try {
 				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartObject();
-				//g.writeObjectFieldStart("championnat");
+				// g.writeObjectFieldStart("championnat");
 				g.writeNumberField("id", chp.getId());
 				g.writeStringField("libelle", chp.getLibelle());
-				//g.writeEndObject(); // for field 'name'
+				// g.writeEndObject(); // for field 'name'
 				// 9 g.writeStringField("gender", Gender.MALE);
 				// 10 g.writeBooleanField("verified", false);
 				// 11 g.writeFieldName("userImage"); // no 'writeBinaryField'
@@ -118,9 +131,11 @@ public class JsonChampionnat {
 	}
 
 	/**
-	 * Obtention de la liste des grands prix prévus pour un championnat
-	 * @param idChp L'id du championnat concerné
-	 * @returnLa liste des grands prix du championnat
+	 * Obtention de la liste des grands prix au format JSON prévus pour un championnat
+	 * 
+	 * @param idChp
+	 *            L'id du championnat concerné
+	 * @return La liste des grands prix du championnat au format JSON
 	 */
 	@GET
 	@Path("/championnat/{idChp}/grandprix/list")
@@ -139,19 +154,17 @@ public class JsonChampionnat {
 			try {
 				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartArray();
-				//g.writeArrayFieldStart("grandsprix");
+				// g.writeArrayFieldStart("grandsprix");
 				for (GrandPrix gp : chp.getGrandsPrix()) {
 					g.writeStartObject();
 					g.writeNumberField("id", gp.getId());
 					g.writeStringField("nom", gp.getCircuit().getNom());
-					g.writeStringField("longueur", gp.getCircuit()
-							.getLongueur());
+					g.writeStringField("longueur", gp.getCircuit().getLongueur());
 					g.writeStringField("date", gp.getDateFr());
-					g.writeStringField("pays", gp.getCircuit().getPays()
-							.getNom());
+					g.writeStringField("pays", gp.getCircuit().getPays().getNom());
 					g.writeEndObject();
 				}
-				//g.writeEndArray();
+				// g.writeEndArray();
 				g.writeEndArray();
 				g.close();
 			} catch (IOException e) {
@@ -164,8 +177,9 @@ public class JsonChampionnat {
 	}
 
 	/**
-	 * Obtention de la liste des championnats
-	 * @return La liste des championnats
+	 * Obtention de la liste des championnats au format JSON
+	 * 
+	 * @return La liste des championnats au format JSON
 	 */
 	@GET
 	@Path("/championnat/list")
@@ -201,9 +215,11 @@ public class JsonChampionnat {
 	}
 
 	/**
-	 * Obtention des résultats d'un grand prix
-	 * @param idGp L'id du grand prix concerné
-	 * @return Les résultats du grand prix
+	 * Obtention des résultats d'un grand prix au format JSON
+	 * 
+	 * @param idGp
+	 *            L'id du grand prix concerné
+	 * @return Les résultats du grand prix au format JSON
 	 */
 	@GET
 	@Path("/grandprix/{idGp}/resultat/list")
@@ -229,7 +245,7 @@ public class JsonChampionnat {
 					g.writeNumberField("depart", concurrent.getPositionDepart());
 					g.writeNumberField("arrivee", concurrent.getPositionArrivee());
 					g.writeNumberField("numCourse", concurrent.getNumeroCourse());
-					g.writeBooleanField("pole", concurrent.getPositionDepart()==1);
+					g.writeBooleanField("pole", concurrent.getPositionDepart() == 1);
 					g.writeNumberField("points", concurrent.getPoints().getPoints());
 					g.writeEndObject();
 				}
@@ -242,11 +258,13 @@ public class JsonChampionnat {
 			return sw.toString();
 		}
 	}
-	
+
 	/**
-	 * Obtention du classement général d'un championnat
-	 * @param idChp L'id du championnat concerné
-	 * @return Le classement général du championnat
+	 * Obtention du classement général d'un championnat au format JSON
+	 * 
+	 * @param idChp
+	 *            L'id du championnat concerné
+	 * @return Le classement général du championnat au format JSON
 	 */
 	@GET
 	@Path("/championnat/{idChp}/classement")
@@ -265,12 +283,12 @@ public class JsonChampionnat {
 			try {
 				JsonGenerator g = jsonFactory.createGenerator(sw);
 				g.writeStartArray();
-				int rang = 1 ;
+				int rang = 1;
 				for (Object[] pilote : classement) {
 					g.writeStartObject();
 					g.writeNumberField("rang", rang++);
-					g.writeStringField("nom", ((Pilote)pilote[0]).getNom());
-					g.writeNumberField("points", (Long)pilote[1]);
+					g.writeStringField("nom", ((Pilote) pilote[0]).getNom());
+					g.writeNumberField("points", (Long) pilote[1]);
 					g.writeEndObject();
 				}
 				g.writeEndArray();
@@ -283,14 +301,14 @@ public class JsonChampionnat {
 		}
 	}
 
-	
 	/**
 	 * Fixe la réponse et y place les headers par défaut
+	 * 
 	 * @param pServletResponse
 	 */
 	@Context
 	public void setHttpServletResponse(HttpServletResponse pServletResponse) {
-		this.servletResponse = pServletResponse ;
+		this.servletResponse = pServletResponse;
 		this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 	}
 }

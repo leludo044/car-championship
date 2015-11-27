@@ -22,19 +22,22 @@ import net.leludo.gtrchamp.stat.Stat;
 public class Stats {
 
 	@Context
-	ServletContext servletContext;
-	
-	EntityManagerFactory emf;
-	StatDao dao = new StatDao();
+	private ServletContext servletContext;
 
+	private EntityManagerFactory emf;
+	private StatDao dao = new StatDao();
+
+	/**
+	 * Initialisation. Récupère le contexte JPA et l'injecte dans le DAO.
+	 */
 	public void init() {
-		emf = (EntityManagerFactory) servletContext
-				.getAttribute(EntityManagerFactory.class.getName());
+		emf = (EntityManagerFactory) servletContext.getAttribute(EntityManagerFactory.class.getName());
 		dao.setEntityManager(emf);
 	}
 
 	/**
 	 * Retourne les pilotes et leur nombre de victoires en grand prix
+	 * 
 	 * @return Les pilotes et leur nombre de victoires en grand prix
 	 */
 	@GET
@@ -49,6 +52,7 @@ public class Stats {
 
 	/**
 	 * Retourne les pilotes et leur nombre de poles position en grand prix
+	 * 
 	 * @return Les pilotes et leur nombre de poles position en grand prix
 	 */
 	@GET
@@ -63,6 +67,7 @@ public class Stats {
 
 	/**
 	 * Retourne les pilotes et leur nombre de poles position en grand prix
+	 * 
 	 * @return Les pilotes et leur nombre de poles position en grand prix
 	 */
 	@GET
