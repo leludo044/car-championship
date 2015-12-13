@@ -1,7 +1,7 @@
 var championnatServices = angular.module('championnatServices',
 		[ 'ngResource' ]);
 championnatServices.factory('Championnats', [ '$resource', function($resource) {
-	return $resource('./ws/json/championnat/:chpId/:type', {}, {
+	return $resource('./ws/json/championnat/:chpId/:type', {chpId : '@id'}, {
 		query : {
 			method : 'GET',
 			params : {
@@ -23,6 +23,13 @@ championnatServices.factory('Championnats', [ '$resource', function($resource) {
 			},
 			isArray : true
 
-		}
+		},
+		estcommence: {
+	    	  method: 'GET',
+	    	  params: {type:'estcommence'}
+	      },
+	      update: {
+		        method: 'PUT' // this method issues a PUT request
+		      },
 	});
 } ]);

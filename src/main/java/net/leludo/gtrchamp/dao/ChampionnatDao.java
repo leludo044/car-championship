@@ -3,9 +3,12 @@ package net.leludo.gtrchamp.dao;
 import java.util.List;
 
 import javax.inject.Singleton;
+import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Championnat;
+import net.leludo.gtrchamp.Circuit;
 import net.leludo.gtrchamp.Concurrent;
+import net.leludo.gtrchamp.Pilote;
 
 @Singleton
 public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
@@ -36,4 +39,60 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 		return toto ;
 	}
 	
+	/**
+	 * Crée un championnat en base
+	 * 
+	 * @param championnat
+	 *            Le championnat à sauvegarder
+	 */
+	public void create(Championnat championnat) {
+		this.em.getTransaction().begin();
+		this.em.persist(championnat);
+		this.em.getTransaction().commit();
+		this.em.clear();
+	}
+	
+	/**
+	 * Modifie un championnat en base
+	 * 
+	 * @param championnat
+	 *            Le championnat à modifier
+	 */
+	public void update(Championnat championnat) {
+		this.em.getTransaction().begin();
+		this.em.merge(championnat);
+		this.em.getTransaction().commit();
+		this.em.clear();
+	}
+	
+	/**
+	 * Supprime un championnat en base
+	 * 
+	 * @param championnat
+	 *            Le championnat à supprimer
+	 */
+	public void delete(Championnat championnat) {
+		this.em.getTransaction().begin();
+		this.em.remove(championnat);
+		this.em.getTransaction().commit();
+		this.em.clear();
+	}
+	/**
+	 * Indique si un championnat est commencé
+	 * 
+	 * @param id
+	 *            L'ID du championnat concerné
+	 * @return true ou false
+	 */
+	public boolean estCommence(int id) {
+		this.em.getTransaction().begin();
+		Query query = this.em.createQuery("select count(*) from GrandPrix where championnat.id=:id");
+		query.setParameter("id", id);
+		Long nbGrandsPrix = (Long) query.getSingleResult();
+		this.em.getTransaction().commit();
+
+		return nbGrandsPrix > 0;
+	}
+
+
 }

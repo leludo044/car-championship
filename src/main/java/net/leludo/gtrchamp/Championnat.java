@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 @Table(name = "championnats")
 public class Championnat {
 	@Id
+	@GeneratedValue
 	private int id;
 
 	private String libelle;
@@ -44,6 +46,10 @@ public class Championnat {
 
 	public String getLibelle() {
 		return this.libelle;
+	}
+	
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 
 	public Championnat() {
