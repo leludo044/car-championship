@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Circuit;
-import net.leludo.gtrchamp.Pilote;
 
 @Singleton
 public class CircuitDao extends DefaultDao<Circuit, Integer> {
