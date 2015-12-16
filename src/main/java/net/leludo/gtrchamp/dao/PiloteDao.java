@@ -64,10 +64,12 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 		this.em.getTransaction().commit();
 		this.em.clear();
 	}
-	
+
 	/**
 	 * Indique si un pilote à déjà participé au moins un grand prix
-	 * @param piloteId L'ID du pilote concerné
+	 * 
+	 * @param piloteId
+	 *            L'ID du pilote concerné
 	 * @return true ou false
 	 */
 	public boolean aCouru(int piloteId) {
@@ -76,7 +78,7 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 		query.setParameter("id", piloteId);
 		Long nbCourses = (Long) query.getSingleResult();
 		this.em.getTransaction().commit();
-		
-		return nbCourses > 0 ;
+
+		return nbCourses > 0;
 	}
 }

@@ -50,11 +50,11 @@ public class Pilote {
 	}
 
 	public String getDateNaissance() {
-		return this.dateNaissance==null?"":dateNaissance.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		return this.dateNaissance == null ? "" : dateNaissance.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
-	
+
 	public void setDateNaissance(LocalDate date) {
-		this.dateNaissance = date ;
+		this.dateNaissance = date;
 	}
 
 	@Override

@@ -7,19 +7,19 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class ConcurrentId implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4792327019267435193L;
 
-	@Column(name="idPilote")
-	int idPilote ;
-	@Column(name="idGrandPrix")
-	int idGrandPrix ;
-	@Column(name="numCourse")
-	int numCourse ;
-	
+	@Column(name = "idPilote")
+	int idPilote;
+	@Column(name = "idGrandPrix")
+	int idGrandPrix;
+	@Column(name = "numCourse")
+	int numCourse;
+
 	public int getNumCourse() {
 		return numCourse;
 	}
@@ -51,6 +51,5 @@ public class ConcurrentId implements Serializable {
 			return false;
 		return true;
 	}
-
 
 }

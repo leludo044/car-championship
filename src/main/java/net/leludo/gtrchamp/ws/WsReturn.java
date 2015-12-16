@@ -2,17 +2,17 @@ package net.leludo.gtrchamp.ws;
 
 public class WsReturn {
 
-	private int code ;
-	private String message ;
-	
+	private int code;
+	private String message;
+
 	public WsReturn() {
-		this.code = 0 ;
-		this.message = "" ;
+		this.code = 0;
+		this.message = "";
 	}
-	
+
 	public WsReturn(int code, String message) {
-		this.code = code ;
-		this.message = message ;
+		this.code = code;
+		this.message = message;
 	}
 
 	/**
@@ -28,6 +28,5 @@ public class WsReturn {
 	public String getMessage() {
 		return message;
 	}
-	
-	
+
 }

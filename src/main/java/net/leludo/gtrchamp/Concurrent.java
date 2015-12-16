@@ -32,9 +32,9 @@ public class Concurrent {
 	private int positionArrivee;
 
 	@ManyToOne()
-	@JoinColumn(name = "place",  insertable=false, updatable=false )
+	@JoinColumn(name = "place", insertable = false, updatable = false)
 	private Point points;
-	
+
 	public boolean hasPolePosition() {
 		return this.positionDepart == 1;
 	}
@@ -62,8 +62,7 @@ public class Concurrent {
 		return pilote;
 	}
 
-	public void setPositionDepart(int positionDepart)
-			throws ChampionnatException {
+	public void setPositionDepart(int positionDepart) throws ChampionnatException {
 		if (positionDepart > 0) {
 			this.positionDepart = positionDepart;
 		} else {
@@ -71,8 +70,7 @@ public class Concurrent {
 		}
 	}
 
-	public void setPositionArrivee(int positionArrivee)
-			throws ChampionnatException {
+	public void setPositionArrivee(int positionArrivee) throws ChampionnatException {
 		if (positionArrivee > 0) {
 			this.positionArrivee = positionArrivee;
 		} else {
@@ -91,9 +89,9 @@ public class Concurrent {
 	public int getNumeroCourse() {
 		return this.id.getNumCourse();
 	}
-	
+
 	public Point getPoints() {
-		return points ;
+		return points;
 	}
 
 	public void abandonner() {

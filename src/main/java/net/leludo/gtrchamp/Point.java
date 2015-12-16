@@ -5,14 +5,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="points")
+@Table(name = "points")
 public class Point {
 
 	@Id
-	private int place ;
-	
-	private int points ;
-	
+	private int place;
+
+	private int points;
+
 	public int getPoints() {
 		return points;
 	}
