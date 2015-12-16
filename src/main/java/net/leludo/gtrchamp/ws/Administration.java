@@ -77,7 +77,7 @@ public class Administration {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(PiloteParams params) {
+	public Response create(final PiloteParams params) {
 		init();
 
 		Response response;
@@ -119,7 +119,7 @@ public class Administration {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(PiloteParams params) {
+	public Response update(final PiloteParams params) {
 		init();
 
 		Response response;
@@ -167,7 +167,7 @@ public class Administration {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("id") int id) {
+	public Response delete(@PathParam("id") final int id) {
 		init();
 
 		Response response;
@@ -196,7 +196,7 @@ public class Administration {
 	@GET
 	@Path("/{id}/acouru")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response aCouru(@PathParam("id") Integer id) {
+	public Response aCouru(@PathParam("id") final Integer id) {
 		init();
 
 		boolean aCouru = dao.aCouru(id);

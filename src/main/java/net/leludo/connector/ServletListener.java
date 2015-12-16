@@ -26,13 +26,13 @@ public class ServletListener implements ServletContextListener {
 	EntityManager entityManager;
 
 	@Override
-	public void contextDestroyed(ServletContextEvent arg0) {
+	public void contextDestroyed(final ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void contextInitialized(ServletContextEvent arg0) {
+	public void contextInitialized(final ServletContextEvent arg0) {
 		try {
 			String uri = System.getenv(DATABASE_URL);
 			if (uri != null) {

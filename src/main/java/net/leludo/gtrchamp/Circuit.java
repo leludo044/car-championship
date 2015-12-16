@@ -29,7 +29,7 @@ public class Circuit {
 		this.pays = null;
 	}
 
-	public Circuit(String nom, Float longueur, Pays pays) {
+	public Circuit(final String nom, final Float longueur, final Pays pays) {
 		this.nom = nom;
 		this.longueur = longueur;
 		this.pays = pays;
@@ -55,7 +55,7 @@ public class Circuit {
 	 * @param nom
 	 *            the nom to set
 	 */
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
 	}
 
@@ -67,7 +67,7 @@ public class Circuit {
 	 * @param longueur
 	 *            the longueur to set
 	 */
-	public void setLongueur(Float longueur) {
+	public void setLongueur(final Float longueur) {
 		this.longueur = longueur;
 	}
 
@@ -79,7 +79,7 @@ public class Circuit {
 	 * @param pays
 	 *            the pays to set
 	 */
-	public void setPays(Pays pays) {
+	public void setPays(final Pays pays) {
 		this.pays = pays;
 	}
 

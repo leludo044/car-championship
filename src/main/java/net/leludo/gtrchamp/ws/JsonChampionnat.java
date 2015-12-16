@@ -73,7 +73,7 @@ public class JsonChampionnat {
 	@GET
 	@Path("/get/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String get(@PathParam("id") int id) {
+	public String get(@PathParam("id") final int id) {
 		init();
 		Championnat chp = dao.find(new Integer(id));
 		dao.close();
@@ -94,7 +94,7 @@ public class JsonChampionnat {
 	@GET
 	@Path("/championnat/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getJson(@PathParam("id") int id) {
+	public String getJson(@PathParam("id") final int id) {
 		init();
 		Championnat chp = dao.find(new Integer(id));
 		dao.close();
@@ -138,7 +138,7 @@ public class JsonChampionnat {
 	@GET
 	@Path("/championnat/{idChp}/grandprix/list")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getJsonGrandsPrix(@PathParam("idChp") int idChp) {
+	public String getJsonGrandsPrix(@PathParam("idChp") final int idChp) {
 		init();
 		Championnat chp = dao.find(new Integer(idChp));
 		dao.close();
@@ -222,7 +222,7 @@ public class JsonChampionnat {
 	@GET
 	@Path("/grandprix/{idGp}/resultat/list")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String listJsonResultats(@PathParam("idGp") int idGp) {
+	public String listJsonResultats(@PathParam("idGp") final int idGp) {
 		init();
 		List<Concurrent> resultats = dao.findResultats(idGp);
 		dao.close();
@@ -267,7 +267,7 @@ public class JsonChampionnat {
 	@GET
 	@Path("/championnat/{idChp}/classement")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String listJsonClassement(@PathParam("idChp") int idChp) {
+	public String listJsonClassement(@PathParam("idChp") final int idChp) {
 		init();
 		List<Object[]> classement = dao.findClassement(idChp);
 		dao.close();
@@ -312,7 +312,7 @@ public class JsonChampionnat {
 	@Path("/championnat")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(ChampionnatParams params) {
+	public Response create(final ChampionnatParams params) {
 		init();
 
 		Response response;
@@ -349,7 +349,7 @@ public class JsonChampionnat {
 	@Path("/championnat/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(ChampionnatParams params) {
+	public Response update(final ChampionnatParams params) {
 		init();
 
 		Response response;
@@ -389,7 +389,7 @@ public class JsonChampionnat {
 	@DELETE
 	@Path("/championnat/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("id") int id) {
+	public Response delete(@PathParam("id") final int id) {
 		init();
 
 		Response response;
@@ -419,7 +419,7 @@ public class JsonChampionnat {
 	@GET
 	@Path("/championnat/{id}/estcommence")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response estCommence(@PathParam("id") Integer id) {
+	public Response estCommence(@PathParam("id") final Integer id) {
 		init();
 
 		boolean estCommence = dao.estCommence(id);
@@ -431,7 +431,7 @@ public class JsonChampionnat {
 	 * @param pServletResponse
 	 */
 	@Context
-	public void setHttpServletResponse(HttpServletResponse pServletResponse) {
+	public void setHttpServletResponse(final HttpServletResponse pServletResponse) {
 		this.servletResponse = pServletResponse;
 		this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 	}

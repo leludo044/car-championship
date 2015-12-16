@@ -56,7 +56,7 @@ public class GrandPrix {
 		Collections.sort(concurrents, new Comparator<Concurrent>() {
 
 			@Override
-			public int compare(Concurrent o1, Concurrent o2) {
+			public int compare(final Concurrent o1, final Concurrent o2) {
 				if (o1.getPositionArrivee() < o2.getPositionArrivee()) {
 					return -1;
 				} else {

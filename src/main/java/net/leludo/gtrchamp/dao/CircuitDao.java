@@ -32,7 +32,7 @@ public class CircuitDao extends DefaultDao<Circuit, Integer> {
 	 * @param circuit
 	 *            Le circuit à sauvegarder
 	 */
-	public void create(Circuit circuit) {
+	public void create(final Circuit circuit) {
 		this.em.getTransaction().begin();
 		this.em.persist(circuit);
 		this.em.getTransaction().commit();
@@ -45,7 +45,7 @@ public class CircuitDao extends DefaultDao<Circuit, Integer> {
 	 * @param circuit
 	 *            Le circuit à modifier
 	 */
-	public void update(Circuit circuit) {
+	public void update(final Circuit circuit) {
 		this.em.getTransaction().begin();
 		this.em.merge(circuit);
 		this.em.getTransaction().commit();
@@ -58,7 +58,7 @@ public class CircuitDao extends DefaultDao<Circuit, Integer> {
 	 * @param circuit
 	 *            Le circuit à supprimer
 	 */
-	public void delete(Circuit circuit) {
+	public void delete(final Circuit circuit) {
 		this.em.getTransaction().begin();
 		this.em.remove(circuit);
 		this.em.getTransaction().commit();
@@ -72,7 +72,7 @@ public class CircuitDao extends DefaultDao<Circuit, Integer> {
 	 *            L'ID du circuit concerné
 	 * @return true ou false
 	 */
-	public boolean estCouru(int circuitId) {
+	public boolean estCouru(final int circuitId) {
 		this.em.getTransaction().begin();
 		Query query = this.em.createQuery("select count(*) from Concurrent where grandPrix.circuit.id=:id");
 		query.setParameter("id", circuitId);

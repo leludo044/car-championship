@@ -48,7 +48,7 @@ public class Championnat {
 		return this.libelle;
 	}
 	
-	public void setLibelle(String libelle) {
+	public void setLibelle(final String libelle) {
 		this.libelle = libelle;
 	}
 

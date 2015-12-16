@@ -45,7 +45,7 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 	 * @param championnat
 	 *            Le championnat à sauvegarder
 	 */
-	public void create(Championnat championnat) {
+	public void create(final Championnat championnat) {
 		this.em.getTransaction().begin();
 		this.em.persist(championnat);
 		this.em.getTransaction().commit();
@@ -58,7 +58,7 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 	 * @param championnat
 	 *            Le championnat à modifier
 	 */
-	public void update(Championnat championnat) {
+	public void update(final Championnat championnat) {
 		this.em.getTransaction().begin();
 		this.em.merge(championnat);
 		this.em.getTransaction().commit();
@@ -71,7 +71,7 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 	 * @param championnat
 	 *            Le championnat à supprimer
 	 */
-	public void delete(Championnat championnat) {
+	public void delete(final Championnat championnat) {
 		this.em.getTransaction().begin();
 		this.em.remove(championnat);
 		this.em.getTransaction().commit();
@@ -85,7 +85,7 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 	 *            L'ID du championnat concerné
 	 * @return true ou false
 	 */
-	public boolean estCommence(int id) {
+	public boolean estCommence(final int id) {
 		this.em.getTransaction().begin();
 		Query query = this.em.createQuery("select count(*) from GrandPrix where championnat.id=:id");
 		query.setParameter("id", id);

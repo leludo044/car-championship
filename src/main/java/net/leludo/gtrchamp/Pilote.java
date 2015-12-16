@@ -33,7 +33,7 @@ public class Pilote {
 		this.dateNaissance = date;
 	}
 
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -53,7 +53,7 @@ public class Pilote {
 		return this.dateNaissance == null ? "" : dateNaissance.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 
-	public void setDateNaissance(LocalDate date) {
+	public void setDateNaissance(final LocalDate date) {
 		this.dateNaissance = date;
 	}
 
@@ -66,7 +66,7 @@ public class Pilote {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)

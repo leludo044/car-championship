@@ -32,7 +32,7 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 	 * @param pilote
 	 *            Le pilote à sauvegarder
 	 */
-	public void create(Pilote pilote) {
+	public void create(final Pilote pilote) {
 		this.em.getTransaction().begin();
 		this.em.persist(pilote);
 		this.em.getTransaction().commit();
@@ -45,7 +45,7 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 	 * @param pilote
 	 *            Le pilote à modifier
 	 */
-	public void update(Pilote pilote) {
+	public void update(final Pilote pilote) {
 		this.em.getTransaction().begin();
 		this.em.merge(pilote);
 		this.em.getTransaction().commit();
@@ -58,7 +58,7 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 	 * @param pilote
 	 *            Le pilote à supprimer
 	 */
-	public void delete(Pilote pilote) {
+	public void delete(final Pilote pilote) {
 		this.em.getTransaction().begin();
 		this.em.remove(pilote);
 		this.em.getTransaction().commit();
@@ -72,7 +72,7 @@ public class PiloteDao extends DefaultDao<Pilote, Integer> {
 	 *            L'ID du pilote concerné
 	 * @return true ou false
 	 */
-	public boolean aCouru(int piloteId) {
+	public boolean aCouru(final int piloteId) {
 		this.em.getTransaction().begin();
 		Query query = this.em.createQuery("select count(*) from Concurrent where pilote.id=:id");
 		query.setParameter("id", piloteId);

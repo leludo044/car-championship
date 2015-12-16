@@ -10,7 +10,7 @@ public class WsReturn {
 		this.message = "";
 	}
 
-	public WsReturn(int code, String message) {
+	public WsReturn(final int code, final String message) {
 		this.code = code;
 		this.message = message;
 	}

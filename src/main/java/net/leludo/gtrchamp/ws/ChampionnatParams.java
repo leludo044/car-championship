@@ -15,7 +15,7 @@ public class ChampionnatParams {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
@@ -30,7 +30,7 @@ public class ChampionnatParams {
 	 * @param nom
 	 *            the nom to set
 	 */
-	public void setLibelle(String libelle) {
+	public void setLibelle(final String libelle) {
 		this.libelle = libelle;
 	}
 }

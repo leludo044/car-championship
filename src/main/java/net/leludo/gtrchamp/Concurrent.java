@@ -49,12 +49,12 @@ public class Concurrent {
 		this.positionArrivee = 0;
 	}
 
-	public Concurrent(Pilote pilote) {
+	public Concurrent(final Pilote pilote) {
 		this();
 		this.setPilote(pilote);
 	}
 
-	public void setPilote(Pilote pilote) {
+	public void setPilote(final Pilote pilote) {
 		this.pilote = pilote;
 	}
 
@@ -62,7 +62,7 @@ public class Concurrent {
 		return pilote;
 	}
 
-	public void setPositionDepart(int positionDepart) throws ChampionnatException {
+	public void setPositionDepart(final int positionDepart) throws ChampionnatException {
 		if (positionDepart > 0) {
 			this.positionDepart = positionDepart;
 		} else {
@@ -70,7 +70,7 @@ public class Concurrent {
 		}
 	}
 
-	public void setPositionArrivee(int positionArrivee) throws ChampionnatException {
+	public void setPositionArrivee(final int positionArrivee) throws ChampionnatException {
 		if (positionArrivee > 0) {
 			this.positionArrivee = positionArrivee;
 		} else {
@@ -112,7 +112,7 @@ public class Concurrent {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)

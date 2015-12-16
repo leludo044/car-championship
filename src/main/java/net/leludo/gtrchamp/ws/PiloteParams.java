@@ -16,7 +16,7 @@ public class PiloteParams {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
@@ -31,7 +31,7 @@ public class PiloteParams {
 	 * @param nom
 	 *            the nom to set
 	 */
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
 	}
 
@@ -46,7 +46,7 @@ public class PiloteParams {
 	 * @param dateNaissance
 	 *            the dateNaissance to set
 	 */
-	public void setDateNaissance(String dateNaissance) {
+	public void setDateNaissance(final String dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 }

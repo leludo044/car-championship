@@ -81,7 +81,7 @@ public class AdminCircuit {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(CircuitParams params) {
+	public Response create(final CircuitParams params) {
 		init();
 
 		String nom = params.getNom();
@@ -112,7 +112,7 @@ public class AdminCircuit {
 	 *            Les données d'entrée
 	 * @return Le message d'erreur ou "" si tout est ok
 	 */
-	private String validate(CircuitParams params) {
+	private String validate(final CircuitParams params) {
 		String nom = params.getNom();
 		String idPays = params.getIdPays();
 		Float longueur = 0f;
@@ -151,7 +151,7 @@ public class AdminCircuit {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(CircuitParams params) {
+	public Response update(final CircuitParams params) {
 		init();
 
 		String nom = params.getNom();
@@ -195,7 +195,7 @@ public class AdminCircuit {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("id") int id) {
+	public Response delete(@PathParam("id") final int id) {
 		init();
 
 		Response response;
@@ -225,7 +225,7 @@ public class AdminCircuit {
 	@GET
 	@Path("/{id}/estcouru")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response aCouru(@PathParam("id") Integer id) {
+	public Response aCouru(@PathParam("id") final Integer id) {
 		init();
 
 		boolean estCouru = dao.estCouru(id);

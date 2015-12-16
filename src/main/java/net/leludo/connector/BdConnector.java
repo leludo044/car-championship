@@ -16,7 +16,7 @@ public class BdConnector {
 	public BdConnector() {
 	}
 
-	public BdConnector(URI dbUri) {
+	public BdConnector(final URI dbUri) {
 
 		username = dbUri.getUserInfo().split(":")[0];
 		password = dbUri.getUserInfo().split(":")[1];
@@ -41,7 +41,7 @@ public class BdConnector {
 	 * @param driverClass
 	 *            the driverClass to set
 	 */
-	public void setDriverClass(String driverClass) {
+	public void setDriverClass(final String driverClass) {
 		this.driverClass = driverClass;
 	}
 
@@ -56,7 +56,7 @@ public class BdConnector {
 	 * @param url
 	 *            the url to set
 	 */
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
 
@@ -71,7 +71,7 @@ public class BdConnector {
 	 * @param username
 	 *            the username to set
 	 */
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
@@ -86,7 +86,7 @@ public class BdConnector {
 	 * @param password
 	 *            the password to set
 	 */
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 }

@@ -8,7 +8,7 @@ public class DefaultDao<T, PK> {
 	protected EntityManager em;
 	Class<T> entityClass;
 
-	public DefaultDao(Class<T> entity) {
+	public DefaultDao(final Class<T> entity) {
 		entityClass = entity;
 	}
 
@@ -18,12 +18,12 @@ public class DefaultDao<T, PK> {
 		}
 	}
 
-	public void setEntityManager(EntityManagerFactory emf) {
+	public void setEntityManager(final EntityManagerFactory emf) {
 		this.emf = emf;
 		em = emf.createEntityManager();
 	}
 
-	public T find(PK id) {
+	public T find(final PK id) {
 		T entity = em.find(entityClass, id);
 		return entity;
 	}

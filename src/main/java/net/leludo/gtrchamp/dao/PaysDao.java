@@ -32,7 +32,7 @@ public class PaysDao extends DefaultDao<Pays, Integer> {
 	 *            L'id du pays à rechercher
 	 * @return Le pays correspondant
 	 */
-	public Pays get(Integer id) {
+	public Pays get(final Integer id) {
 		return find(id);
 	}
 }

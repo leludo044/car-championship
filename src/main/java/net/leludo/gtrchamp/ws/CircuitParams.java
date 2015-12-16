@@ -17,7 +17,7 @@ public class CircuitParams {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
@@ -32,7 +32,7 @@ public class CircuitParams {
 	 * @param nom
 	 *            the nom to set
 	 */
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
 	}
 
@@ -47,7 +47,7 @@ public class CircuitParams {
 	 * @param longueur
 	 *            the longueur to set
 	 */
-	public void setLongueur(Float longueur) {
+	public void setLongueur(final Float longueur) {
 		this.longueur = longueur;
 	}
 
@@ -62,7 +62,7 @@ public class CircuitParams {
 	 * @param idPays
 	 *            the idPays to set
 	 */
-	public void setIdPays(String idPays) {
+	public void setIdPays(final String idPays) {
 		this.idPays = idPays;
 	}
 

@@ -28,7 +28,7 @@ public class StatDao {
 		return query.list();
 	}
 
-	public void setEntityManager(EntityManagerFactory emf) {
+	public void setEntityManager(final EntityManagerFactory emf) {
 		this.emf = emf;
 		em = emf.createEntityManager();
 	}
