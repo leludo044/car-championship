@@ -8,23 +8,23 @@ import javax.persistence.Table;
 @Table(name = "points")
 public class Point {
 
-	@Id
-	private int place;
+    @Id
+    private int place;
 
-	private int points;
+    private int points;
 
-	public int getPoints() {
-		return points;
-	}
+    public int getPoints() {
+        return points;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Point [place=");
-		builder.append(place);
-		builder.append(", points=");
-		builder.append(points);
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Point [place=");
+        builder.append(place);
+        builder.append(", points=");
+        builder.append(points);
+        builder.append("]");
+        return builder.toString();
+    }
 }

@@ -14,59 +14,57 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "championnats")
 public class Championnat {
-	@Id
-	@GeneratedValue
-	private int id;
+    @Id
+    @GeneratedValue
+    private int id;
 
-	private String libelle;
+    private String libelle;
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="championnat")
-	private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat")
+    private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
 
-	public GrandPrix organiserGrandPrix(
-			final net.leludo.gtrchamp.Circuit circuit, final Date date) {
-		GrandPrix gp = new GrandPrix(circuit, date);
-		this.grandsPrix.add(gp);
-		return gp;
-	}
+    public GrandPrix organiserGrandPrix(final net.leludo.gtrchamp.Circuit circuit,
+            final Date date) {
+        GrandPrix gp = new GrandPrix(circuit, date);
+        this.grandsPrix.add(gp);
+        return gp;
+    }
 
-	public List<net.leludo.gtrchamp.Pilote> rendreClassement() {
-		// TODO Auto-generated return
-		return null;
-	}
+    public List<net.leludo.gtrchamp.Pilote> rendreClassement() {
+        // TODO Auto-generated return
+        return null;
+    }
 
-	public Championnat(final String pLibelle) {
-		this.libelle = pLibelle;
-		this.grandsPrix = new ArrayList<GrandPrix>();
-	}
+    public Championnat(final String pLibelle) {
+        this.libelle = pLibelle;
+        this.grandsPrix = new ArrayList<GrandPrix>();
+    }
 
-	public List<net.leludo.gtrchamp.GrandPrix> getGrandsPrix() {
-		return this.grandsPrix;
-	}
+    public List<net.leludo.gtrchamp.GrandPrix> getGrandsPrix() {
+        return this.grandsPrix;
+    }
 
-	public String getLibelle() {
-		return this.libelle;
-	}
-	
-	public void setLibelle(final String libelle) {
-		this.libelle = libelle;
-	}
+    public String getLibelle() {
+        return this.libelle;
+    }
 
-	public Championnat() {
-		this.libelle = "Choisir...";
-		this.grandsPrix = new ArrayList<GrandPrix>();
-	}
+    public void setLibelle(final String libelle) {
+        this.libelle = libelle;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public Championnat() {
+        this.libelle = "Choisir...";
+        this.grandsPrix = new ArrayList<GrandPrix>();
+    }
 
-	@Override
-	public String toString() {
-		return "Championnat [id=" + id + ", libelle=" + libelle
-				+ ", grandsPrix=" + grandsPrix + "]";
-	}
-	
-	
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Championnat [id=" + id + ", libelle=" + libelle + ", grandsPrix=" + grandsPrix
+                + "]";
+    }
 
 }

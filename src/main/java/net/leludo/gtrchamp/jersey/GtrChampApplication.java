@@ -7,7 +7,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 @ApplicationPath("ws")
 public class GtrChampApplication extends ResourceConfig {
-	public GtrChampApplication() {
+    public GtrChampApplication() {
         packages("net.leludo.gtrchamp.ws").register(JacksonFeature.class);
     }
 }

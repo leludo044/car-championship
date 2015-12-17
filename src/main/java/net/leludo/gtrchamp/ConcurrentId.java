@@ -8,48 +8,54 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ConcurrentId implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4792327019267435193L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4792327019267435193L;
 
-	@Column(name = "idPilote")
-	int idPilote;
-	@Column(name = "idGrandPrix")
-	int idGrandPrix;
-	@Column(name = "numCourse")
-	int numCourse;
+    @Column(name = "idPilote")
+    private int idPilote;
+    @Column(name = "idGrandPrix")
+    private int idGrandPrix;
+    @Column(name = "numCourse")
+    private int numCourse;
 
-	public int getNumCourse() {
-		return numCourse;
-	}
+    public int getNumCourse() {
+        return numCourse;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idGrandPrix;
-		result = prime * result + idPilote;
-		result = prime * result + numCourse;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + idGrandPrix;
+        result = prime * result + idPilote;
+        result = prime * result + numCourse;
+        return result;
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ConcurrentId other = (ConcurrentId) obj;
-		if (idGrandPrix != other.idGrandPrix)
-			return false;
-		if (idPilote != other.idPilote)
-			return false;
-		if (numCourse != other.numCourse)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ConcurrentId other = (ConcurrentId) obj;
+        if (idGrandPrix != other.idGrandPrix) {
+            return false;
+        }
+        if (idPilote != other.idPilote) {
+            return false;
+        }
+        if (numCourse != other.numCourse) {
+            return false;
+        }
+        return true;
+    }
 
 }

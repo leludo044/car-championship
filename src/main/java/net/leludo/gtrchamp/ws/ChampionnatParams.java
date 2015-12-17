@@ -1,36 +1,36 @@
 package net.leludo.gtrchamp.ws;
 
 public class ChampionnatParams {
-	private Integer id;
-	private String libelle;
+    private Integer id;
+    private String libelle;
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(final Integer id) {
-		this.id = id;
-	}
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(final Integer id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the nom
-	 */
-	public String getLibelle() {
-		return libelle;
-	}
+    /**
+     * @return the nom
+     */
+    public String getLibelle() {
+        return libelle;
+    }
 
-	/**
-	 * @param nom
-	 *            the nom to set
-	 */
-	public void setLibelle(final String libelle) {
-		this.libelle = libelle;
-	}
+    /**
+     * @param nom
+     *            the nom to set
+     */
+    public void setLibelle(final String libelle) {
+        this.libelle = libelle;
+    }
 }

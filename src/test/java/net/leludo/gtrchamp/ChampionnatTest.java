@@ -3,7 +3,6 @@ package net.leludo.gtrchamp;
  * 
  */
 
-
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
@@ -19,18 +18,18 @@ import org.junit.Test;
 public class ChampionnatTest {
     private Championnat chp;
 
-
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        chp = new Championnat("JUnit") ;
-        assertNotNull(chp) ;
+        chp = new Championnat("JUnit");
+        assertNotNull(chp);
     }
 
     /**
-     * Test method for {@link net.leludo.gtrchamp.Championnat#Championnat(java.lang.String)}.
+     * Test method for
+     * {@link net.leludo.gtrchamp.Championnat#Championnat(java.lang.String)}.
      */
     @Test
     public final void testChampionnat() {
@@ -39,7 +38,9 @@ public class ChampionnatTest {
     }
 
     /**
-     * Test method for {@link net.leludo.gtrchamp.Championnat#organiserGrandPrix(net.leludo.gtrchamp.Circuit, java.util.Date)}.
+     * Test method for
+     * {@link net.leludo.gtrchamp.Championnat#organiserGrandPrix(net.leludo.gtrchamp.Circuit, java.util.Date)}
+     * .
      */
     @Test
     public final void testOrganiserGrandPrix() {
@@ -48,7 +49,8 @@ public class ChampionnatTest {
     }
 
     /**
-     * Test method for {@link net.leludo.gtrchamp.Championnat#rendreClassement()}.
+     * Test method for
+     * {@link net.leludo.gtrchamp.Championnat#rendreClassement()}.
      */
     @Test
     @Ignore

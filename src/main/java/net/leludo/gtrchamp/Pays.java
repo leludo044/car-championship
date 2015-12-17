@@ -5,27 +5,27 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pays")
+@Table(name = "pays")
 public class Pays {
-	@Id
+    @Id
     private int id;
 
-	private String nom;
+    private String nom;
 
-	@Override
-	public String toString() {
-		return "Pays [id=" + id + ", nom=" + nom + "]";
-	}
+    @Override
+    public String toString() {
+        return "Pays [id=" + id + ", nom=" + nom + "]";
+    }
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
 
-	public String getNom() {
-		return nom;
-	}
+    public String getNom() {
+        return nom;
+    }
 
 }
