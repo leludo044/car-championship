@@ -73,6 +73,7 @@ public class GrandPrix {
         this.championnat = championnat;
         this.circuit = circuit;
         this.date = date;
+        this.mode2Courses = true ;
     }
 
     public GrandPrix() {

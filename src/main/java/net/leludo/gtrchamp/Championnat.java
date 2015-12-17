@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class Championnat {
 
     private String libelle;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat", cascade=CascadeType.PERSIST )
     private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
 
     public GrandPrix organiserGrandPrix(final net.leludo.gtrchamp.Circuit circuit,

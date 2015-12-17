@@ -456,6 +456,8 @@ public class JsonChampionnat {
             Circuit circuit = circuitDao.find(idCircuit);
             if (circuit != null) {
                 GrandPrix gp = new GrandPrix(championnat, circuit, null);
+                championnat.organiserGrandPrix(circuit, null);
+                dao.create(championnat);
                 response = Response
                         .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + circuit.getNom()
                                 + " ajouté au championnat " + championnat.getLibelle() + "."))
@@ -471,4 +473,36 @@ public class JsonChampionnat {
 
         return response;
     }
+    
+    @GET
+    @Path("/championnat/{id}/tracks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") Integer id) {
+        init();
+
+        Response response;
+        Championnat championnat = dao.find(id);
+        if (championnat != null) {
+            Circuit circuit = circuitDao.find(idCircuit);
+            if (circuit != null) {
+                GrandPrix gp = new GrandPrix(championnat, circuit, null);
+                championnat.organiserGrandPrix(circuit, null);
+                dao.create(championnat);
+                response = Response
+                        .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + circuit.getNom()
+                                + " ajouté au championnat " + championnat.getLibelle() + "."))
+                        .build();
+            } else {
+                response = Response.status(Status.NOT_FOUND).entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                        "Circuit #" + idCircuit + " inexistant !")).build();
+            }
+        } else {
+            response = Response.status(Status.NOT_FOUND).entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                    "Championnat #" + id + " inexistant !")).build();
+        }
+
+        return response;
+    }
+
 }
