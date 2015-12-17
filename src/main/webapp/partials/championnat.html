@@ -16,11 +16,12 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="championnat in championnats"
-								ng-click="selectionner(championnat, $index)">
-								<td>{{championnat.id}}</td>
-								<td>{{championnat.libelle}}</td>
-								<td></td>
+							<tr data-ng-repeat="championnat in championnats">
+								<td ng-click="selectionner(championnat, $index)">{{championnat.id}}</td>
+								<td ng-click="selectionner(championnat, $index)">{{championnat.libelle}}</td>
+								<td><span class="glyphicon glyphicon-flag"
+									aria-hidden="true" title="Affecter les circuits"
+									ng-click="selectionnerCircuits(championnat, $index)"></span></td>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -54,3 +55,20 @@
 	</div>
 </div>
 <div class="alert alert-success" role="alert" ng-show="message">{{message}}</div>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Nom</th>
+			<th>Longueur</th>
+			<th>Pays</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="circuit in circuits" ng-click="onSelect(circuit, $index)"
+		ng-class="{'success' : selectedTracks.indexOf($index)>=0}">
+			<td>{{circuit.nom}}</td>
+			<td>{{circuit.longueur}}</td>
+			<td>{{circuit.pays.nom}}</td>
+		</tr>
+	</tbody>
+</table>

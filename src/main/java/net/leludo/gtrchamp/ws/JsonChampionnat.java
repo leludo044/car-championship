@@ -24,10 +24,12 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import net.leludo.gtrchamp.Championnat;
+import net.leludo.gtrchamp.Circuit;
 import net.leludo.gtrchamp.Concurrent;
 import net.leludo.gtrchamp.GrandPrix;
 import net.leludo.gtrchamp.Pilote;
 import net.leludo.gtrchamp.dao.ChampionnatDao;
+import net.leludo.gtrchamp.dao.CircuitDao;
 
 /**
  * Classe de service concernant les championnats. Permet de lister tous les
@@ -47,11 +49,13 @@ public class JsonChampionnat {
 
     private EntityManagerFactory emf;
     private ChampionnatDao dao = new ChampionnatDao();
+    private CircuitDao circuitDao = new CircuitDao();
 
     public void init() {
         emf = (EntityManagerFactory) servletContext
                 .getAttribute(EntityManagerFactory.class.getName());
         dao.setEntityManager(emf);
+        circuitDao.setEntityManager(emf);
     }
 
     @GET
@@ -346,7 +350,7 @@ public class JsonChampionnat {
      */
 
     @PUT
-    @Path("/championnat/{id}")
+    @Path("/championnat")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(final ChampionnatParams params) {
@@ -437,5 +441,34 @@ public class JsonChampionnat {
     public void setHttpServletResponse(final HttpServletResponse pServletResponse) {
         this.servletResponse = pServletResponse;
         this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+    }
+
+    @PUT
+    @Path("/championnat/{id}/{idCircuit}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") Integer id, @PathParam("idCircuit") Integer idCircuit) {
+        init();
+
+        Response response;
+        Championnat championnat = dao.find(id);
+        if (championnat != null) {
+            Circuit circuit = circuitDao.find(idCircuit);
+            if (circuit != null) {
+                GrandPrix gp = new GrandPrix(championnat, circuit, null);
+                response = Response
+                        .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + circuit.getNom()
+                                + " ajouté au championnat " + championnat.getLibelle() + "."))
+                        .build();
+            } else {
+                response = Response.status(Status.NOT_FOUND).entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                        "Circuit #" + idCircuit + " inexistant !")).build();
+            }
+        } else {
+            response = Response.status(Status.NOT_FOUND).entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                    "Championnat #" + id + " inexistant !")).build();
+        }
+
+        return response;
     }
 }

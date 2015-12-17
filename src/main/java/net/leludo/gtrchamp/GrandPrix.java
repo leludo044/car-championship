@@ -69,7 +69,8 @@ public class GrandPrix {
         return concurrents;
     }
 
-    public GrandPrix(final Circuit circuit, final Date date) {
+    public GrandPrix(final Championnat championnat, final Circuit circuit, final Date date) {
+        this.championnat = championnat;
         this.circuit = circuit;
         this.date = date;
     }

@@ -1,7 +1,12 @@
-controllers.controller('ChampionnatListController', [ '$scope', 'Championnats',
-		function($scope, Championnats) {
+controllers.controller('ChampionnatListController', [ '$scope', '$http', 'Championnats', 'Circuits',
+		function($scope, $http, Championnats, Circuits) {
 	
 			$scope.championnats = Championnats.query();
+			$scope.selected = {} ;
+			// Liste des circuits sélectionnables
+			$scope.circuits = [] ;
+			// Liste des circtuis sélectionnés
+			$scope.selectedTracks = []
 			
 			initForm = function() {
 				$scope.form = {
@@ -58,6 +63,28 @@ controllers.controller('ChampionnatListController', [ '$scope', 'Championnats',
 
 				$scope.selection = false;
 				initForm();
+			}
+			
+			
+			$scope.selectionnerCircuits = function(championnat) {
+				$scope.selected = championnat;
+				$scope.circuits = Circuits.query();
+			}
+			
+			$scope.onSelect = function(circuit, index) {
+				var exists = $scope.selectedTracks.indexOf(index); 
+				if (exists<0) {
+					$http({
+						method:'PUT',
+						url: './ws/json/championnat/'+$scope.selected.id+'/'+circuit.id
+					}).then(function() {
+						$scope.selectedTracks.push(index);						
+					}, function() {
+						
+					});
+				} else {
+					delete $scope.selectedTracks[exists];
+				}
 			}
 			
 		} ]);
