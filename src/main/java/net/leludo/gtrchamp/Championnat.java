@@ -21,7 +21,7 @@ public class Championnat {
 
     private String libelle;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat", cascade=CascadeType.PERSIST )
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat", cascade=CascadeType.MERGE )
     private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
 
     public GrandPrix organiserGrandPrix(final net.leludo.gtrchamp.Circuit circuit,

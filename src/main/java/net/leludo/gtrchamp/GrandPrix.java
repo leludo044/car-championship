@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +22,7 @@ import javax.persistence.Transient;
 public class GrandPrix {
 
     @Id
+    @GeneratedValue
     private int id;
 
     private Date date;
@@ -29,7 +32,7 @@ public class GrandPrix {
     @Transient
     private List<Concurrent> concurrents = new ArrayList<Concurrent>();
 
-    @OneToOne
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "idCircuit", nullable = false)
     private Circuit circuit;
 
@@ -111,8 +114,12 @@ public class GrandPrix {
     }
 
     public String getDateFr() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return sdf.format(this.date);
+        String formatedDate = "" ;
+        if (this.date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            formatedDate = sdf.format(this.date);
+        }
+        return formatedDate; 
     }
 
 }
