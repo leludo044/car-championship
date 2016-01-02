@@ -65,12 +65,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr data-ng-repeat="circuit in circuits" ng-click="onSelect(circuit, $index)"
+		<tr data-ng-repeat="track in tracks" ng-click="onSelect(track, $index)"
 		ng-class="{'success' : selectedTracks.indexOf($index)>=0}">
-			<td>{{circuit.id}}</td>
-			<td>{{circuit.nom}}</td>
-			<td>{{circuit.longueur}}</td>
-			<td>{{circuit.pays.nom}}</td>
+			<td>{{track.id}}</td>
+			<td>{{track.nom}}</td>
+			<td>{{track.longueur}}</td>
+			<td>{{track.pays.nom}}</td>
 		</tr>
 	</tbody>
 </table>

@@ -3,6 +3,7 @@ package net.leludo.gtrchamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ public class Championnat {
 
     private String libelle;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat", cascade=CascadeType.MERGE )
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
 
     public GrandPrix organiserGrandPrix(final net.leludo.gtrchamp.Circuit circuit,
@@ -66,6 +67,27 @@ public class Championnat {
     public String toString() {
         return "Championnat [id=" + id + ", libelle=" + libelle + ", grandsPrix=" + grandsPrix
                 + "]";
+    }
+
+    public GrandPrix supprimerGrandPrix(final Integer idGrandPrix) {
+        GrandPrix toDelete = null;
+        for (GrandPrix race : this.grandsPrix) {
+            if (race.getCircuit().getId() == idGrandPrix) {
+                toDelete = race;
+                this.grandsPrix.remove(toDelete);
+                //toDelete.annuler();
+                break;
+            }
+        }
+        // Stream<GrandPrix> gp =
+        // this.grandsPrix.stream().map(GrandPrix::getCircuit).filter(circuit ->
+        // circuit.getId().equals(idGrandPrix));
+        // if (gp.count() == 1) {
+        // toDelete = gp.findFirst().get();
+        // this.grandsPrix.remove(toDelete);
+        // }
+
+        return toDelete;
     }
 
 }

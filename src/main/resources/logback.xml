@@ -30,7 +30,6 @@
     </appender>
 
     <!--<logger name="org.hibernate" level="debug"/> -->
-    <logger name="localdomain.localhost" level="debug"/>
 
     <root level="info">
         <appender-ref ref="console"/>

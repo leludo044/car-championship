@@ -12,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,11 +31,11 @@ public class GrandPrix {
     @Transient
     private List<Concurrent> concurrents = new ArrayList<Concurrent>();
 
-    @OneToOne(fetch=FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idCircuit", nullable = false)
     private Circuit circuit;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idChampionnat", nullable = false)
     private Championnat championnat;
 
@@ -76,7 +75,7 @@ public class GrandPrix {
         this.championnat = championnat;
         this.circuit = circuit;
         this.date = date;
-        this.mode2Courses = true ;
+        this.mode2Courses = true;
     }
 
     public GrandPrix() {
@@ -114,12 +113,15 @@ public class GrandPrix {
     }
 
     public String getDateFr() {
-        String formatedDate = "" ;
+        String formatedDate = "";
         if (this.date != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             formatedDate = sdf.format(this.date);
         }
-        return formatedDate; 
+        return formatedDate;
     }
 
+    public void annuler() {
+        this.championnat = null;
+    }
 }

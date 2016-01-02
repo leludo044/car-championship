@@ -2,7 +2,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 	function ($scope, $http, Championnats, Circuits) {
 
 		$scope.championnats = Championnats.query();
-		$scope.circuits = Circuits.query();
+		$scope.tracks = Circuits.query();
 		$scope.selected = {};
 		// Liste des circuits sélectionnables
 		//$scope.circuits = [];
@@ -70,14 +70,14 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 		$scope.selectionnerCircuits = function (championnat) {
 			$scope.selected = championnat;
 			$scope.selectedTracks = [];
-			if ($scope.circuits.length == 0) {
-				$scope.circuits = Circuits.query();
+			if ($scope.tracks.length == 0) {
+				$scope.tracks = Circuits.query();
 			}
 			$http({
 				method: 'GET',
 				url: './ws/json/championnat/' + $scope.selected.id + '/tracks'
 			}).then(function (response) {
-				$scope.selectTracks($scope.circuits, response.data);
+				selectTracks($scope.tracks, response.data);
 			}, function () {
 
 			});
@@ -96,12 +96,18 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 
 				});
 			} else {
-				delete $scope.selectedTracks[exists];
+				$http({
+					method: 'DELETE',
+					url: './ws/json/championnat/' + $scope.selected.id + '/' + circuit.id
+				}).then(function () {
+					delete $scope.selectedTracks[exists];
+				}, function () {
+				});
 			}
 		}
 
 
-		$scope.selectTracks = function (allTracks, championshipTracks) {
+		var selectTracks = function (allTracks, championshipTracks) {
 			for (var i=0; i<allTracks.length; i++) {
 				for (var j=0; j<championshipTracks.length; j++) {
 					if (allTracks[i].id === championshipTracks[j].circuit.id) {

@@ -479,6 +479,40 @@ public class JsonChampionnat {
         return response;
     }
 
+    @DELETE
+    @Path("/championnat/{id}/{idCircuit}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(@PathParam("id") final Integer id,
+            @PathParam("idCircuit") final Integer idCircuit) {
+        init();
+
+        Response response;
+        Championnat championnat = dao.find(id);
+        if (championnat != null) {
+            if (idCircuit != null) {
+                GrandPrix gp = championnat.supprimerGrandPrix(idCircuit);
+                dao.update(championnat);
+                response = Response
+                        .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + gp.getCircuit().getNom()
+                                + " supprimé du championnat " + championnat.getLibelle() + "."))
+                        .build();
+            } else {
+                response = Response.status(Status.NOT_FOUND)
+                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                                "Circuit à supprimé indéterminé !"))
+                        .build();
+            }
+        } else {
+            response = Response.status(Status.NOT_FOUND)
+                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                            "Championnat #" + id + " inexistant !"))
+                    .build();
+        }
+
+        return response;
+    }
+
     @GET
     @Path("/championnat/{id}/tracks")
     @Consumes(MediaType.APPLICATION_JSON)
