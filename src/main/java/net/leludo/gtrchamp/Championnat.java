@@ -21,6 +21,8 @@ public class Championnat {
     private int id;
 
     private String libelle;
+    
+    private String type ;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GrandPrix> grandsPrix = new ArrayList<GrandPrix>();
@@ -52,6 +54,20 @@ public class Championnat {
 
     public void setLibelle(final String libelle) {
         this.libelle = libelle;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Championnat() {

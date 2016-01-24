@@ -21,15 +21,17 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
         return query.getResultList();
     }
 
-    public List<Concurrent> findResultats(final int idGrandPrix) {
-        String queryString = "from Concurrent where grandPrix.id=:id order by numCourse, place";
+    public List<Object[]> findResultats(final int idGrandPrix) {
+        //String queryString = "from Concurrent where grandPrix.id=:id order by numCourse, place";
+        String queryString = "select c, p.points from Concurrent c, Point p where c.grandPrix.id=:id and p.place = c.positionArrivee and p.type = c.grandPrix.championnat.type order by c.id.numCourse, p.place";
         javax.persistence.Query query = this.em.createQuery(queryString);
         query.setParameter("id", idGrandPrix);
         return query.getResultList();
     }
 
     public List<Object[]> findClassement(final int idChampionnat) {
-        String queryString = "select pilote, sum(c.points.points) from Concurrent c where c.grandPrix.championnat.id = :id group by c.pilote order by sum(c.points.points) desc";
+        //String queryString = "select pilote, sum(c.points.points) from Concurrent c where c.grandPrix.championnat.id = :id group by c.pilote order by sum(c.points.points) desc";
+        String queryString = "select c.pilote, sum(p.points) from Concurrent c, Point p where c.grandPrix.championnat.id = :id and p.place = c.positionArrivee and p.type = c.grandPrix.championnat.type group by c.pilote order by sum(p.points) desc";
 
         javax.persistence.Query query = this.em.createQuery(queryString);
         query.setParameter("id", idChampionnat);

@@ -225,7 +225,7 @@ public class JsonChampionnat {
     @Produces(MediaType.APPLICATION_JSON)
     public String listJsonResultats(@PathParam("idGp") final int idGp) {
         init();
-        List<Concurrent> resultats = dao.findResultats(idGp);
+        List<Object[]> resultats = dao.findResultats(idGp);
         dao.close();
         if (resultats == null) {
             return "Inconnu !";
@@ -238,15 +238,18 @@ public class JsonChampionnat {
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
                 g.writeStartArray();
-                for (Concurrent concurrent : resultats) {
+                for (Object[] concurrent : resultats) {
                     g.writeStartObject();
-                    g.writeNumberField("idPilote", concurrent.getPilote().getId());
-                    g.writeStringField("nom", concurrent.getPilote().getNom());
-                    g.writeNumberField("depart", concurrent.getPositionDepart());
-                    g.writeNumberField("arrivee", concurrent.getPositionArrivee());
-                    g.writeNumberField("numCourse", concurrent.getNumeroCourse());
-                    g.writeBooleanField("pole", concurrent.getPositionDepart() == 1);
-                    g.writeNumberField("points", concurrent.getPoints().getPoints());
+                    g.writeNumberField("idPilote",
+                            ((Concurrent) concurrent[0]).getPilote().getId());
+                    g.writeStringField("nom", ((Concurrent) concurrent[0]).getPilote().getNom());
+                    g.writeNumberField("depart", ((Concurrent) concurrent[0]).getPositionDepart());
+                    g.writeNumberField("arrivee",
+                            ((Concurrent) concurrent[0]).getPositionArrivee());
+                    g.writeNumberField("numCourse", ((Concurrent) concurrent[0]).getNumeroCourse());
+                    g.writeBooleanField("pole",
+                            ((Concurrent) concurrent[0]).getPositionDepart() == 1);
+                    g.writeNumberField("points", (Integer) concurrent[1]);
                     g.writeEndObject();
                 }
                 g.writeEndArray();
@@ -493,9 +496,9 @@ public class JsonChampionnat {
             if (idCircuit != null) {
                 GrandPrix gp = championnat.supprimerGrandPrix(idCircuit);
                 dao.update(championnat);
-                response = Response
-                        .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + gp.getCircuit().getNom()
-                                + " supprimé du championnat " + championnat.getLibelle() + "."))
+                response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
+                        "Circuit " + gp.getCircuit().getNom() + " supprimé du championnat "
+                                + championnat.getLibelle() + "."))
                         .build();
             } else {
                 response = Response.status(Status.NOT_FOUND)
