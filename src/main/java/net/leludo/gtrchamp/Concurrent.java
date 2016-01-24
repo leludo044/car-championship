@@ -31,6 +31,7 @@ public class Concurrent {
     @Column(name = "place")
     private int positionArrivee;
 
+    // TODO Supprimer ou configurer avec une clé primaire composée
     @ManyToOne()
     @JoinColumn(name = "place", insertable = false, updatable = false)
     private Point points;
