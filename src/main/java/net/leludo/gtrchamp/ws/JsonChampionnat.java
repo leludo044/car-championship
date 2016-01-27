@@ -58,30 +58,6 @@ public class JsonChampionnat {
         circuitDao.setEntityManager(emf);
     }
 
-    @GET
-    @Path("/list")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String list() {
-        init();
-        List<Championnat> chps = dao.findAll();
-        dao.close();
-        return chps.toString();
-    }
-
-    @GET
-    @Path("/get/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String get(@PathParam("id") final int id) {
-        init();
-        Championnat chp = dao.find(new Integer(id));
-        dao.close();
-        if (chp == null) {
-            return "Inconnu !";
-        } else {
-            return chp.toString();
-        }
-    }
-
     /**
      * Obtention des données de base d'un championnat
      * 
@@ -110,6 +86,7 @@ public class JsonChampionnat {
                 // g.writeObjectFieldStart("championnat");
                 g.writeNumberField("id", chp.getId());
                 g.writeStringField("libelle", chp.getLibelle());
+                g.writeStringField("type", chp.getType());
                 // g.writeEndObject(); // for field 'name'
                 // 9 g.writeStringField("gender", Gender.MALE);
                 // 10 g.writeBooleanField("verified", false);
@@ -201,6 +178,7 @@ public class JsonChampionnat {
                     g.writeStartObject();
                     g.writeNumberField("id", chp.getId());
                     g.writeStringField("libelle", chp.getLibelle());
+                    g.writeStringField("type", chp.getType());
                     g.writeEndObject();
                 }
                 g.writeEndArray();
@@ -324,14 +302,20 @@ public class JsonChampionnat {
         Response response;
 
         String libelle = params.getLibelle();
+        String type = params.getType();
 
         if (libelle == null || libelle.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Le libellé du championnat doit être renseigné !"))
                     .build();
+        } else if (type == null || type.equals("")) {
+            response = Response.status(Status.NOT_ACCEPTABLE)
+                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
+                            "Le type du championnat doit être renseigné !"))
+                    .build();
         } else {
-            Championnat championnat = new Championnat(libelle);
+            Championnat championnat = new Championnat(libelle, type);
             dao.create(championnat);
             response = Response.ok(new WsReturn(championnat.getId(),
                     "Championnat " + championnat.getLibelle() + " ajouté !")).build();
@@ -353,7 +337,7 @@ public class JsonChampionnat {
      */
 
     @PUT
-    @Path("/championnat")
+    @Path("/championnat/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(final ChampionnatParams params) {
@@ -362,16 +346,23 @@ public class JsonChampionnat {
         Response response;
 
         String libelle = params.getLibelle();
+        String type = params.getType() ;
 
         if (libelle == null || libelle.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Le libelle du chmpionnat doit être renseigné !"))
                     .build();
-        } else {
+        } else if (type == null || type.equals("")) {
+            response = Response.status(Status.NOT_ACCEPTABLE)
+                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
+                            "Le type du championnat doit être renseigné !"))
+                    .build();
+        }else {
             Championnat championnat = dao.find(params.getId().intValue());
             if (championnat != null) {
                 championnat.setLibelle(libelle);
+                championnat.setType(type);
                 dao.update(championnat);
                 response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
                         "Cahmpionnat " + championnat.getLibelle() + " modifié !")).build();

@@ -23,7 +23,7 @@ public class ChampionnatTest {
      */
     @Before
     public void setUp() throws Exception {
-        chp = new Championnat("JUnit");
+        chp = new Championnat("JUnit", "gt");
         assertNotNull(chp);
     }
 
@@ -33,7 +33,7 @@ public class ChampionnatTest {
      */
     @Test
     public final void testChampionnat() {
-        Championnat jUnitChp = new Championnat("JUnit");
+        Championnat jUnitChp = new Championnat("JUnit", "gt");
         assertEquals("JUnit", jUnitChp.getLibelle());
     }
 
