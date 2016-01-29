@@ -29,7 +29,7 @@ import net.leludo.gtrchamp.dao.PaysDao;
  * concernant la gestion des circuits.
  * 
  */
-@Path("admin/circuit")
+@Path("/track")
 public class AdminCircuit {
 
     /** Le contexte d'exécution web */
@@ -55,14 +55,14 @@ public class AdminCircuit {
     }
 
     /**
-     * Retourne la liste des pilotes
+     * Retourne la liste des circuits
      * 
-     * @return La liste des pilotes
+     * @return La liste des circuits
      */
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Circuit> pilote() {
+    public List<Circuit> tracks() {
         init();
         List<Circuit> circuits = dao.findAll();
         dao.close();
@@ -70,12 +70,28 @@ public class AdminCircuit {
     }
 
     /**
-     * Ajoute un pilote en base
+     * Retourne un circuit en fonction de son id
+     * 
+     * @param id
+     *            L'id du circuit concerné
+     */
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Circuit track(@PathParam("id") final int id) {
+        init();
+        Circuit circuit = dao.find(id);
+        dao.close();
+        return circuit;
+    }
+
+    /**
+     * Ajoute un circuit en base
      *
      * @param params
      *            Les paramètres d'entrée de la requête correspondant à un
      *            circuit
-     * @return HTTP 200 si la création du pilote est un succès, HTTP 406 (not
+     * @return HTTP 200 si la création du circuit est un succès, HTTP 406 (not
      *         acceptable) si un des paramètre attendu est incorrect.
      */
     @POST
@@ -146,9 +162,9 @@ public class AdminCircuit {
      * @param params
      *            Les paramètres d'entrée de la requête correspondant à un
      *            circuit
-     * @return HTTP 200 si la modification du circuit est un succès, HTTP 404
-     *         si le circuit à modifier est introuvable, HTTP 406 (not
-     *         acceptable) si un des paramètre attendu est incorrect.
+     * @return HTTP 200 si la modification du circuit est un succès, HTTP 404 si
+     *         le circuit à modifier est introuvable, HTTP 406 (not acceptable)
+     *         si un des paramètre attendu est incorrect.
      */
     @PUT
     @Path("/{id}")
@@ -188,7 +204,7 @@ public class AdminCircuit {
     }
 
     /**
-     * Supprime un pilote en base
+     * Supprime un circuit en base
      *
      * @param id
      *            Id du circuit à supprimer
@@ -223,8 +239,8 @@ public class AdminCircuit {
      *
      * @param id
      *            L'ID du circuit concerné
-     * @return {code:1,message:""} s'il a été couru ou {code:0,message:""}
-     *         s'il n'a pas été couru
+     * @return {code:1,message:""} s'il a été couru ou {code:0,message:""} s'il
+     *         n'a pas été couru
      */
     @GET
     @Path("/{id}/estcouru")

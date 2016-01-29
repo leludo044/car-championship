@@ -39,7 +39,7 @@ import net.leludo.gtrchamp.dao.CircuitDao;
  * /championnat/:idChp/grandprix/list - /championnat/:idChp/classement -
  * /grandprix/:idGrandPrix - /grandprix/:idGrandPrix/resultat/list
  */
-@Path("json")
+@Path("/championship")
 public class JsonChampionnat {
 
     @Context
@@ -66,7 +66,7 @@ public class JsonChampionnat {
      * @return Les données de base du championnat
      */
     @GET
-    @Path("/championnat/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getJson(@PathParam("id") final int id) {
         init();
@@ -112,7 +112,7 @@ public class JsonChampionnat {
      * @return La liste des grands prix du championnat
      */
     @GET
-    @Path("/championnat/{idChp}/grandprix/list")
+    @Path("/{idChp}/grandprix/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String getJsonGrandsPrix(@PathParam("idChp") final int idChp) {
         init();
@@ -157,7 +157,7 @@ public class JsonChampionnat {
      * @return La liste des championnats
      */
     @GET
-    @Path("/championnat/list")
+    @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public String listJsonChampionnat() {
         init();
@@ -199,7 +199,7 @@ public class JsonChampionnat {
      * @return Les résultats du grand prix
      */
     @GET
-    @Path("/grandprix/{idGp}/resultat/list")
+    @Path("/grandprix/{idGp}/resultat")
     @Produces(MediaType.APPLICATION_JSON)
     public String listJsonResultats(@PathParam("idGp") final int idGp) {
         init();
@@ -248,7 +248,7 @@ public class JsonChampionnat {
      * @return Le classement général du championnat
      */
     @GET
-    @Path("/championnat/{idChp}/classement")
+    @Path("/{idChp}/classement")
     @Produces(MediaType.APPLICATION_JSON)
     public String listJsonClassement(@PathParam("idChp") final int idChp) {
         init();
@@ -293,7 +293,7 @@ public class JsonChampionnat {
      *         acceptable) si un des paramètre attendu est incorrect.
      */
     @POST
-    @Path("/championnat")
+    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(final ChampionnatParams params) {
@@ -337,7 +337,7 @@ public class JsonChampionnat {
      */
 
     @PUT
-    @Path("/championnat/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(final ChampionnatParams params) {
@@ -386,7 +386,7 @@ public class JsonChampionnat {
      *         circuit à supprimer est introuvable.
      */
     @DELETE
-    @Path("/championnat/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") final int id) {
         init();
@@ -417,7 +417,7 @@ public class JsonChampionnat {
      *         n'a pas été couru
      */
     @GET
-    @Path("/championnat/{id}/estcommence")
+    @Path("/{id}/estcommence")
     @Produces(MediaType.APPLICATION_JSON)
     public Response estCommence(@PathParam("id") final Integer id) {
         init();
@@ -438,7 +438,7 @@ public class JsonChampionnat {
     }
 
     @PUT
-    @Path("/championnat/{id}/{idCircuit}")
+    @Path("/{id}/{idCircuit}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") final Integer id,
@@ -474,7 +474,7 @@ public class JsonChampionnat {
     }
 
     @DELETE
-    @Path("/championnat/{id}/{idCircuit}")
+    @Path("/{id}/{idCircuit}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") final Integer id,
@@ -508,7 +508,7 @@ public class JsonChampionnat {
     }
 
     @GET
-    @Path("/championnat/{id}/tracks")
+    @Path("/{id}/tracks")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") Integer id) {

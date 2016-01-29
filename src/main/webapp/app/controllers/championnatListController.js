@@ -78,7 +78,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 			}
 			$http({
 				method: 'GET',
-				url: './ws/json/championnat/' + $scope.selected.id + '/tracks'
+				url: './api/championship/' + $scope.selected.id + '/tracks'
 			}).then(function (response) {
 				selectTracks($scope.tracks, response.data);
 			}, function () {
@@ -92,7 +92,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 			if (exists < 0) {
 				$http({
 					method: 'PUT',
-					url: './ws/json/championnat/' + $scope.selected.id + '/' + circuit.id
+					url: './api/championship/' + $scope.selected.id + '/' + circuit.id
 				}).then(function () {
 					$scope.selectedTracks.push(index);
 				}, function () {
@@ -101,7 +101,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 			} else {
 				$http({
 					method: 'DELETE',
-					url: './ws/json/championnat/' + $scope.selected.id + '/' + circuit.id
+					url: './api/championship/' + $scope.selected.id + '/' + circuit.id
 				}).then(function () {
 					delete $scope.selectedTracks[exists];
 				}, function () {

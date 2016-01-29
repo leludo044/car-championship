@@ -18,7 +18,7 @@ import net.leludo.gtrchamp.dao.PaysDao;
  * concernant la gestion des pays.
  * 
  */
-@Path("admin/pays")
+@Path("/country")
 public class AdminPays {
 
     /** Le contexte d'exécution web */
@@ -48,7 +48,7 @@ public class AdminPays {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Pays> pilote() {
+    public List<Pays> countries() {
         init();
         List<Pays> pays = dao.findAll();
         dao.close();

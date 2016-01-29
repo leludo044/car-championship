@@ -27,7 +27,7 @@ import net.leludo.gtrchamp.dao.PiloteDao;
  * concernant la gestion des pilotes.
  * 
  */
-@Path("admin/pilote")
+@Path("/driver")
 public class Administration {
 
     /** Le contexte d'exécution web */
@@ -57,11 +57,29 @@ public class Administration {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Pilote> pilote() {
+    public List<Pilote> drivers() {
         init();
         List<Pilote> pilotes = dao.findAll();
         dao.close();
         return pilotes;
+    }
+
+    /**
+     * Retourne un pilote selon son id
+     * 
+     * @param id
+     *            Id du pilote concerné
+     * 
+     * @return Le pilote correspondant à l'id
+     */
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Pilote driver(@PathParam("id") final int id) {
+        init();
+        Pilote pilote = dao.find(id);
+        dao.close();
+        return pilote;
     }
 
     /**
@@ -163,12 +181,10 @@ public class Administration {
     }
 
     /**
-     * Ajoute un pilote en base
+     * Supprimer un pilote en base
      * 
-     * @param prenom
-     *            Le prénom du pilote à ajouter
-     * @param dateNaissanceLa
-     *            date de naissance du pilote à ajotter
+     * @param id
+     *            Id du pilote à supprimer
      * @return HTTP 200 si la suppression s'est bien déroulée, HTTP 404 si le
      *         pilote à supprimer est introuvable.
      */
@@ -196,7 +212,7 @@ public class Administration {
     }
 
     /**
-     * Indique si un pilote à déjà couru au moins un grnd prix
+     * Indique si un pilote à déjà couru au moins un grand prix
      * 
      * @param id
      *            L'ID du pilote concerné
