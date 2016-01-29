@@ -154,14 +154,11 @@ public class Administration {
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Le prénom du pilote doit être renseigné !"))
                     .build();
-        } else if (dateNaissance == null) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "La date de naissance du pilote doit être renseignée !"))
-                    .build();
         } else {
-            LocalDate date = LocalDate.parse(dateNaissance,
-                    DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            LocalDate date = null;
+            if (dateNaissance != null && !dateNaissance.equals("")) {
+                date = LocalDate.parse(dateNaissance, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
             Pilote pilote = dao.find(params.getId().intValue());
             if (pilote != null) {
                 pilote.setPrenom(prenom);
