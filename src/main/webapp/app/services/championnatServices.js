@@ -1,11 +1,11 @@
 var championnatServices = angular.module('championnatServices',
 		[ 'ngResource' ]);
 championnatServices.factory('Championnats', [ '$resource', function($resource) {
-	return $resource('./ws/json/championnat/:chpId/:type', {chpId : '@id'}, {
+	return $resource('./api/championship/:chpId/:type', {chpId : '@id'}, {
 		query : {
 			method : 'GET',
 			params : {
-				chpId : 'list',
+				chpId : null,
 				type : null
 			},
 			isArray : true

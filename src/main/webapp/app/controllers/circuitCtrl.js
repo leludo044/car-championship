@@ -7,7 +7,7 @@ controllers.controller('CircuitCtrl', [ '$scope', '$routeParams', 'Circuits',
 			// Simple GET request example:
 			$http({
 			  method: 'GET',
-			  url: './ws/admin/pays'
+			  url: './api/country'
 			}).then(function successCallback(response) {
 				$scope.pays = response.data ;
 			  }, function errorCallback(response) {
