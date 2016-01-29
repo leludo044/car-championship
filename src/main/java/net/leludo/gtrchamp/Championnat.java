@@ -39,8 +39,9 @@ public class Championnat {
         return null;
     }
 
-    public Championnat(final String pLibelle) {
+    public Championnat(final String pLibelle, final String pType) {
         this.libelle = pLibelle;
+        this.type = pType;
         this.grandsPrix = new ArrayList<GrandPrix>();
     }
 
