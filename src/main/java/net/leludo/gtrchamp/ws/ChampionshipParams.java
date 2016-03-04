@@ -1,8 +1,14 @@
 package net.leludo.gtrchamp.ws;
 
-public class ChampionnatParams {
+/**
+ * Wrapper for championship request parameters.
+ *
+ * @author Ludovic THOMAS
+ *
+ */
+public class ChampionshipParams {
     private Integer id;
-    private String libelle;
+    private String name;
     private String type;
 
     /**
@@ -21,18 +27,18 @@ public class ChampionnatParams {
     }
 
     /**
-     * @return the nom
+     * @return the name
      */
-    public String getLibelle() {
-        return libelle;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param libelle
-     *            the libelle to set
+     * @param name
+     *            the name to set
      */
-    public void setLibelle(final String libelle) {
-        this.libelle = libelle;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     /**
@@ -43,9 +49,10 @@ public class ChampionnatParams {
     }
 
     /**
-     * @param type the type to set
+     * @param type
+     *            the type to set
      */
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 }

@@ -37,22 +37,22 @@ public class GrandPrix {
 
     @OneToOne
     @JoinColumn(name = "idChampionnat", nullable = false)
-    private Championnat championnat;
+    private Championship championnat;
 
-    public Concurrent inscrire(final Pilote pilote) throws ChampionnatException {
+    public Concurrent inscrire(final Pilote pilote) throws ChampionshipException {
         if (pilote == null) {
-            throw new ChampionnatException();
+            throw new ChampionshipException();
         }
         Concurrent concurrent = new Concurrent(pilote);
         this.concurrents.add(concurrent);
         return concurrent;
     }
 
-    public List<Concurrent> rendreClassement() throws ChampionnatException {
+    public List<Concurrent> rendreClassement() throws ChampionshipException {
         if (this.concurrents.size() == 0) {
-            throw new ChampionnatException();
+            throw new ChampionshipException();
         } else if (!this.isTermine()) {
-            throw new ChampionnatException();
+            throw new ChampionshipException();
         }
 
         Collections.sort(concurrents, new Comparator<Concurrent>() {
@@ -71,7 +71,7 @@ public class GrandPrix {
         return concurrents;
     }
 
-    public GrandPrix(final Championnat championnat, final Circuit circuit, final Date date) {
+    public GrandPrix(final Championship championnat, final Circuit circuit, final Date date) {
         this.championnat = championnat;
         this.circuit = circuit;
         this.date = date;

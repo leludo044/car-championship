@@ -1,9 +1,11 @@
 package net.leludo.gtrchamp;
 /**
- * 
+ *
  */
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 
@@ -16,41 +18,41 @@ import org.junit.Test;
  */
 
 public class ChampionnatTest {
-    private Championnat chp;
+    private Championship chp;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        chp = new Championnat("JUnit", "gt");
+        chp = new Championship("JUnit", "gt");
         assertNotNull(chp);
     }
 
     /**
      * Test method for
-     * {@link net.leludo.gtrchamp.Championnat#Championnat(java.lang.String)}.
+     * {@link net.leludo.gtrchamp.Championship#Championnat(java.lang.String)}.
      */
     @Test
     public final void testChampionnat() {
-        Championnat jUnitChp = new Championnat("JUnit", "gt");
-        assertEquals("JUnit", jUnitChp.getLibelle());
+        Championship jUnitChp = new Championship("JUnit", "gt");
+        assertEquals("JUnit", jUnitChp.getName());
     }
 
     /**
      * Test method for
-     * {@link net.leludo.gtrchamp.Championnat#organiserGrandPrix(net.leludo.gtrchamp.Circuit, java.util.Date)}
+     * {@link net.leludo.gtrchamp.Championship#planRace(net.leludo.gtrchamp.Circuit, java.util.Date)}
      * .
      */
     @Test
     public final void testOrganiserGrandPrix() {
-        chp.organiserGrandPrix(new Circuit(), Calendar.getInstance().getTime());
-        assertEquals(1, chp.getGrandsPrix().size());
+        chp.planRace(new Circuit(), Calendar.getInstance().getTime());
+        assertEquals(1, chp.getPlannedRaces().size());
     }
 
     /**
      * Test method for
-     * {@link net.leludo.gtrchamp.Championnat#rendreClassement()}.
+     * {@link net.leludo.gtrchamp.Championship#rendreClassement()}.
      */
     @Test
     @Ignore

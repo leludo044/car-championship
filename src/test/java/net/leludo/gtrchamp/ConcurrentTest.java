@@ -23,46 +23,46 @@ public class ConcurrentTest {
     }
 
     @Test
-    public void testHasPolePosition() throws ChampionnatException {
+    public void testHasPolePosition() throws ChampionshipException {
         acteur.setPositionDepart(1);
         assertTrue(acteur.hasPolePosition());
     }
 
     @Test
-    public void testNotHasPolePosition() throws ChampionnatException {
+    public void testNotHasPolePosition() throws ChampionshipException {
         acteur.setPositionDepart(2);
         Assert.assertFalse(acteur.hasPolePosition());
     }
 
     @Test
-    public void testIsVainqueur() throws ChampionnatException {
+    public void testIsVainqueur() throws ChampionshipException {
         acteur.setPositionArrivee(1);
         Assert.assertTrue(acteur.isVainqueur());
     }
 
     @Test
-    public void testNotIsVainqueur() throws ChampionnatException {
+    public void testNotIsVainqueur() throws ChampionshipException {
         acteur.setPositionArrivee(2);
         Assert.assertFalse(acteur.isVainqueur());
     }
 
-    @Test(expected = ChampionnatException.class)
-    public void testPositionDepartZero() throws ChampionnatException {
+    @Test(expected = ChampionshipException.class)
+    public void testPositionDepartZero() throws ChampionshipException {
         acteur.setPositionDepart(0);
     }
 
-    @Test(expected = ChampionnatException.class)
-    public void testPositionDepartNegative() throws ChampionnatException {
+    @Test(expected = ChampionshipException.class)
+    public void testPositionDepartNegative() throws ChampionshipException {
         acteur.setPositionDepart(-1);
     }
 
-    @Test(expected = ChampionnatException.class)
-    public void testPositionArriveeZero() throws ChampionnatException {
+    @Test(expected = ChampionshipException.class)
+    public void testPositionArriveeZero() throws ChampionshipException {
         acteur.setPositionArrivee(0);
     }
 
-    @Test(expected = ChampionnatException.class)
-    public void testPositionArriveeNegative() throws ChampionnatException {
+    @Test(expected = ChampionshipException.class)
+    public void testPositionArriveeNegative() throws ChampionshipException {
         acteur.setPositionArrivee(-1);
     }
 
@@ -78,7 +78,7 @@ public class ConcurrentTest {
     }
 
     @Test
-    public void testHasTermine() throws ChampionnatException {
+    public void testHasTermine() throws ChampionshipException {
         acteur.setPositionArrivee(1);
         Assert.assertTrue(acteur.hasTermine());
     }

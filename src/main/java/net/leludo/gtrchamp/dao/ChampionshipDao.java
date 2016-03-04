@@ -5,32 +5,60 @@ import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.Query;
 
-import net.leludo.gtrchamp.Championnat;
-import net.leludo.gtrchamp.Concurrent;
+import net.leludo.gtrchamp.Championship;
 
+/**
+ * Championship repository based on JPA configuration.
+ *
+ * @author Ludovic THOMAS
+ *
+ */
 @Singleton
-public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
+public class ChampionshipDao extends DefaultDao<Championship, Integer> {
 
-    public ChampionnatDao() {
-        super(Championnat.class);
+    /**
+     * Constructor.
+     */
+    public ChampionshipDao() {
+        super(Championship.class);
     }
 
-    public List<Championnat> findAll() {
-        String queryString = "from Championnat";
+    /**
+     * @return all the championships
+     */
+    public List<Championship> all() {
+        String queryString = "from Championship";
         javax.persistence.Query query = this.em.createQuery(queryString);
         return query.getResultList();
     }
 
-    public List<Object[]> findResultats(final int idGrandPrix) {
-        //String queryString = "from Concurrent where grandPrix.id=:id order by numCourse, place";
+    /**
+     * Return the results of a race.
+     *
+     * @param idGrandPrix
+     *            The id of the race to get results
+     * @return the results of the race
+     */
+    public List<Object[]> results(final int idGrandPrix) {
+        // String queryString = "from Concurrent where grandPrix.id=:id order by
+        // numCourse, place";
         String queryString = "select c, p.points from Concurrent c, Point p where c.grandPrix.id=:id and p.place = c.positionArrivee and p.type = c.grandPrix.championnat.type order by c.id.numCourse, p.place";
         javax.persistence.Query query = this.em.createQuery(queryString);
         query.setParameter("id", idGrandPrix);
         return query.getResultList();
     }
 
-    public List<Object[]> findClassement(final int idChampionnat) {
-        //String queryString = "select pilote, sum(c.points.points) from Concurrent c where c.grandPrix.championnat.id = :id group by c.pilote order by sum(c.points.points) desc";
+    /**
+     * Return the standings of a championship.
+     *
+     * @param idChampionnat
+     *            The id of the championship to get standings
+     * @return the standings of the championship
+     */
+    public List<Object[]> standings(final int idChampionnat) {
+        // String queryString = "select pilote, sum(c.points.points) from
+        // Concurrent c where c.grandPrix.championnat.id = :id group by c.pilote
+        // order by sum(c.points.points) desc";
         String queryString = "select c.pilote, sum(p.points) from Concurrent c, Point p where c.grandPrix.championnat.id = :id and p.place = c.positionArrivee and p.type = c.grandPrix.championnat.type group by c.pilote order by sum(p.points) desc";
 
         javax.persistence.Query query = this.em.createQuery(queryString);
@@ -40,12 +68,12 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
     }
 
     /**
-     * Crée un championnat en base
-     * 
+     * Save a new championship.
+     *
      * @param championnat
-     *            Le championnat à sauvegarder
+     *            The new championship to save
      */
-    public void create(final Championnat championnat) {
+    public void save(final Championship championnat) {
         this.em.getTransaction().begin();
         this.em.persist(championnat);
         this.em.getTransaction().commit();
@@ -53,12 +81,12 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
     }
 
     /**
-     * Modifie un championnat en base
-     * 
+     * Update an existing championship.
+     *
      * @param championnat
-     *            Le championnat à modifier
+     *            The existing championship to update
      */
-    public void update(final Championnat championnat) {
+    public void update(final Championship championnat) {
         this.em.getTransaction().begin();
         this.em.merge(championnat);
         this.em.getTransaction().commit();
@@ -66,12 +94,12 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
     }
 
     /**
-     * Supprime un championnat en base
-     * 
+     * Delete an existing championship.
+     *
      * @param championnat
-     *            Le championnat à supprimer
+     *            Le existing championship to delete
      */
-    public void delete(final Championnat championnat) {
+    public void delete(final Championship championnat) {
         this.em.getTransaction().begin();
         this.em.remove(championnat);
         this.em.getTransaction().commit();
@@ -79,13 +107,14 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
     }
 
     /**
-     * Indique si un championnat est commencé
-     * 
+     * Say if a championship is started or not. A championship is started if at
+     * least one race is planned
+     *
      * @param id
-     *            L'ID du championnat concerné
+     *            The id of the championship to check
      * @return true ou false
      */
-    public boolean estCommence(final int id) {
+    public boolean isStarted(final int id) {
         this.em.getTransaction().begin();
         Query query = this.em
                 .createQuery("select count(*) from GrandPrix where championnat.id=:id");
@@ -95,5 +124,4 @@ public class ChampionnatDao extends DefaultDao<Championnat, Integer> {
 
         return nbGrandsPrix > 0;
     }
-
 }

@@ -63,19 +63,19 @@ public class Concurrent {
         return pilote;
     }
 
-    public void setPositionDepart(final int positionDepart) throws ChampionnatException {
+    public void setPositionDepart(final int positionDepart) throws ChampionshipException {
         if (positionDepart > 0) {
             this.positionDepart = positionDepart;
         } else {
-            throw new ChampionnatException();
+            throw new ChampionshipException();
         }
     }
 
-    public void setPositionArrivee(final int positionArrivee) throws ChampionnatException {
+    public void setPositionArrivee(final int positionArrivee) throws ChampionshipException {
         if (positionArrivee > 0) {
             this.positionArrivee = positionArrivee;
         } else {
-            throw new ChampionnatException();
+            throw new ChampionshipException();
         }
     }
 

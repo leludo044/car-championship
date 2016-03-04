@@ -23,32 +23,32 @@ public class GrandPrixTest {
     }
 
     @Test
-    public void testInscrirePilote() throws ChampionnatException {
+    public void testInscrirePilote() throws ChampionshipException {
         Concurrent concurrent = inscrirePilote(1);
         Assert.assertEquals(1, acteur.getNbInscrits());
         Assert.assertEquals("", concurrent.getPilote().getNom());
     }
 
-    @Test(expected = ChampionnatException.class)
-    public void testInscrirePiloteNull() throws ChampionnatException {
+    @Test(expected = ChampionshipException.class)
+    public void testInscrirePiloteNull() throws ChampionshipException {
         Concurrent concurrent = acteur.inscrire(null);
     }
 
     @Test
-    public void testIsNotTermine() throws ChampionnatException {
+    public void testIsNotTermine() throws ChampionshipException {
         this.inscrirePilote(1);
         Assert.assertFalse(acteur.isTermine());
     }
 
     @Test
-    public void testIsTerminePour1Concurrent() throws ChampionnatException {
+    public void testIsTerminePour1Concurrent() throws ChampionshipException {
         Concurrent concurrent = this.inscrirePilote(1);
         concurrent.setPositionArrivee(1);
         Assert.assertTrue(acteur.isTermine());
     }
 
     @Test
-    public void testIsNotTerminePour1Concurrent() throws ChampionnatException {
+    public void testIsNotTerminePour1Concurrent() throws ChampionshipException {
         Concurrent concurrent1 = this.inscrirePilote(1);
         concurrent1.setPositionArrivee(1);
         Concurrent concurrent2 = this.inscrirePilote(2);
@@ -56,7 +56,7 @@ public class GrandPrixTest {
     }
 
     @Test
-    public void testIsTerminePour2Concurrents() throws ChampionnatException {
+    public void testIsTerminePour2Concurrents() throws ChampionshipException {
         Concurrent concurrent1 = this.inscrirePilote(1);
         concurrent1.setPositionArrivee(1);
         Concurrent concurrent2 = this.inscrirePilote(2);
@@ -64,28 +64,28 @@ public class GrandPrixTest {
         Assert.assertTrue(acteur.isTermine());
     }
 
-    @Test(expected = ChampionnatException.class)
-    public void testRendreClassementACreation() throws ChampionnatException {
+    @Test(expected = ChampionshipException.class)
+    public void testRendreClassementACreation() throws ChampionshipException {
         acteur.rendreClassement();
     }
 
-    @Test(expected = ChampionnatException.class)
-    public void testRendreClassementPourGrandsPrixNonTermine() throws ChampionnatException {
+    @Test(expected = ChampionshipException.class)
+    public void testRendreClassementPourGrandsPrixNonTermine() throws ChampionshipException {
         this.inscrirePilote(1);
         acteur.rendreClassement();
     }
 
     @Test
-    public void testRendreClassementPour1Concurrent() throws ChampionnatException {
+    public void testRendreClassementPour1Concurrent() throws ChampionshipException {
         Concurrent concurrent = this.inscrirePilote(1);
         concurrent.setPositionArrivee(1);
         List<Concurrent> classement = acteur.rendreClassement();
         Assert.assertEquals(1, classement.size());
     }
 
-    @Test(expected = ChampionnatException.class)
+    @Test(expected = ChampionshipException.class)
     public void testRendreClassementPourPlusieursConcurrentsNonTermine()
-            throws ChampionnatException {
+            throws ChampionshipException {
         Concurrent concurrent1 = this.inscrirePilote(1);
         concurrent1.setPositionArrivee(1);
         Concurrent concurrent2 = this.inscrirePilote(2);
@@ -93,7 +93,7 @@ public class GrandPrixTest {
     }
 
     @Test
-    public void testRendreClassementPourPlusieursConcurrentsTermine() throws ChampionnatException {
+    public void testRendreClassementPourPlusieursConcurrentsTermine() throws ChampionshipException {
         Concurrent concurrent1 = this.inscrirePilote(1);
         concurrent1.setPositionArrivee(1);
         Concurrent concurrent2 = this.inscrirePilote(2);
@@ -103,7 +103,7 @@ public class GrandPrixTest {
     }
 
     @Test
-    public void testRendreClassementPourPlusieursConcurrentsTrie() throws ChampionnatException {
+    public void testRendreClassementPourPlusieursConcurrentsTrie() throws ChampionshipException {
         Concurrent concurrent1 = this.inscrirePilote(1);
         concurrent1.setPositionArrivee(2);
         Concurrent concurrent2 = this.inscrirePilote(2);
@@ -114,7 +114,7 @@ public class GrandPrixTest {
         Assert.assertEquals(concurrent1, classement.get(1));
     }
 
-    private Concurrent inscrirePilote(final int id) throws ChampionnatException {
+    private Concurrent inscrirePilote(final int id) throws ChampionshipException {
         Pilote pilote = new Pilote();
         pilote.setId(id);
         Concurrent concurrent = acteur.inscrire(pilote);

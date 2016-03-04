@@ -19,7 +19,7 @@
 						<tbody>
 							<tr data-ng-repeat="championnat in championnats">
 								<td ng-click="selectionner(championnat, $index)">{{championnat.id}}</td>
-								<td ng-click="selectionner(championnat, $index)">{{championnat.libelle}}</td>
+								<td ng-click="selectionner(championnat, $index)">{{championnat.name}}</td>
 								<td>{{championnat.type}}</td>
 								<td><span class="glyphicon glyphicon-flag"
 									aria-hidden="true" title="Affecter les circuits"
@@ -30,7 +30,7 @@
 							<tr>
 								<td></td>
 								<td><input type="text" class="form-control" id="nom"
-									placeholder="libelle" ng-model="form.libelle"></td>
+									placeholder="name" ng-model="form.name"></td>
 									<td><input type="text" class="form-control" id="type"
 									placeholder="type" ng-model="form.type"></td>
 								<td>
