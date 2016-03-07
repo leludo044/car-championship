@@ -21,7 +21,7 @@ public class Circuit {
 
     @OneToOne
     @JoinColumn(name = "idPays", nullable = false)
-    private Pays pays;
+    private Country pays;
 
     public Circuit() {
         this.nom = "";
@@ -29,7 +29,7 @@ public class Circuit {
         this.pays = null;
     }
 
-    public Circuit(final String nom, final Float longueur, final Pays pays) {
+    public Circuit(final String nom, final Float longueur, final Country pays) {
         this.nom = nom;
         this.longueur = longueur;
         this.pays = pays;
@@ -72,7 +72,7 @@ public class Circuit {
         this.longueur = longueur;
     }
 
-    public Pays getPays() {
+    public Country getPays() {
         return pays;
     }
 
@@ -80,7 +80,7 @@ public class Circuit {
      * @param pays
      *            the pays to set
      */
-    public void setPays(final Pays pays) {
+    public void setPays(final Country pays) {
         this.pays = pays;
     }
 

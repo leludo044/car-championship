@@ -10,29 +10,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import net.leludo.gtrchamp.Pays;
-import net.leludo.gtrchamp.dao.PaysDao;
+import net.leludo.gtrchamp.Country;
+import net.leludo.gtrchamp.dao.CountryDao;
 
 /**
- * Classe de service prenant en charge les opérations d'administration
- * concernant la gestion des pays.
- * 
+ * Web service for all country requests.
  */
 @Path("/country")
-public class AdminPays {
+public class CountryWebService {
 
-    /** Le contexte d'exécution web */
     @Context
     private ServletContext servletContext;
 
-    /** L'usine JPA */
     private EntityManagerFactory emf;
 
-    /** DAO d'accès aux pays en base */
-    private PaysDao dao = new PaysDao();
+    private CountryDao dao = new CountryDao();
 
     /**
-     * Initialisation JPA
+     * Ask for the entity manager registered for the application and inject it
+     * in the DAO.
      */
     public void init() {
         emf = (EntityManagerFactory) servletContext
@@ -41,17 +37,15 @@ public class AdminPays {
     }
 
     /**
-     * Retourne la liste des pays
-     * 
-     * @return La liste des pays
+     * @return The countries list
      */
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Pays> countries() {
+    public List<Country> countries() {
         init();
-        List<Pays> pays = dao.findAll();
+        List<Country> country = dao.all();
         dao.close();
-        return pays;
+        return country;
     }
 }

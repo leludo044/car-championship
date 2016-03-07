@@ -317,7 +317,7 @@ public class ChampionshipWebService {
                     g.writeStringField("nom", gp.getCircuit().getNom());
                     g.writeNumberField("longueur", gp.getCircuit().getLongueur());
                     g.writeStringField("date", gp.getDateFr());
-                    g.writeStringField("pays", gp.getCircuit().getPays().getNom());
+                    g.writeStringField("pays", gp.getCircuit().getPays().getName());
                     g.writeEndObject();
                 }
                 // g.writeEndArray();

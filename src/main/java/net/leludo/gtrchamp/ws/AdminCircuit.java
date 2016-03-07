@@ -20,9 +20,9 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang3.StringUtils;
 
 import net.leludo.gtrchamp.Circuit;
-import net.leludo.gtrchamp.Pays;
+import net.leludo.gtrchamp.Country;
 import net.leludo.gtrchamp.dao.CircuitDao;
-import net.leludo.gtrchamp.dao.PaysDao;
+import net.leludo.gtrchamp.dao.CountryDao;
 
 /**
  * Classe de service prenant en charge les opérations d'administration
@@ -42,7 +42,7 @@ public class AdminCircuit {
     /** DAO d'accès au pilote en base */
     private CircuitDao dao = new CircuitDao();
 
-    private PaysDao paysDao = new PaysDao();
+    private CountryDao paysDao = new CountryDao();
 
     /**
      * Initialisation JPA
@@ -111,7 +111,7 @@ public class AdminCircuit {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), message)).build();
         } else {
-            Pays pays = paysDao.find(Integer.valueOf(idPays));
+            Country pays = paysDao.find(Integer.valueOf(idPays));
             Circuit circuit = new Circuit(nom, params.getLongueur(), pays);
             dao.create(circuit);
             response = Response
@@ -183,7 +183,7 @@ public class AdminCircuit {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), message)).build();
         } else {
-            Pays pays = paysDao.find(Integer.valueOf(idPays));
+            Country pays = paysDao.find(Integer.valueOf(idPays));
             Circuit circuit = dao.find(params.getId().intValue());
             if (circuit != null) {
                 circuit.setNom(nom);

@@ -23,7 +23,7 @@
 								<td>{{circuit.id}}</td>
 								<td>{{circuit.nom}}</td>
 								<td>{{circuit.longueur}}</td>
-								<td>{{circuit.pays.nom}}</td>
+								<td>{{circuit.pays.name}}</td>
 								<td></td>
 							</tr>
 						</tbody>
@@ -37,7 +37,7 @@
 								<td><select class="form-control"
 									ng-model="formCircuit.indexPays">
 										<option value="-1"></option>
-										<option ng-repeat="aPays in pays" value="{{$index}}">{{aPays.nom}}</option>
+										<option ng-repeat="aPays in pays" value="{{$index}}">{{aPays.name}}</option>
 								</select></td>
 
 								<td>
