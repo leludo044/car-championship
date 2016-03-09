@@ -26,7 +26,7 @@ public class GrandPrixTest {
     public void testInscrirePilote() throws ChampionshipException {
         Concurrent concurrent = inscrirePilote(1);
         Assert.assertEquals(1, acteur.getNbInscrits());
-        Assert.assertEquals("", concurrent.getPilote().getNom());
+        Assert.assertEquals("", concurrent.getPilote().getName());
     }
 
     @Test(expected = ChampionshipException.class)
@@ -115,7 +115,7 @@ public class GrandPrixTest {
     }
 
     private Concurrent inscrirePilote(final int id) throws ChampionshipException {
-        Pilote pilote = new Pilote();
+        Driver pilote = new Driver();
         pilote.setId(id);
         Concurrent concurrent = acteur.inscrire(pilote);
         return concurrent;

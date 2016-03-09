@@ -39,7 +39,7 @@ public class GrandPrix {
     @JoinColumn(name = "idChampionnat", nullable = false)
     private Championship championnat;
 
-    public Concurrent inscrire(final Pilote pilote) throws ChampionshipException {
+    public Concurrent inscrire(final Driver pilote) throws ChampionshipException {
         if (pilote == null) {
             throw new ChampionshipException();
         }

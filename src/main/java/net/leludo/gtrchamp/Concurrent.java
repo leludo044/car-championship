@@ -18,7 +18,7 @@ public class Concurrent {
     @MapsId("idPilote")
     @OneToOne
     @JoinColumn(name = "idPilote")
-    private Pilote pilote;
+    private Driver pilote;
 
     @MapsId("idGrandPrix")
     @OneToOne
@@ -50,16 +50,16 @@ public class Concurrent {
         this.positionArrivee = 0;
     }
 
-    public Concurrent(final Pilote pilote) {
+    public Concurrent(final Driver pilote) {
         this();
         this.setPilote(pilote);
     }
 
-    public void setPilote(final Pilote pilote) {
+    public void setPilote(final Driver pilote) {
         this.pilote = pilote;
     }
 
-    public Pilote getPilote() {
+    public Driver getPilote() {
         return pilote;
     }
 

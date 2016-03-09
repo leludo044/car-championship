@@ -27,7 +27,7 @@ import net.leludo.gtrchamp.Championship;
 import net.leludo.gtrchamp.Circuit;
 import net.leludo.gtrchamp.Concurrent;
 import net.leludo.gtrchamp.GrandPrix;
-import net.leludo.gtrchamp.Pilote;
+import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.dao.ChampionshipDao;
 import net.leludo.gtrchamp.dao.CircuitDao;
 
@@ -361,7 +361,7 @@ public class ChampionshipWebService {
                 for (Object[] pilote : classement) {
                     g.writeStartObject();
                     g.writeNumberField("rang", rang++);
-                    g.writeStringField("nom", ((Pilote) pilote[0]).getNom());
+                    g.writeStringField("nom", ((Driver) pilote[0]).getName());
                     g.writeNumberField("points", (Long) pilote[1]);
                     g.writeEndObject();
                 }
@@ -525,7 +525,7 @@ public class ChampionshipWebService {
                     g.writeStartObject();
                     g.writeNumberField("idPilote",
                             ((Concurrent) concurrent[0]).getPilote().getId());
-                    g.writeStringField("nom", ((Concurrent) concurrent[0]).getPilote().getNom());
+                    g.writeStringField("nom", ((Concurrent) concurrent[0]).getPilote().getName());
                     g.writeNumberField("depart", ((Concurrent) concurrent[0]).getPositionDepart());
                     g.writeNumberField("arrivee",
                             ((Concurrent) concurrent[0]).getPositionArrivee());

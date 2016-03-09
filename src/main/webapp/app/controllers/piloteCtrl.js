@@ -6,8 +6,8 @@ controllers.controller('PiloteCtrl', [ '$scope', '$routeParams', 'Pilotes',
 			initForm = function() {
 				$scope.formPilote = {
 					id : 0,
-					nom : "",
-					dateNaissance : ""
+					name : "",
+					birthdate : ""
 				};
 			}
 			initForm();
@@ -33,8 +33,8 @@ controllers.controller('PiloteCtrl', [ '$scope', '$routeParams', 'Pilotes',
 
 			$scope.ajouter = function() {
 				var pilote = new Pilotes(); 
-				pilote.nom = $scope.formPilote.nom;
-				pilote.dateNaissance = $scope.formPilote.dateNaissance;
+				pilote.name = $scope.formPilote.name;
+				pilote.birthdate = $scope.formPilote.birthdate;
 				Pilotes.save(pilote, function(response) {
 					$scope.message = response.message;
 					pilote.id = response.code;
@@ -46,8 +46,8 @@ controllers.controller('PiloteCtrl', [ '$scope', '$routeParams', 'Pilotes',
 			$scope.modifier = function() {
 				var pilote = new Pilotes();
 				pilote.id = $scope.formPilote.id;
-				pilote.nom = $scope.formPilote.nom;
-				pilote.dateNaissance = $scope.formPilote.dateNaissance;
+				pilote.name = $scope.formPilote.name;
+				pilote.birthdate = $scope.formPilote.birthdate;
 				Pilotes.update(pilote, function(response) {
 					$scope.message = response.message;
 					$scope.pilotes[$scope.index] = pilote;
