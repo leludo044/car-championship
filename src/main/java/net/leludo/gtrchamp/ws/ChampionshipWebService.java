@@ -24,12 +24,12 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import net.leludo.gtrchamp.Championship;
-import net.leludo.gtrchamp.Circuit;
+import net.leludo.gtrchamp.Track;
 import net.leludo.gtrchamp.Concurrent;
 import net.leludo.gtrchamp.GrandPrix;
 import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.dao.ChampionshipDao;
-import net.leludo.gtrchamp.dao.CircuitDao;
+import net.leludo.gtrchamp.dao.TrackDao;
 
 /**
  * Classe de service concernant les championnats. Permet de lister tous les
@@ -45,7 +45,7 @@ public class ChampionshipWebService {
 
     private EntityManagerFactory emf;
     private ChampionshipDao dao = new ChampionshipDao();
-    private CircuitDao circuitDao = new CircuitDao();
+    private TrackDao circuitDao = new TrackDao();
 
     /**
      * Ask for the entity manager registered for the application and inject it
@@ -314,10 +314,10 @@ public class ChampionshipWebService {
                 for (GrandPrix gp : chp.getPlannedRaces()) {
                     g.writeStartObject();
                     g.writeNumberField("id", gp.getId());
-                    g.writeStringField("nom", gp.getCircuit().getNom());
-                    g.writeNumberField("longueur", gp.getCircuit().getLongueur());
+                    g.writeStringField("nom", gp.getCircuit().getName());
+                    g.writeNumberField("longueur", gp.getCircuit().getLength());
                     g.writeStringField("date", gp.getDateFr());
-                    g.writeStringField("pays", gp.getCircuit().getPays().getName());
+                    g.writeStringField("pays", gp.getCircuit().getCountry().getName());
                     g.writeEndObject();
                 }
                 // g.writeEndArray();
@@ -426,13 +426,13 @@ public class ChampionshipWebService {
         Response response;
         Championship championship = dao.find(id);
         if (championship != null) {
-            Circuit circuit = circuitDao.find(idCircuit);
+            Track circuit = circuitDao.find(idCircuit);
             if (circuit != null) {
                 GrandPrix gp = new GrandPrix(championship, circuit, null);
                 championship.planRace(circuit, null);
                 dao.update(championship);
                 response = Response
-                        .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + circuit.getNom()
+                        .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + circuit.getName()
                                 + " ajouté au championnat " + championship.getName() + "."))
                         .build();
             } else {
@@ -476,7 +476,7 @@ public class ChampionshipWebService {
                 GrandPrix gp = championship.cancelRace(idCircuit);
                 dao.update(championship);
                 response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Circuit " + gp.getCircuit().getNom() + " supprimé du championnat "
+                        "Circuit " + gp.getCircuit().getName() + " supprimé du championnat "
                                 + championship.getName() + "."))
                         .build();
             } else {

@@ -13,7 +13,7 @@ public class GrandPrixTest {
 
     @Before
     public void setUp() throws Exception {
-        acteur = new GrandPrix(null, new Circuit(), Calendar.getInstance().getTime());
+        acteur = new GrandPrix(null, new Track(), Calendar.getInstance().getTime());
     }
 
     @Test

@@ -16,8 +16,8 @@ controllers.controller('CircuitCtrl', [ '$scope', '$routeParams', 'Circuits',
 			initForm = function() {
 				$scope.formCircuit = {
 					id : 0,
-					nom : "",
-					longueur : 0,
+					name : "",
+					length : 0,
 					indexPays : 0
 
 				};
@@ -29,7 +29,7 @@ controllers.controller('CircuitCtrl', [ '$scope', '$routeParams', 'Circuits',
 				$scope.selection = true;
 				$scope.message = "";
 				$scope.index = index;
-				$scope.formCircuit.indexPays = findPays(circuit.pays.id);
+				$scope.formCircuit.indexPays = findPays(circuit.country.id);
 				Circuits.estcouru({
 					id : $scope.formCircuit.id
 				}, function(response) {
@@ -44,13 +44,13 @@ controllers.controller('CircuitCtrl', [ '$scope', '$routeParams', 'Circuits',
 			$scope.ajouter = function() {
 				var selectedPays = $scope.pays[$scope.formCircuit.indexPays];
 				var circuit = new Circuits();
-				circuit.nom = $scope.formCircuit.nom;
-				circuit.longueur = $scope.formCircuit.longueur;
-				circuit.idPays = selectedPays.id;
+				circuit.name = $scope.formCircuit.name;
+				circuit.length = $scope.formCircuit.length;
+				circuit.countryId = selectedPays.id;
 				Circuits.save(circuit, function(response) {
 					$scope.message = response.message;
 					circuit.id = response.code;
-					circuit.pays = selectedPays;
+					circuit.country = selectedPays;
 					$scope.circuits.push(circuit);
 				});
 				initForm();
@@ -60,12 +60,12 @@ controllers.controller('CircuitCtrl', [ '$scope', '$routeParams', 'Circuits',
 				var selectedPays = $scope.pays[$scope.formCircuit.indexPays];
 				var circuit = new Circuits();
 				circuit.id = $scope.formCircuit.id;
-				circuit.nom = $scope.formCircuit.nom;
-				circuit.longueur = $scope.formCircuit.longueur;
-				circuit.idPays = selectedPays.id;
+				circuit.name = $scope.formCircuit.name;
+				circuit.length = $scope.formCircuit.length;
+				circuit.countryId = selectedPays.id;
 				Circuits.update(circuit, function(response) {
 					$scope.message = response.message;
-					circuit.pays = selectedPays;
+					circuit.country = selectedPays;
 					$scope.circuits[$scope.index] = circuit;
 				});
 

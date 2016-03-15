@@ -21,9 +21,9 @@
 							<tr data-ng-repeat="circuit in circuits"
 								ng-click="selectionner(circuit, $index)">
 								<td>{{circuit.id}}</td>
-								<td>{{circuit.nom}}</td>
-								<td>{{circuit.longueur}}</td>
-								<td>{{circuit.pays.name}}</td>
+								<td>{{circuit.name}}</td>
+								<td>{{circuit.length}}</td>
+								<td>{{circuit.country.name}}</td>
 								<td></td>
 							</tr>
 						</tbody>
@@ -31,9 +31,9 @@
 							<tr>
 								<td></td>
 								<td><input type="text" class="form-control" id="nom"
-									placeholder="nom" ng-model="formCircuit.nom"></td>
+									placeholder="nom" ng-model="formCircuit.name"></td>
 								<td><input type="text" class="form-control" id="longueur"
-									placeholder="Longueur" ng-model="formCircuit.longueur"></td>
+									placeholder="Longueur" ng-model="formCircuit.length"></td>
 								<td><select class="form-control"
 									ng-model="formCircuit.indexPays">
 										<option value="-1"></option>

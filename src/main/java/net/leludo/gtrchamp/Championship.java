@@ -61,7 +61,7 @@ public class Championship {
      *            The date the track will be run
      * @return The planned race
      */
-    public GrandPrix planRace(final Circuit circuit, final Date date) {
+    public GrandPrix planRace(final Track circuit, final Date date) {
         GrandPrix gp = new GrandPrix(this, circuit, date);
         this.plannedRaces.add(gp);
         return gp;
