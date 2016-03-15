@@ -34,7 +34,7 @@ public class Concurrent {
     // TODO Supprimer ou configurer avec une clé primaire composée
     @ManyToOne()
     @JoinColumn(name = "place", insertable = false, updatable = false)
-    private Point points;
+    private PointSet points;
 
     public boolean hasPolePosition() {
         return this.positionDepart == 1;
@@ -91,7 +91,7 @@ public class Concurrent {
         return this.id.getNumCourse();
     }
 
-    public Point getPoints() {
+    public PointSet getPoints() {
         return points;
     }
 

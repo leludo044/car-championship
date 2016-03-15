@@ -21,7 +21,7 @@ public class StatDao {
     public List<Stat> findNbVictories() {
         Session session = this.em.unwrap(org.hibernate.Session.class);
         SQLQuery query = session.createSQLQuery(
-                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.place=1 group by pilotes.nom order by count desc;");
+                "select pilotes.nom as name, sum(!isnull(resultats.rank)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.rank=1 group by pilotes.nom order by count desc;");
         query.addScalar("name", StringType.INSTANCE);
         query.addScalar("count", IntegerType.INSTANCE);
         query.setResultTransformer(Transformers.aliasToBean(Stat.class));
@@ -42,7 +42,7 @@ public class StatDao {
     public List<Stat> findNbPoles() {
         Session session = this.em.unwrap(org.hibernate.Session.class);
         SQLQuery query = session.createSQLQuery(
-                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.grille=1 group by pilotes.nom order by count desc;");
+                "select pilotes.nom as name, sum(!isnull(resultats.rank)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.grille=1 group by pilotes.nom order by count desc;");
         query.addScalar("name", StringType.INSTANCE);
         query.addScalar("count", IntegerType.INSTANCE);
         query.setResultTransformer(Transformers.aliasToBean(Stat.class));
@@ -52,7 +52,7 @@ public class StatDao {
     public List<Stat> findNbPodium() {
         Session session = this.em.unwrap(org.hibernate.Session.class);
         SQLQuery query = session.createSQLQuery(
-                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.place >=1 and resultats.place <=3 group by pilotes.nom order by count desc;");
+                "select pilotes.nom as name, sum(!isnull(resultats.rank)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.rank >=1 and resultats.rank <=3 group by pilotes.nom order by count desc;");
         query.addScalar("name", StringType.INSTANCE);
         query.addScalar("count", IntegerType.INSTANCE);
         query.setResultTransformer(Transformers.aliasToBean(Stat.class));
