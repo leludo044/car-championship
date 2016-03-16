@@ -33,7 +33,7 @@ public class GrandPrix {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idCircuit", nullable = false)
-    private Circuit circuit;
+    private Track circuit;
 
     @OneToOne
     @JoinColumn(name = "idChampionnat", nullable = false)
@@ -71,7 +71,7 @@ public class GrandPrix {
         return concurrents;
     }
 
-    public GrandPrix(final Championship championnat, final Circuit circuit, final Date date) {
+    public GrandPrix(final Championship championnat, final Track circuit, final Date date) {
         this.championnat = championnat;
         this.circuit = circuit;
         this.date = date;
@@ -86,7 +86,7 @@ public class GrandPrix {
         return id;
     }
 
-    public Circuit getCircuit() {
+    public Track getCircuit() {
         return this.circuit;
     }
 
