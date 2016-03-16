@@ -73,7 +73,7 @@ public class TrackDao extends DefaultDao<Track, Integer> {
     public boolean wasRun(final int trackId) {
         this.em.getTransaction().begin();
         Query query = this.em
-                .createQuery("select count(*) from Concurrent where grandPrix.track.id=:id");
+                .createQuery("select count(*) from Competitor where race.track.id=:id");
         query.setParameter("id", trackId);
         Long raceCount = (Long) query.getSingleResult();
         this.em.getTransaction().commit();

@@ -31,7 +31,7 @@ public class Race {
     private boolean twoRacesMode;
 
     @Transient
-    private List<Concurrent> competitors = new ArrayList<Concurrent>();
+    private List<Competitor> competitors = new ArrayList<Competitor>();
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idCircuit", nullable = false)
@@ -41,27 +41,27 @@ public class Race {
     @JoinColumn(name = "idChampionnat", nullable = false)
     private Championship championship;
 
-    public Concurrent signUp(final Driver driver) throws ChampionshipException {
+    public Competitor signUp(final Driver driver) throws ChampionshipException {
         if (driver == null) {
             throw new ChampionshipException();
         }
-        Concurrent concurrent = new Concurrent(driver);
-        this.competitors.add(concurrent);
-        return concurrent;
+        Competitor competitor = new Competitor(driver);
+        this.competitors.add(competitor);
+        return competitor;
     }
 
-    public List<Concurrent> results() throws ChampionshipException {
+    public List<Competitor> results() throws ChampionshipException {
         if (this.competitors.size() == 0) {
             throw new ChampionshipException();
         } else if (!this.isFinished()) {
             throw new ChampionshipException();
         }
 
-        Collections.sort(competitors, new Comparator<Concurrent>() {
+        Collections.sort(competitors, new Comparator<Competitor>() {
 
             @Override
-            public int compare(final Concurrent o1, final Concurrent o2) {
-                if (o1.getPositionArrivee() < o2.getPositionArrivee()) {
+            public int compare(final Competitor o1, final Competitor o2) {
+                if (o1.getArrivalPosition() < o2.getArrivalPosition()) {
                     return -1;
                 } else {
                     return 0;
@@ -98,8 +98,8 @@ public class Race {
 
     public boolean isFinished() {
         boolean isTermine = true;
-        for (Concurrent concurrent : this.competitors) {
-            isTermine &= concurrent.hasTermine();
+        for (Competitor competitor : this.competitors) {
+            isTermine &= competitor.hasFinished();
         }
         return isTermine;
     }
@@ -107,7 +107,7 @@ public class Race {
     @Override
     public String toString() {
         return "Race [id=" + id + ", date=" + date + ", mode2Courses=" + twoRacesMode
-                + ", concurrents=" + competitors + ", track=" + track + "]";
+                + ", competitors=" + competitors + ", track=" + track + "]";
     }
 
     public Date getDate() {

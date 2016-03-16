@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import net.leludo.gtrchamp.Championship;
-import net.leludo.gtrchamp.Concurrent;
+import net.leludo.gtrchamp.Competitor;
 import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.Race;
 import net.leludo.gtrchamp.Track;
@@ -524,14 +524,14 @@ public class ChampionshipWebService {
                 for (Object[] concurrent : resultats) {
                     g.writeStartObject();
                     g.writeNumberField("idPilote",
-                            ((Concurrent) concurrent[0]).getPilote().getId());
-                    g.writeStringField("nom", ((Concurrent) concurrent[0]).getPilote().getName());
-                    g.writeNumberField("depart", ((Concurrent) concurrent[0]).getPositionDepart());
+                            ((Competitor) concurrent[0]).getDriver().getId());
+                    g.writeStringField("nom", ((Competitor) concurrent[0]).getDriver().getName());
+                    g.writeNumberField("depart", ((Competitor) concurrent[0]).getSartingPosition());
                     g.writeNumberField("arrivee",
-                            ((Concurrent) concurrent[0]).getPositionArrivee());
-                    g.writeNumberField("numCourse", ((Concurrent) concurrent[0]).getNumeroCourse());
+                            ((Competitor) concurrent[0]).getArrivalPosition());
+                    g.writeNumberField("numCourse", ((Competitor) concurrent[0]).getRaceNumber());
                     g.writeBooleanField("pole",
-                            ((Concurrent) concurrent[0]).getPositionDepart() == 1);
+                            ((Competitor) concurrent[0]).getSartingPosition() == 1);
                     g.writeNumberField("points", (Integer) concurrent[1]);
                     g.writeEndObject();
                 }

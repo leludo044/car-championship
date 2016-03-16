@@ -6,81 +6,81 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ConcurrentTest {
+public class CompetitorTest {
 
-    private Concurrent acteur;
+    private Competitor acteur;
 
     @Before
     public void setUp() throws Exception {
-        acteur = new Concurrent();
+        acteur = new Competitor();
     }
 
     @Test
     public void test() {
         assertNotNull(acteur);
-        assertEquals(0, acteur.getPositionDepart());
-        assertEquals(0, acteur.getPositionArrivee());
+        assertEquals(0, acteur.getSartingPosition());
+        assertEquals(0, acteur.getArrivalPosition());
     }
 
     @Test
     public void testHasPolePosition() throws ChampionshipException {
-        acteur.setPositionDepart(1);
+        acteur.setStartingPosition(1);
         assertTrue(acteur.hasPolePosition());
     }
 
     @Test
     public void testNotHasPolePosition() throws ChampionshipException {
-        acteur.setPositionDepart(2);
+        acteur.setStartingPosition(2);
         Assert.assertFalse(acteur.hasPolePosition());
     }
 
     @Test
     public void testIsVainqueur() throws ChampionshipException {
-        acteur.setPositionArrivee(1);
-        Assert.assertTrue(acteur.isVainqueur());
+        acteur.setArrivalPosition(1);
+        Assert.assertTrue(acteur.hasWon());
     }
 
     @Test
     public void testNotIsVainqueur() throws ChampionshipException {
-        acteur.setPositionArrivee(2);
-        Assert.assertFalse(acteur.isVainqueur());
+        acteur.setArrivalPosition(2);
+        Assert.assertFalse(acteur.hasWon());
     }
 
     @Test(expected = ChampionshipException.class)
     public void testPositionDepartZero() throws ChampionshipException {
-        acteur.setPositionDepart(0);
+        acteur.setStartingPosition(0);
     }
 
     @Test(expected = ChampionshipException.class)
     public void testPositionDepartNegative() throws ChampionshipException {
-        acteur.setPositionDepart(-1);
+        acteur.setStartingPosition(-1);
     }
 
     @Test(expected = ChampionshipException.class)
     public void testPositionArriveeZero() throws ChampionshipException {
-        acteur.setPositionArrivee(0);
+        acteur.setArrivalPosition(0);
     }
 
     @Test(expected = ChampionshipException.class)
     public void testPositionArriveeNegative() throws ChampionshipException {
-        acteur.setPositionArrivee(-1);
+        acteur.setArrivalPosition(-1);
     }
 
     @Test
     public void testAbandon() {
-        acteur.abandonner();
-        Assert.assertEquals(-1, acteur.getPositionArrivee());
+        acteur.abandon();
+        Assert.assertEquals(-1, acteur.getArrivalPosition());
     }
 
     @Test
     public void testHasNotTermine() {
-        Assert.assertFalse(acteur.hasTermine());
+        Assert.assertFalse(acteur.hasFinished());
     }
 
     @Test
     public void testHasTermine() throws ChampionshipException {
-        acteur.setPositionArrivee(1);
-        Assert.assertTrue(acteur.hasTermine());
+        acteur.setArrivalPosition(1);
+        Assert.assertTrue(acteur.hasFinished());
     }
 
 }

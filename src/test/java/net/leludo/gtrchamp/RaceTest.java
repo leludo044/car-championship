@@ -24,14 +24,14 @@ public class RaceTest {
 
     @Test
     public void testInscrirePilote() throws ChampionshipException {
-        Concurrent concurrent = inscrirePilote(1);
+        Competitor concurrent = inscrirePilote(1);
         Assert.assertEquals(1, acteur.competitorsCount());
-        Assert.assertEquals("", concurrent.getPilote().getName());
+        Assert.assertEquals("", concurrent.getDriver().getName());
     }
 
     @Test(expected = ChampionshipException.class)
     public void testInscrirePiloteNull() throws ChampionshipException {
-        Concurrent concurrent = acteur.signUp(null);
+        Competitor concurrent = acteur.signUp(null);
     }
 
     @Test
@@ -42,25 +42,25 @@ public class RaceTest {
 
     @Test
     public void testIsTerminePour1Concurrent() throws ChampionshipException {
-        Concurrent concurrent = this.inscrirePilote(1);
-        concurrent.setPositionArrivee(1);
+        Competitor concurrent = this.inscrirePilote(1);
+        concurrent.setArrivalPosition(1);
         Assert.assertTrue(acteur.isFinished());
     }
 
     @Test
     public void testIsNotTerminePour1Concurrent() throws ChampionshipException {
-        Concurrent concurrent1 = this.inscrirePilote(1);
-        concurrent1.setPositionArrivee(1);
-        Concurrent concurrent2 = this.inscrirePilote(2);
+        Competitor concurrent1 = this.inscrirePilote(1);
+        concurrent1.setArrivalPosition(1);
+        Competitor concurrent2 = this.inscrirePilote(2);
         Assert.assertFalse(acteur.isFinished());
     }
 
     @Test
     public void testIsTerminePour2Concurrents() throws ChampionshipException {
-        Concurrent concurrent1 = this.inscrirePilote(1);
-        concurrent1.setPositionArrivee(1);
-        Concurrent concurrent2 = this.inscrirePilote(2);
-        concurrent2.setPositionArrivee(2);
+        Competitor concurrent1 = this.inscrirePilote(1);
+        concurrent1.setArrivalPosition(1);
+        Competitor concurrent2 = this.inscrirePilote(2);
+        concurrent2.setArrivalPosition(2);
         Assert.assertTrue(acteur.isFinished());
     }
 
@@ -77,47 +77,47 @@ public class RaceTest {
 
     @Test
     public void testRendreClassementPour1Concurrent() throws ChampionshipException {
-        Concurrent concurrent = this.inscrirePilote(1);
-        concurrent.setPositionArrivee(1);
-        List<Concurrent> classement = acteur.results();
+        Competitor concurrent = this.inscrirePilote(1);
+        concurrent.setArrivalPosition(1);
+        List<Competitor> classement = acteur.results();
         Assert.assertEquals(1, classement.size());
     }
 
     @Test(expected = ChampionshipException.class)
     public void testRendreClassementPourPlusieursConcurrentsNonTermine()
             throws ChampionshipException {
-        Concurrent concurrent1 = this.inscrirePilote(1);
-        concurrent1.setPositionArrivee(1);
-        Concurrent concurrent2 = this.inscrirePilote(2);
-        List<Concurrent> classement = acteur.results();
+        Competitor concurrent1 = this.inscrirePilote(1);
+        concurrent1.setArrivalPosition(1);
+        Competitor concurrent2 = this.inscrirePilote(2);
+        List<Competitor> classement = acteur.results();
     }
 
     @Test
     public void testRendreClassementPourPlusieursConcurrentsTermine() throws ChampionshipException {
-        Concurrent concurrent1 = this.inscrirePilote(1);
-        concurrent1.setPositionArrivee(1);
-        Concurrent concurrent2 = this.inscrirePilote(2);
-        concurrent2.setPositionArrivee(2);
-        List<Concurrent> classement = acteur.results();
+        Competitor concurrent1 = this.inscrirePilote(1);
+        concurrent1.setArrivalPosition(1);
+        Competitor concurrent2 = this.inscrirePilote(2);
+        concurrent2.setArrivalPosition(2);
+        List<Competitor> classement = acteur.results();
         Assert.assertEquals(2, classement.size());
     }
 
     @Test
     public void testRendreClassementPourPlusieursConcurrentsTrie() throws ChampionshipException {
-        Concurrent concurrent1 = this.inscrirePilote(1);
-        concurrent1.setPositionArrivee(2);
-        Concurrent concurrent2 = this.inscrirePilote(2);
-        concurrent2.setPositionArrivee(1);
-        List<Concurrent> classement = acteur.results();
+        Competitor concurrent1 = this.inscrirePilote(1);
+        concurrent1.setArrivalPosition(2);
+        Competitor concurrent2 = this.inscrirePilote(2);
+        concurrent2.setArrivalPosition(1);
+        List<Competitor> classement = acteur.results();
         Assert.assertEquals(2, classement.size());
         Assert.assertEquals(concurrent2, classement.get(0));
         Assert.assertEquals(concurrent1, classement.get(1));
     }
 
-    private Concurrent inscrirePilote(final int id) throws ChampionshipException {
+    private Competitor inscrirePilote(final int id) throws ChampionshipException {
         Driver pilote = new Driver();
         pilote.setId(id);
-        Concurrent concurrent = acteur.signUp(pilote);
+        Competitor concurrent = acteur.signUp(pilote);
         return concurrent;
     }
 
