@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "grandsprix")
-public class GrandPrix {
+public class Race {
 
     @Id
     @GeneratedValue
@@ -26,36 +27,37 @@ public class GrandPrix {
 
     private Date date;
 
-    private boolean mode2Courses;
+    @Column(name = "mode2Courses")
+    private boolean twoRacesMode;
 
     @Transient
-    private List<Concurrent> concurrents = new ArrayList<Concurrent>();
+    private List<Concurrent> competitors = new ArrayList<Concurrent>();
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idCircuit", nullable = false)
-    private Track circuit;
+    private Track track;
 
     @OneToOne
     @JoinColumn(name = "idChampionnat", nullable = false)
-    private Championship championnat;
+    private Championship championship;
 
-    public Concurrent inscrire(final Driver pilote) throws ChampionshipException {
-        if (pilote == null) {
+    public Concurrent signUp(final Driver driver) throws ChampionshipException {
+        if (driver == null) {
             throw new ChampionshipException();
         }
-        Concurrent concurrent = new Concurrent(pilote);
-        this.concurrents.add(concurrent);
+        Concurrent concurrent = new Concurrent(driver);
+        this.competitors.add(concurrent);
         return concurrent;
     }
 
-    public List<Concurrent> rendreClassement() throws ChampionshipException {
-        if (this.concurrents.size() == 0) {
+    public List<Concurrent> results() throws ChampionshipException {
+        if (this.competitors.size() == 0) {
             throw new ChampionshipException();
-        } else if (!this.isTermine()) {
+        } else if (!this.isFinished()) {
             throw new ChampionshipException();
         }
 
-        Collections.sort(concurrents, new Comparator<Concurrent>() {
+        Collections.sort(competitors, new Comparator<Concurrent>() {
 
             @Override
             public int compare(final Concurrent o1, final Concurrent o2) {
@@ -68,17 +70,17 @@ public class GrandPrix {
 
         });
 
-        return concurrents;
+        return competitors;
     }
 
-    public GrandPrix(final Championship championnat, final Track circuit, final Date date) {
-        this.championnat = championnat;
-        this.circuit = circuit;
+    public Race(final Championship championship, final Track track, final Date date) {
+        this.championship = championship;
+        this.track = track;
         this.date = date;
-        this.mode2Courses = true;
+        this.twoRacesMode = true;
     }
 
-    public GrandPrix() {
+    public Race() {
 
     }
 
@@ -86,17 +88,17 @@ public class GrandPrix {
         return id;
     }
 
-    public Track getCircuit() {
-        return this.circuit;
+    public Track getTrack() {
+        return this.track;
     }
 
-    public Object getNbInscrits() {
-        return this.concurrents.size();
+    public Object competitorsCount() {
+        return this.competitors.size();
     }
 
-    public boolean isTermine() {
+    public boolean isFinished() {
         boolean isTermine = true;
-        for (Concurrent concurrent : this.concurrents) {
+        for (Concurrent concurrent : this.competitors) {
             isTermine &= concurrent.hasTermine();
         }
         return isTermine;
@@ -104,8 +106,8 @@ public class GrandPrix {
 
     @Override
     public String toString() {
-        return "GrandPrix [id=" + id + ", date=" + date + ", mode2Courses=" + mode2Courses
-                + ", concurrents=" + concurrents + ", circuit=" + circuit + "]";
+        return "Race [id=" + id + ", date=" + date + ", mode2Courses=" + twoRacesMode
+                + ", concurrents=" + competitors + ", track=" + track + "]";
     }
 
     public Date getDate() {
@@ -121,7 +123,7 @@ public class GrandPrix {
         return formatedDate;
     }
 
-    public void annuler() {
-        this.championnat = null;
+    public void cancel() {
+        this.championship = null;
     }
 }

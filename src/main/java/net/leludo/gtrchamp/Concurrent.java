@@ -23,7 +23,7 @@ public class Concurrent {
     @MapsId("idGrandPrix")
     @OneToOne
     @JoinColumn(name = "idGrandPrix")
-    private GrandPrix grandPrix;
+    private Race grandPrix;
 
     @Column(name = "grille")
     private int positionDepart;

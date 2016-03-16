@@ -45,14 +45,14 @@ public class ChampionnatTest {
      * .
      */
     @Test
-    public final void testOrganiserGrandPrix() {
+    public final void testPlanRace() {
         chp.planRace(new Track(), Calendar.getInstance().getTime());
         assertEquals(1, chp.getPlannedRaces().size());
     }
 
     /**
      * Test method for
-     * {@link net.leludo.gtrchamp.Championship#rendreClassement()}.
+     * {@link net.leludo.gtrchamp.Championship#results()}.
      */
     @Test
     @Ignore
