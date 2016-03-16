@@ -128,17 +128,9 @@ public class Championship {
             if (race.getTrack().getId() == raceId) {
                 toDelete = race;
                 this.plannedRaces.remove(toDelete);
-                // toDelete.annuler();
                 break;
             }
         }
-        // Stream<GrandPrix> gp =
-        // this.grandsPrix.stream().map(GrandPrix::getCircuit).filter(circuit ->
-        // circuit.getId().equals(idGrandPrix));
-        // if (gp.count() == 1) {
-        // toDelete = gp.findFirst().get();
-        // this.grandsPrix.remove(toDelete);
-        // }
 
         return toDelete;
     }

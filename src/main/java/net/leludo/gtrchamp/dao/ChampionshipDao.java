@@ -40,8 +40,6 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      * @return the results of the race
      */
     public List<Object[]> results(final int raceId) {
-        // String queryString = "from Concurrent where grandPrix.id=:id order by
-        // numCourse, place";
         String queryString = "select c, p.points from Competitor c, PointSet p where c.race.id=:id and p.rank = c.arrivalPosition and p.type = c.race.championship.type order by c.id.raceNumber, p.rank";
         javax.persistence.Query query = this.em.createQuery(queryString);
         query.setParameter("id", raceId);
@@ -56,9 +54,6 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      * @return the standings of the championship
      */
     public List<Object[]> standings(final int idChampionnat) {
-        // String queryString = "select pilote, sum(c.points.points) from
-        // Concurrent c where c.grandPrix.championnat.id = :id group by c.pilote
-        // order by sum(c.points.points) desc";
         String queryString = "select c.driver, sum(p.points) from Competitor c, PointSet p where c.race.championship.id = :id and p.rank = c.arrivalPosition and p.type = c.race.championship.type group by c.driver order by sum(p.points) desc";
 
         javax.persistence.Query query = this.em.createQuery(queryString);
