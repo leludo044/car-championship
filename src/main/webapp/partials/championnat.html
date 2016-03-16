@@ -72,9 +72,9 @@
 		<tr data-ng-repeat="track in tracks" ng-click="onSelect(track, $index)"
 		ng-class="{'success' : selectedTracks.indexOf($index)>=0}">
 			<td>{{track.id}}</td>
-			<td>{{track.nom}}</td>
-			<td>{{track.longueur}}</td>
-			<td>{{track.pays.nom}}</td>
+			<td>{{track.name}}</td>
+			<td>{{track.length}}</td>
+			<td>{{track.country.name}}</td>
 		</tr>
 	</tbody>
 </table>
