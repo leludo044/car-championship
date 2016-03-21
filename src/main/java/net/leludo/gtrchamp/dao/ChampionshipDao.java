@@ -35,16 +35,14 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
     /**
      * Return the results of a race.
      *
-     * @param idGrandPrix
+     * @param raceId
      *            The id of the race to get results
      * @return the results of the race
      */
-    public List<Object[]> results(final int idGrandPrix) {
-        // String queryString = "from Concurrent where grandPrix.id=:id order by
-        // numCourse, place";
-        String queryString = "select c, p.points from Concurrent c, PointSet p where c.grandPrix.id=:id and p.rank = c.positionArrivee and p.type = c.grandPrix.championnat.type order by c.id.numCourse, p.rank";
+    public List<Object[]> results(final int raceId) {
+        String queryString = "select c, p.points from Competitor c, PointSet p where c.race.id=:id and p.rank = c.arrivalPosition and p.type = c.race.championship.type order by c.id.raceNumber, p.rank";
         javax.persistence.Query query = this.em.createQuery(queryString);
-        query.setParameter("id", idGrandPrix);
+        query.setParameter("id", raceId);
         return query.getResultList();
     }
 
@@ -56,10 +54,7 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      * @return the standings of the championship
      */
     public List<Object[]> standings(final int idChampionnat) {
-        // String queryString = "select pilote, sum(c.points.points) from
-        // Concurrent c where c.grandPrix.championnat.id = :id group by c.pilote
-        // order by sum(c.points.points) desc";
-        String queryString = "select c.pilote, sum(p.points) from Concurrent c, PointSet p where c.grandPrix.championnat.id = :id and p.rank = c.positionArrivee and p.type = c.grandPrix.championnat.type group by c.pilote order by sum(p.points) desc";
+        String queryString = "select c.driver, sum(p.points) from Competitor c, PointSet p where c.race.championship.id = :id and p.rank = c.arrivalPosition and p.type = c.race.championship.type group by c.driver order by sum(p.points) desc";
 
         javax.persistence.Query query = this.em.createQuery(queryString);
         query.setParameter("id", idChampionnat);
@@ -117,7 +112,7 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
     public boolean isStarted(final int id) {
         this.em.getTransaction().begin();
         Query query = this.em
-                .createQuery("select count(*) from GrandPrix where championnat.id=:id");
+                .createQuery("select count(*) from Race where championship.id=:id");
         query.setParameter("id", id);
         Long nbGrandsPrix = (Long) query.getSingleResult();
         this.em.getTransaction().commit();

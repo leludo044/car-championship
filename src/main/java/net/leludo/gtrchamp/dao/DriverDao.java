@@ -29,7 +29,7 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 
 	/**
 	 * Create a new driver.
-	 * 
+	 *
 	 * @param pilote
 	 *            The driver to crate
 	 */
@@ -42,7 +42,7 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 
 	/**
 	 * Update an existing driver.
-	 * 
+	 *
 	 * @param pilote
 	 *            The driver to update
 	 */
@@ -55,7 +55,7 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 
 	/**
 	 * Delete a driver.
-	 * 
+	 *
 	 * @param pilote
 	 *            The driver to delete
 	 */
@@ -68,14 +68,14 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 
 	/**
 	 * Say if a driver ran a race.
-	 * 
+	 *
 	 * @param piloteId
 	 *            The id of the driver to ask
 	 * @return true ou false
 	 */
 	public boolean ran(final int piloteId) {
 		this.em.getTransaction().begin();
-		Query query = this.em.createQuery("select count(*) from Concurrent where pilote.id=:id");
+		Query query = this.em.createQuery("select count(*) from Competitor where driver.id=:id");
 		query.setParameter("id", piloteId);
 		Long raceNumber = (Long) query.getSingleResult();
 		this.em.getTransaction().commit();

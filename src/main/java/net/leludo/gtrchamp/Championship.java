@@ -25,8 +25,8 @@ public class Championship {
 
     private String type;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championnat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GrandPrix> plannedRaces = new ArrayList<GrandPrix>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "championship", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Race> plannedRaces = new ArrayList<Race>();
 
     /**
      * Constructor. By default the name is "Choose..." and the planned races
@@ -35,7 +35,7 @@ public class Championship {
      */
     public Championship() {
         this.name = "Choose...";
-        this.plannedRaces = new ArrayList<GrandPrix>();
+        this.plannedRaces = new ArrayList<Race>();
     }
 
     /**
@@ -49,7 +49,7 @@ public class Championship {
     public Championship(final String name, final String type) {
         this.name = name;
         this.type = type;
-        this.plannedRaces = new ArrayList<GrandPrix>();
+        this.plannedRaces = new ArrayList<Race>();
     }
 
     /**
@@ -61,8 +61,8 @@ public class Championship {
      *            The date the track will be run
      * @return The planned race
      */
-    public GrandPrix planRace(final Track circuit, final Date date) {
-        GrandPrix gp = new GrandPrix(this, circuit, date);
+    public Race planRace(final Track circuit, final Date date) {
+        Race gp = new Race(this, circuit, date);
         this.plannedRaces.add(gp);
         return gp;
     }
@@ -70,7 +70,7 @@ public class Championship {
     /**
      * @return the already planned races
      */
-    public List<GrandPrix> getPlannedRaces() {
+    public List<Race> getPlannedRaces() {
         return this.plannedRaces;
     }
 
@@ -118,27 +118,19 @@ public class Championship {
     /**
      * Cancel a planned race.
      *
-     * @param idGrandPrix
+     * @param raceId
      *            The id of the race to cancel
      * @return the cancelled race
      */
-    public GrandPrix cancelRace(final Integer idGrandPrix) {
-        GrandPrix toDelete = null;
-        for (GrandPrix race : this.plannedRaces) {
-            if (race.getCircuit().getId() == idGrandPrix) {
+    public Race cancelRace(final Integer raceId) {
+        Race toDelete = null;
+        for (Race race : this.plannedRaces) {
+            if (race.getTrack().getId() == raceId) {
                 toDelete = race;
                 this.plannedRaces.remove(toDelete);
-                // toDelete.annuler();
                 break;
             }
         }
-        // Stream<GrandPrix> gp =
-        // this.grandsPrix.stream().map(GrandPrix::getCircuit).filter(circuit ->
-        // circuit.getId().equals(idGrandPrix));
-        // if (gp.count() == 1) {
-        // toDelete = gp.findFirst().get();
-        // this.grandsPrix.remove(toDelete);
-        // }
 
         return toDelete;
     }

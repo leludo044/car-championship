@@ -113,7 +113,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 		var selectTracks = function (allTracks, championshipTracks) {
 			for (var i=0; i<allTracks.length; i++) {
 				for (var j=0; j<championshipTracks.length; j++) {
-					if (allTracks[i].id === championshipTracks[j].circuit.id) {
+					if (allTracks[i].id === championshipTracks[j].track.id) {
 						$scope.selectedTracks.push(i);
 					}
 				}

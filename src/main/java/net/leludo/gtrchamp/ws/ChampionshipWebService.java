@@ -24,10 +24,10 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import net.leludo.gtrchamp.Championship;
-import net.leludo.gtrchamp.Track;
-import net.leludo.gtrchamp.Concurrent;
-import net.leludo.gtrchamp.GrandPrix;
+import net.leludo.gtrchamp.Competitor;
 import net.leludo.gtrchamp.Driver;
+import net.leludo.gtrchamp.Race;
+import net.leludo.gtrchamp.Track;
 import net.leludo.gtrchamp.dao.ChampionshipDao;
 import net.leludo.gtrchamp.dao.TrackDao;
 
@@ -293,7 +293,7 @@ public class ChampionshipWebService {
      * @return Return the scheduled races for a championship in JSON format
      */
     @GET
-    @Path("/{idChp}/grandprix/list")
+    @Path("/{idChp}/race/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String getJsonGrandsPrix(@PathParam("idChp") final int idChp) {
         init();
@@ -311,13 +311,13 @@ public class ChampionshipWebService {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
                 g.writeStartArray();
                 // g.writeArrayFieldStart("grandsprix");
-                for (GrandPrix gp : chp.getPlannedRaces()) {
+                for (Race gp : chp.getPlannedRaces()) {
                     g.writeStartObject();
                     g.writeNumberField("id", gp.getId());
-                    g.writeStringField("nom", gp.getCircuit().getName());
-                    g.writeNumberField("longueur", gp.getCircuit().getLength());
+                    g.writeStringField("nom", gp.getTrack().getName());
+                    g.writeNumberField("longueur", gp.getTrack().getLength());
                     g.writeStringField("date", gp.getDateFr());
-                    g.writeStringField("pays", gp.getCircuit().getCountry().getName());
+                    g.writeStringField("pays", gp.getTrack().getCountry().getName());
                     g.writeEndObject();
                 }
                 // g.writeEndArray();
@@ -389,7 +389,7 @@ public class ChampionshipWebService {
     public Response update(@PathParam("id") final Integer id) {
         init();
 
-        List<GrandPrix> races;
+        List<Race> races;
         Response response;
         Championship championship = dao.find(id);
         if (championship != null) {
@@ -428,7 +428,7 @@ public class ChampionshipWebService {
         if (championship != null) {
             Track circuit = circuitDao.find(idCircuit);
             if (circuit != null) {
-                GrandPrix gp = new GrandPrix(championship, circuit, null);
+                Race gp = new Race(championship, circuit, null);
                 championship.planRace(circuit, null);
                 dao.update(championship);
                 response = Response
@@ -473,10 +473,10 @@ public class ChampionshipWebService {
         Championship championship = dao.find(id);
         if (championship != null) {
             if (idCircuit != null) {
-                GrandPrix gp = championship.cancelRace(idCircuit);
+                Race gp = championship.cancelRace(idCircuit);
                 dao.update(championship);
                 response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Circuit " + gp.getCircuit().getName() + " supprimé du championnat "
+                        "Circuit " + gp.getTrack().getName() + " supprimé du championnat "
                                 + championship.getName() + "."))
                         .build();
             } else {
@@ -504,7 +504,7 @@ public class ChampionshipWebService {
      */
 
     @GET
-    @Path("/grandprix/{idGp}/resultat")
+    @Path("/race/{idGp}/resultat")
     @Produces(MediaType.APPLICATION_JSON)
     public String listJsonResultats(@PathParam("idGp") final int idGp) {
         init();
@@ -524,14 +524,14 @@ public class ChampionshipWebService {
                 for (Object[] concurrent : resultats) {
                     g.writeStartObject();
                     g.writeNumberField("idPilote",
-                            ((Concurrent) concurrent[0]).getPilote().getId());
-                    g.writeStringField("nom", ((Concurrent) concurrent[0]).getPilote().getName());
-                    g.writeNumberField("depart", ((Concurrent) concurrent[0]).getPositionDepart());
+                            ((Competitor) concurrent[0]).getDriver().getId());
+                    g.writeStringField("nom", ((Competitor) concurrent[0]).getDriver().getName());
+                    g.writeNumberField("depart", ((Competitor) concurrent[0]).getSartingPosition());
                     g.writeNumberField("arrivee",
-                            ((Concurrent) concurrent[0]).getPositionArrivee());
-                    g.writeNumberField("numCourse", ((Concurrent) concurrent[0]).getNumeroCourse());
+                            ((Competitor) concurrent[0]).getArrivalPosition());
+                    g.writeNumberField("numCourse", ((Competitor) concurrent[0]).getRaceNumber());
                     g.writeBooleanField("pole",
-                            ((Concurrent) concurrent[0]).getPositionDepart() == 1);
+                            ((Competitor) concurrent[0]).getSartingPosition() == 1);
                     g.writeNumberField("points", (Integer) concurrent[1]);
                     g.writeEndObject();
                 }
