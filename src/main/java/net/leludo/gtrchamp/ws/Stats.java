@@ -32,9 +32,9 @@ public class Stats {
     }
 
     /**
-     * Retourne les pilotes et leur nombre de victoires en grand prix
+     * Return all the drivers with their number of victories
      * 
-     * @return Les pilotes et leur nombre de victoires en grand prix
+     * @return all the driver with their number of victories
      */
     @GET
     @Path("/victory")
@@ -47,9 +47,9 @@ public class Stats {
     }
 
     /**
-     * Retourne les pilotes et leur nombre de poles position en grand prix
+     * Return all the drivers with their number of pole positions
      * 
-     * @return Les pilotes et leur nombre de poles position en grand prix
+     * @return all the drivers with their number of pole positions
      */
     @GET
     @Path("/pole")
@@ -62,9 +62,9 @@ public class Stats {
     }
 
     /**
-     * Retourne les pilotes et leur nombre de poles position en grand prix
+     * Return all the drivers with their number of podiums
      * 
-     * @return Les pilotes et leur nombre de poles position en grand prix
+     * @return all the drivers with their number of podiums
      */
     @GET
     @Path("/podium")
