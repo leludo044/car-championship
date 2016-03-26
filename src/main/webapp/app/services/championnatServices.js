@@ -16,17 +16,17 @@ championnatServices.factory('Championnats', [ '$resource', function($resource) {
 				type : null
 			}
 		},
-		classement : {
+		standings : {
 			method : 'GET',
 			params : {
-				type : 'classement'
+				type : 'standings'
 			},
 			isArray : true
 
 		},
-		estcommence: {
+		isstarted: {
 	    	  method: 'GET',
-	    	  params: {type:'estcommence'}
+	    	  params: {type:'isstarted'}
 	      },
 	      update: {
 		        method: 'PUT' // this method issues a PUT request

@@ -63,7 +63,7 @@ public class ChampionshipWebService {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listJsonChampionnat() {
+    public String championships() {
         init();
         List<Championship> chps = championshipDao.all();
         championshipDao.close();
@@ -71,9 +71,6 @@ public class ChampionshipWebService {
             return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
-            // or, for data
-            // binding,
-            // org.codehaus.jackson.mapper.MappingJsonFactory
             StringWriter sw = new StringWriter();
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
@@ -105,7 +102,7 @@ public class ChampionshipWebService {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson(@PathParam("id") final int id) {
+    public String championship(@PathParam("id") final int id) {
         init();
         Championship chp = championshipDao.find(new Integer(id));
         championshipDao.close();
@@ -113,9 +110,6 @@ public class ChampionshipWebService {
             return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
-            // or, for data
-            // binding,
-            // org.codehaus.jackson.mapper.MappingJsonFactory
             StringWriter sw = new StringWriter();
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
@@ -275,9 +269,9 @@ public class ChampionshipWebService {
      *         {code:0,message:""} if the championship is not started
      */
     @GET
-    @Path("/{id}/estcommence")
+    @Path("/{id}/isstarted")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response estCommence(@PathParam("id") final Integer id) {
+    public Response isStarted(@PathParam("id") final Integer id) {
         init();
 
         boolean isStarted = championshipDao.isStarted(id);
@@ -294,7 +288,7 @@ public class ChampionshipWebService {
     @GET
     @Path("/{championshipId}/race/list")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJsonGrandsPrix(@PathParam("championshipId") final int championshipId) {
+    public String races(@PathParam("championshipId") final int championshipId) {
         init();
         Championship chp = championshipDao.find(new Integer(championshipId));
         championshipDao.close();
@@ -334,13 +328,13 @@ public class ChampionshipWebService {
      * @return The standings of a championship in JSON format
      */
     @GET
-    @Path("/{championshipId}/classement")
+    @Path("/{championshipId}/standings")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listJsonClassement(@PathParam("championshipId") final int championshipId) {
+    public String standings(@PathParam("championshipId") final int championshipId) {
         init();
-        List<Object[]> classement = championshipDao.standings(championshipId);
+        List<Object[]> standings = championshipDao.standings(championshipId);
         championshipDao.close();
-        if (classement == null) {
+        if (standings == null) {
             return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
@@ -349,7 +343,7 @@ public class ChampionshipWebService {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
                 g.writeStartArray();
                 int rang = 1;
-                for (Object[] pilote : classement) {
+                for (Object[] pilote : standings) {
                     g.writeStartObject();
                     g.writeNumberField("rang", rang++);
                     g.writeStringField("name", ((Driver) pilote[0]).getName());
@@ -417,13 +411,13 @@ public class ChampionshipWebService {
         Response response;
         Championship championship = championshipDao.find(id);
         if (championship != null) {
-            Track circuit = trackDao.find(trackId);
-            if (circuit != null) {
-                Race gp = new Race(championship, circuit, null);
-                championship.planRace(circuit, null);
+            Track track = trackDao.find(trackId);
+            if (track != null) {
+                Race race = new Race(championship, track, null);
+                championship.planRace(track, null);
                 championshipDao.update(championship);
                 response = Response
-                        .ok(new WsReturn(Status.OK.getStatusCode(), "Track " + circuit.getName()
+                        .ok(new WsReturn(Status.OK.getStatusCode(), "Track " + track.getName()
                                 + " added to championship " + championship.getName() + "."))
                         .build();
             } else {
@@ -464,10 +458,10 @@ public class ChampionshipWebService {
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             if (trackId != null) {
-                Race gp = championship.cancelRace(trackId);
+                Race race = championship.cancelRace(trackId);
                 championshipDao.update(championship);
                 response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Track " + gp.getTrack().getName() + " deleted from championship "
+                        "Track " + race.getTrack().getName() + " deleted from championship "
                                 + championship.getName() + "."))
                         .build();
             } else {
@@ -495,13 +489,13 @@ public class ChampionshipWebService {
      */
 
     @GET
-    @Path("/race/{raceId}/resultat")
+    @Path("/race/{raceId}/results")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listJsonResultats(@PathParam("raceId") final int raceId) {
+    public String results(@PathParam("raceId") final int raceId) {
         init();
-        List<Object[]> resultats = championshipDao.results(raceId);
+        List<Object[]> results = championshipDao.results(raceId);
         championshipDao.close();
-        if (resultats == null) {
+        if (results == null) {
             return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
@@ -509,7 +503,7 @@ public class ChampionshipWebService {
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
                 g.writeStartArray();
-                for (Object[] concurrent : resultats) {
+                for (Object[] concurrent : results) {
                     g.writeStartObject();
                     g.writeNumberField("piloteId",
                             ((Competitor) concurrent[0]).getDriver().getId());
