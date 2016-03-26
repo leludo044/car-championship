@@ -127,11 +127,11 @@ public class Driver {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Pilote [id=");
+		builder.append("Driver [id=");
 		builder.append(id);
-		builder.append(", nom=");
+		builder.append(", name=");
 		builder.append(name);
-		builder.append(", dateNaissance=");
+		builder.append(", birthdate=");
 		builder.append(birthdate);
 		builder.append("]");
 		return builder.toString();

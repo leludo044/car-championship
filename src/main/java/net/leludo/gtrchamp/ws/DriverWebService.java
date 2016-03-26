@@ -23,8 +23,7 @@ import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.dao.DriverDao;
 
 /**
- * Classe de service prenant en charge les opérations d'administration
- * concernant la gestion des pilotes.
+ * Administration driver web service 
  * 
  */
 @Path("/driver")
@@ -99,7 +98,7 @@ public class DriverWebService {
 
 		if (name == null || name.equals("")) {
 			response = Response.status(Status.NOT_ACCEPTABLE).entity(
-					new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Le prénom du pilote doit être renseigné !"))
+					new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Driver firstname is missing !"))
 					.build();
 		} else {
 			LocalDate date = null;
@@ -108,7 +107,7 @@ public class DriverWebService {
 			}
 			Driver driver = new Driver(name, date);
 			dao.create(driver);
-			response = Response.ok(new WsReturn(driver.getId(), "Pilote " + driver.getName() + " ajouté !")).build();
+			response = Response.ok(new WsReturn(driver.getId(), "Driver " + driver.getName() + " added !")).build();
 		}
 
 		dao.close();
@@ -138,7 +137,7 @@ public class DriverWebService {
 
 		if (name == null || name.equals("")) {
 			response = Response.status(Status.NOT_ACCEPTABLE).entity(
-					new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Le prénom du pilote doit être renseigné !"))
+					new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Diver firstname is missing !"))
 					.build();
 		} else {
 			LocalDate date = null;
@@ -151,11 +150,11 @@ public class DriverWebService {
 				driver.setBirthdate(date);
 				dao.update(driver);
 				response = Response
-						.ok(new WsReturn(Status.OK.getStatusCode(), "Pilote " + driver.getName() + " modifié !"))
+						.ok(new WsReturn(Status.OK.getStatusCode(), "Driver " + driver.getName() + " updated !"))
 						.build();
 			} else {
 				response = Response.status(Status.NOT_FOUND).entity(
-						new WsReturn(Status.NOT_FOUND.getStatusCode(), "Pilote #" + params.getId() + " introuvable !"))
+						new WsReturn(Status.NOT_FOUND.getStatusCode(), "Driver #" + params.getId() + " not found !"))
 						.build();
 			}
 		}
@@ -183,11 +182,11 @@ public class DriverWebService {
 		if (pilodriverte != null) {
 			dao.delete(pilodriverte);
 			response = Response
-					.ok(new WsReturn(Status.OK.getStatusCode(), "Pilote " + pilodriverte.getName() + " supprimé !"))
+					.ok(new WsReturn(Status.OK.getStatusCode(), "Driver " + pilodriverte.getName() + " deleted !"))
 					.build();
 		} else {
 			response = Response.status(Status.NOT_FOUND)
-					.entity(new WsReturn(Status.NOT_FOUND.getStatusCode(), "Pilote #" + id + " introuvable !")).build();
+					.entity(new WsReturn(Status.NOT_FOUND.getStatusCode(), "Driver #" + id + " not found !")).build();
 		}
 		dao.close();
 		return response;

@@ -14,9 +14,7 @@ import net.leludo.gtrchamp.dao.StatDao;
 import net.leludo.gtrchamp.stat.Stat;
 
 /**
- * Classe de service prenant en charge la génération des données statistiques.
- * 
- * - /stat/victory
+ * Stat web service
  */
 @Path("stat")
 public class Stats {

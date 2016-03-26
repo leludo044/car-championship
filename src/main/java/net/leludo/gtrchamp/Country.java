@@ -16,7 +16,7 @@ public class Country {
 
 	@Override
 	public String toString() {
-		return "Pays [id=" + id + ", name=" + name + "]";
+		return "Country [id=" + id + ", name=" + name + "]";
 	}
 
 	/**
