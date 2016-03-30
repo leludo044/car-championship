@@ -137,7 +137,7 @@ public class Championship {
 
     @Override
     public String toString() {
-        return "Championnat [id=" + id + ", libelle=" + name + ", grandsPrix=" + plannedRaces + "]";
+        return "Cahmpionship [id=" + id + ", name=" + name + ", plannedRaces=" + plannedRaces + "]";
     }
 
 }

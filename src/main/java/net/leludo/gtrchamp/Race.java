@@ -106,7 +106,7 @@ public class Race {
 
     @Override
     public String toString() {
-        return "Race [id=" + id + ", date=" + date + ", mode2Courses=" + twoRacesMode
+        return "Race [id=" + id + ", date=" + date + ", twoRacesMode=" + twoRacesMode
                 + ", competitors=" + competitors + ", track=" + track + "]";
     }
 

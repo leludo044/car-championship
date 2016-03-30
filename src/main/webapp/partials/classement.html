@@ -21,7 +21,7 @@
 						<tbody>
 							<tr data-ng-repeat="cl in classement">
 								<td>{{cl.rang}}</td>
-								<td>{{cl.nom}}</td>
+								<td>{{cl.name}}</td>
 								<td>{{cl.points}}</td>
 							</tr>
 						</tbody>
@@ -52,9 +52,9 @@
 						<tr data-ng-repeat="gp in gps" ng-click="resultats(gp.id)">
 							<td>{{gp.id}}</td>
 							<td>{{gp.date}}</td>
-							<td>{{gp.nom}}</td>
-							<td>{{gp.longueur}}</td>
-							<td>{{gp.pays}}</td>
+							<td>{{gp.name}}</td>
+							<td>{{gp.length}}</td>
+							<td>{{gp.country}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -82,10 +82,10 @@
 					</thead>
 					<tbody>
 						<tr data-ng-repeat="conc in concurrents">
-							<td>{{conc.numCourse}}</td>
-							<td>{{conc.arrivee}}</td>
+							<td>{{conc.raceNumber}}</td>
+							<td>{{conc.arrivalPosition}}</td>
 							<td><img ng-hide="{{!conc.pole}}" src="design/Accept16.png" /></td>
-							<td>{{conc.nom}}</td>
+							<td>{{conc.name}}</td>
 							<td>{{conc.points}}</td>
 						</tr>
 					</tbody>

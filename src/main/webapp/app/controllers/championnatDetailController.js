@@ -22,7 +22,7 @@ controllers.controller('ChampionnatDetailController', [ '$scope',
 				$scope.gps = Races.query({
 					chpId : idChp
 				});
-				$scope.classement = Championnats.classement({
+				$scope.classement = Championnats.standings({
 					chpId : idChp
 				});
 				$scope.concurrents = null;

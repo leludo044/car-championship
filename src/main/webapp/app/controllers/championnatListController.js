@@ -23,7 +23,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 			$scope.selection = true;
 			$scope.message = "";
 			$scope.index = index;
-			Championnats.estcommence({ chpId: $scope.form.id }, function (response) {
+			Championnats.isstarted({ chpId: $scope.form.id }, function (response) {
 				if (response.code == 1) {
 					$scope.form.supprimable = false;
 				} else {

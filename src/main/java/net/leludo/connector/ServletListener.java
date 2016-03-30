@@ -20,7 +20,7 @@ public class ServletListener implements ServletContextListener {
     /** Logger */
     private static final Logger LOG = LoggerFactory.getLogger(ServletListener.class);
 
-    /** Nom de la variable d'environnement portant l'URL de connexion au SGBD */
+    /** Environment variable name holding connection URL to SGBD */
     private static final String DATABASE_URL = "CLEARDB_DATABASE_URL";
 
     private EntityManager entityManager;
@@ -38,7 +38,7 @@ public class ServletListener implements ServletContextListener {
             if (uri != null) {
                 URI dbUri = new URI(uri);
 
-                LOG.info("Variable " + DATABASE_URL + " trouvée.");
+                LOG.info(DATABASE_URL + " variable found.");
 
                 BdConnector connector = new BdConnector(dbUri);
 
@@ -57,11 +57,11 @@ public class ServletListener implements ServletContextListener {
                 arg0.getServletContext().setAttribute(EntityManagerFactory.class.getName(), emf);
             } else {
                 LOG.error(
-                        "Variable " + DATABASE_URL + " introuvable ! Connexion au SGBD impossible");
+                        DATABASE_URL + " variable not found ! SGBD connection impossible.");
             }
 
         } catch (URISyntaxException e) {
-            LOG.error("Variable " + DATABASE_URL + " malformée ! Connexion au SGBD impossible");
+            LOG.error(DATABASE_URL + " variable malformed ! SGBD connection impossible.");
         }
     }
 

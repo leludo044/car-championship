@@ -247,7 +247,7 @@ public class TrackWebService {
     @GET
     @Path("/{id}/wasrun")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response aCouru(@PathParam("id") final Integer id) {
+    public Response wasRun(@PathParam("id") final Integer id) {
         init();
 
         boolean wasRun = dao.wasRun(id);

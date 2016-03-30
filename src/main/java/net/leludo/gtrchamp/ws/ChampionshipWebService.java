@@ -32,8 +32,7 @@ import net.leludo.gtrchamp.dao.ChampionshipDao;
 import net.leludo.gtrchamp.dao.TrackDao;
 
 /**
- * Classe de service concernant les championnats. Permet de lister tous les
- * championnats ou de récupérer un championnat en particulier via son ID
+ * Championship web service
  */
 @Path("/championship")
 public class ChampionshipWebService {
@@ -44,8 +43,8 @@ public class ChampionshipWebService {
     private HttpServletResponse servletResponse;
 
     private EntityManagerFactory emf;
-    private ChampionshipDao dao = new ChampionshipDao();
-    private TrackDao circuitDao = new TrackDao();
+    private ChampionshipDao championshipDao = new ChampionshipDao();
+    private TrackDao trackDao = new TrackDao();
 
     /**
      * Ask for the entity manager registered for the application and inject it
@@ -54,8 +53,8 @@ public class ChampionshipWebService {
     private void init() {
         emf = (EntityManagerFactory) servletContext
                 .getAttribute(EntityManagerFactory.class.getName());
-        dao.setEntityManager(emf);
-        circuitDao.setEntityManager(emf);
+        championshipDao.setEntityManager(emf);
+        trackDao.setEntityManager(emf);
     }
 
     /**
@@ -64,17 +63,14 @@ public class ChampionshipWebService {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listJsonChampionnat() {
+    public String championships() {
         init();
-        List<Championship> chps = dao.all();
-        dao.close();
+        List<Championship> chps = championshipDao.all();
+        championshipDao.close();
         if (chps == null) {
-            return "Inconnu !";
+            return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
-            // or, for data
-            // binding,
-            // org.codehaus.jackson.mapper.MappingJsonFactory
             StringWriter sw = new StringWriter();
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
@@ -106,17 +102,14 @@ public class ChampionshipWebService {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson(@PathParam("id") final int id) {
+    public String championship(@PathParam("id") final int id) {
         init();
-        Championship chp = dao.find(new Integer(id));
-        dao.close();
+        Championship chp = championshipDao.find(new Integer(id));
+        championshipDao.close();
         if (chp == null) {
-            return "Inconnu !";
+            return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
-            // or, for data
-            // binding,
-            // org.codehaus.jackson.mapper.MappingJsonFactory
             StringWriter sw = new StringWriter();
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
@@ -166,21 +159,21 @@ public class ChampionshipWebService {
         if (name == null || name.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Le libellé du championnat doit être renseigné !"))
+                            "Championship name is missing !"))
                     .build();
         } else if (type == null || type.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Le type du championnat doit être renseigné !"))
+                            "Championship type is missing !"))
                     .build();
         } else {
             Championship championship = new Championship(name, type);
-            dao.save(championship);
+            championshipDao.save(championship);
             response = Response.ok(new WsReturn(championship.getId(),
-                    "Championnat " + championship.getName() + " ajouté !")).build();
+                    "Championship " + championship.getName() + " created !")).build();
         }
 
-        dao.close();
+        championshipDao.close();
         return response;
     }
 
@@ -209,29 +202,29 @@ public class ChampionshipWebService {
         if (name == null || name.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Le libelle du chmpionnat doit être renseigné !"))
+                            "Championship name is missing !"))
                     .build();
         } else if (type == null || type.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Le type du championnat doit être renseigné !"))
+                            "Championship type is missing !"))
                     .build();
         } else {
-            Championship championship = dao.find(params.getId().intValue());
+            Championship championship = championshipDao.find(params.getId().intValue());
             if (championship != null) {
                 championship.setName(name);
                 championship.setType(type);
-                dao.update(championship);
+                championshipDao.update(championship);
                 response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Cahmpionnat " + championship.getName() + " modifié !")).build();
+                        "Championship " + championship.getName() + " updated !")).build();
             } else {
                 response = Response.status(Status.NOT_FOUND)
                         .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Pilote #" + params.getId() + " introuvable !"))
+                                "Driver #" + params.getId() + " not found !"))
                         .build();
             }
         }
-        dao.close();
+        championshipDao.close();
         return response;
     }
 
@@ -252,18 +245,18 @@ public class ChampionshipWebService {
 
         Response response;
 
-        Championship championship = dao.find(id);
+        Championship championship = championshipDao.find(id);
         if (championship != null) {
-            dao.delete(championship);
+            championshipDao.delete(championship);
             response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                    "Championnat " + championship.getName() + " supprimé !")).build();
+                    "Championship " + championship.getName() + " deleted !")).build();
         } else {
             response = Response.status(Status.NOT_FOUND)
                     .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championnat #" + id + " introuvable !"))
+                            "Championship #" + id + " not found !"))
                     .build();
         }
-        dao.close();
+        championshipDao.close();
         return response;
     }
 
@@ -276,51 +269,46 @@ public class ChampionshipWebService {
      *         {code:0,message:""} if the championship is not started
      */
     @GET
-    @Path("/{id}/estcommence")
+    @Path("/{id}/isstarted")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response estCommence(@PathParam("id") final Integer id) {
+    public Response isStarted(@PathParam("id") final Integer id) {
         init();
 
-        boolean isStarted = dao.isStarted(id);
+        boolean isStarted = championshipDao.isStarted(id);
         return Response.ok().entity(new WsReturn(isStarted ? 1 : 0, "")).build();
     }
 
     /**
      * Return the scheduled races for a championship.
      *
-     * @param idChp
+     * @param championshipId
      *            The id of the championship to ask
      * @return Return the scheduled races for a championship in JSON format
      */
     @GET
-    @Path("/{idChp}/race/list")
+    @Path("/{championshipId}/race/list")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJsonGrandsPrix(@PathParam("idChp") final int idChp) {
+    public String races(@PathParam("championshipId") final int championshipId) {
         init();
-        Championship chp = dao.find(new Integer(idChp));
-        dao.close();
+        Championship chp = championshipDao.find(new Integer(championshipId));
+        championshipDao.close();
         if (chp == null) {
-            return "Inconnu !";
+            return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
-            // or, for data
-            // binding,
-            // org.codehaus.jackson.mapper.MappingJsonFactory
             StringWriter sw = new StringWriter();
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
                 g.writeStartArray();
-                // g.writeArrayFieldStart("grandsprix");
                 for (Race gp : chp.getPlannedRaces()) {
                     g.writeStartObject();
                     g.writeNumberField("id", gp.getId());
-                    g.writeStringField("nom", gp.getTrack().getName());
-                    g.writeNumberField("longueur", gp.getTrack().getLength());
+                    g.writeStringField("name", gp.getTrack().getName());
+                    g.writeNumberField("length", gp.getTrack().getLength());
                     g.writeStringField("date", gp.getDateFr());
-                    g.writeStringField("pays", gp.getTrack().getCountry().getName());
+                    g.writeStringField("country", gp.getTrack().getCountry().getName());
                     g.writeEndObject();
                 }
-                // g.writeEndArray();
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
@@ -340,28 +328,25 @@ public class ChampionshipWebService {
      * @return The standings of a championship in JSON format
      */
     @GET
-    @Path("/{idChp}/classement")
+    @Path("/{championshipId}/standings")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listJsonClassement(@PathParam("idChp") final int idChp) {
+    public String standings(@PathParam("championshipId") final int championshipId) {
         init();
-        List<Object[]> classement = dao.standings(idChp);
-        dao.close();
-        if (classement == null) {
-            return "Inconnu !";
+        List<Object[]> standings = championshipDao.standings(championshipId);
+        championshipDao.close();
+        if (standings == null) {
+            return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
-            // or, for data
-            // binding,
-            // org.codehaus.jackson.mapper.MappingJsonFactory
             StringWriter sw = new StringWriter();
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
                 g.writeStartArray();
                 int rang = 1;
-                for (Object[] pilote : classement) {
+                for (Object[] pilote : standings) {
                     g.writeStartObject();
                     g.writeNumberField("rang", rang++);
-                    g.writeStringField("nom", ((Driver) pilote[0]).getName());
+                    g.writeStringField("name", ((Driver) pilote[0]).getName());
                     g.writeNumberField("points", (Long) pilote[1]);
                     g.writeEndObject();
                 }
@@ -391,14 +376,14 @@ public class ChampionshipWebService {
 
         List<Race> races;
         Response response;
-        Championship championship = dao.find(id);
+        Championship championship = championshipDao.find(id);
         if (championship != null) {
             races = championship.getPlannedRaces();
             response = Response.ok(races).build();
         } else {
             response = Response.status(Status.NOT_FOUND)
                     .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championnat #" + id + " inexistant !"))
+                            "Championship #" + id + " not found !"))
                     .build();
         }
 
@@ -416,35 +401,35 @@ public class ChampionshipWebService {
      *         the championship or the track to schedule doesn't exists
      */
     @PUT
-    @Path("/{id}/{idCircuit}")
+    @Path("/{id}/{trackId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") final Integer id,
-            @PathParam("idCircuit") final Integer idCircuit) {
+            @PathParam("trackId") final Integer trackId) {
         init();
 
         Response response;
-        Championship championship = dao.find(id);
+        Championship championship = championshipDao.find(id);
         if (championship != null) {
-            Track circuit = circuitDao.find(idCircuit);
-            if (circuit != null) {
-                Race gp = new Race(championship, circuit, null);
-                championship.planRace(circuit, null);
-                dao.update(championship);
+            Track track = trackDao.find(trackId);
+            if (track != null) {
+                Race race = new Race(championship, track, null);
+                championship.planRace(track, null);
+                championshipDao.update(championship);
                 response = Response
-                        .ok(new WsReturn(Status.OK.getStatusCode(), "Circuit " + circuit.getName()
-                                + " ajouté au championnat " + championship.getName() + "."))
+                        .ok(new WsReturn(Status.OK.getStatusCode(), "Track " + track.getName()
+                                + " added to championship " + championship.getName() + "."))
                         .build();
             } else {
                 response = Response.status(Status.NOT_FOUND)
                         .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Circuit #" + idCircuit + " inexistant !"))
+                                "Track #" + trackId + " not found !"))
                         .build();
             }
         } else {
             response = Response.status(Status.NOT_FOUND)
                     .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championnat #" + id + " inexistant !"))
+                            "Championship #" + id + " not found !"))
                     .build();
         }
 
@@ -462,33 +447,33 @@ public class ChampionshipWebService {
      *         the championship or the track to cancel doesn't exists
      */
     @DELETE
-    @Path("/{id}/{idCircuit}")
+    @Path("/{id}/{trackId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") final Integer id,
-            @PathParam("idCircuit") final Integer idCircuit) {
+            @PathParam("trackId") final Integer trackId) {
         init();
 
         Response response;
-        Championship championship = dao.find(id);
+        Championship championship = championshipDao.find(id);
         if (championship != null) {
-            if (idCircuit != null) {
-                Race gp = championship.cancelRace(idCircuit);
-                dao.update(championship);
+            if (trackId != null) {
+                Race race = championship.cancelRace(trackId);
+                championshipDao.update(championship);
                 response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Circuit " + gp.getTrack().getName() + " supprimé du championnat "
+                        "Track " + race.getTrack().getName() + " deleted from championship "
                                 + championship.getName() + "."))
                         .build();
             } else {
                 response = Response.status(Status.NOT_FOUND)
                         .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Circuit à supprimé indéterminé !"))
+                                "Undefined track to delete !"))
                         .build();
             }
         } else {
             response = Response.status(Status.NOT_FOUND)
                     .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championnat #" + id + " inexistant !"))
+                            "Championship #" + id + " not found !"))
                     .build();
         }
 
@@ -504,32 +489,29 @@ public class ChampionshipWebService {
      */
 
     @GET
-    @Path("/race/{idGp}/resultat")
+    @Path("/race/{raceId}/results")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listJsonResultats(@PathParam("idGp") final int idGp) {
+    public String results(@PathParam("raceId") final int raceId) {
         init();
-        List<Object[]> resultats = dao.results(idGp);
-        dao.close();
-        if (resultats == null) {
-            return "Inconnu !";
+        List<Object[]> results = championshipDao.results(raceId);
+        championshipDao.close();
+        if (results == null) {
+            return "Unknown !";
         } else {
             JsonFactory jsonFactory = new JsonFactory();
-            // or, for data
-            // binding,
-            // org.codehaus.jackson.mapper.MappingJsonFactory
             StringWriter sw = new StringWriter();
             try {
                 JsonGenerator g = jsonFactory.createGenerator(sw);
                 g.writeStartArray();
-                for (Object[] concurrent : resultats) {
+                for (Object[] concurrent : results) {
                     g.writeStartObject();
-                    g.writeNumberField("idPilote",
+                    g.writeNumberField("piloteId",
                             ((Competitor) concurrent[0]).getDriver().getId());
-                    g.writeStringField("nom", ((Competitor) concurrent[0]).getDriver().getName());
-                    g.writeNumberField("depart", ((Competitor) concurrent[0]).getSartingPosition());
-                    g.writeNumberField("arrivee",
+                    g.writeStringField("name", ((Competitor) concurrent[0]).getDriver().getName());
+                    g.writeNumberField("startingPosition", ((Competitor) concurrent[0]).getSartingPosition());
+                    g.writeNumberField("arrivalPosition",
                             ((Competitor) concurrent[0]).getArrivalPosition());
-                    g.writeNumberField("numCourse", ((Competitor) concurrent[0]).getRaceNumber());
+                    g.writeNumberField("raceNumber", ((Competitor) concurrent[0]).getRaceNumber());
                     g.writeBooleanField("pole",
                             ((Competitor) concurrent[0]).getSartingPosition() == 1);
                     g.writeNumberField("points", (Integer) concurrent[1]);
