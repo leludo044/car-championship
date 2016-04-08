@@ -1,6 +1,8 @@
 package net.leludo.gtrchamp;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.leludo.gtrchamp.dao.converter.LocalDateConverter;
+
 @Entity
 @Table(name = "grandsprix")
 public class Race {
@@ -25,7 +30,8 @@ public class Race {
     @GeneratedValue
     private int id;
 
-    private Date date;
+	@Convert(converter = LocalDateConverter.class)
+    private LocalDate date;
 
     @Column(name = "mode2Courses")
     private boolean twoRacesMode;
@@ -73,7 +79,7 @@ public class Race {
         return competitors;
     }
 
-    public Race(final Championship championship, final Track track, final Date date) {
+    public Race(final Championship championship, final Track track, final LocalDate date) {
         this.championship = championship;
         this.track = track;
         this.date = date;
@@ -110,15 +116,15 @@ public class Race {
                 + ", competitors=" + competitors + ", track=" + track + "]";
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     public String getDateFr() {
         String formatedDate = "";
         if (this.date != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            formatedDate = sdf.format(this.date);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            formatedDate = this.date.format(dtf);
         }
         return formatedDate;
     }

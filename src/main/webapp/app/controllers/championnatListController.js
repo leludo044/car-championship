@@ -87,26 +87,38 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 
 		}
 
-		$scope.onSelect = function (circuit, index) {
-			var exists = $scope.selectedTracks.indexOf(index);
-			if (exists < 0) {
-				$http({
-					method: 'PUT',
-					url: './api/championship/' + $scope.selected.id + '/' + circuit.id
-				}).then(function () {
-					$scope.selectedTracks.push(index);
-				}, function () {
-
-				});
+		$scope.onSelect = function(track, index) {
+			var exists = $scope.selectedTracks[index];
+			if (!exists) {
+					$scope.selectedTracks[index]={selected:true, dateFr:""};
 			} else {
 				$http({
 					method: 'DELETE',
-					url: './api/championship/' + $scope.selected.id + '/' + circuit.id
+					url: './api/championship/' + $scope.selected.id + '/' + track.id
 				}).then(function () {
-					delete $scope.selectedTracks[exists];
+					delete $scope.selectedTracks[index];
 				}, function () {
 				});
 			}
+			
+		};
+		
+		$scope.onValid = function (circuit, date, index) {
+            console.log(circuit);
+            console.log(date);
+				$http({
+					method: 'PUT',
+					url: './api/championship/' + $scope.selected.id + '/' + circuit.id,
+					data: {
+						championshipId: $scope.selected.id,
+						trackId: circuit.id,
+						date: date
+					}
+				}).then(function () {
+					$scope.selectedTracks[index]={selected:true, dateFr:""};
+				}, function () {
+
+				});
 		}
 
 
@@ -114,7 +126,8 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 			for (var i=0; i<allTracks.length; i++) {
 				for (var j=0; j<championshipTracks.length; j++) {
 					if (allTracks[i].id === championshipTracks[j].track.id) {
-						$scope.selectedTracks.push(i);
+						//$scope.selectedTracks.push({index:i, date:championshipTracks[j].track.date});
+						$scope.selectedTracks[i] = {selected:true, date:championshipTracks[j].dateFr};
 					}
 				}
 			}

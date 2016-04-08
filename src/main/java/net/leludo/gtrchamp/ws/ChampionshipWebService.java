@@ -2,6 +2,8 @@ package net.leludo.gtrchamp.ws;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -405,7 +407,7 @@ public class ChampionshipWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") final Integer id,
-            @PathParam("trackId") final Integer trackId) {
+            @PathParam("trackId") final Integer trackId, RaceParams params) {
         init();
 
         Response response;
@@ -413,8 +415,11 @@ public class ChampionshipWebService {
         if (championship != null) {
             Track track = trackDao.find(trackId);
             if (track != null) {
-                Race race = new Race(championship, track, null);
-                championship.planRace(track, null);
+    			LocalDate date = null;
+    			if (params.getDate() != null && !params.getDate().equals("")) {
+    				date = LocalDate.parse(params.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    			}
+                championship.planRace(track, date);
                 championshipDao.update(championship);
                 response = Response
                         .ok(new WsReturn(Status.OK.getStatusCode(), "Track " + track.getName()

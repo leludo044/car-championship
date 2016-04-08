@@ -1,7 +1,7 @@
 package net.leludo.gtrchamp;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -61,7 +61,7 @@ public class Championship {
      *            The date the track will be run
      * @return The planned race
      */
-    public Race planRace(final Track circuit, final Date date) {
+    public Race planRace(final Track circuit, final LocalDate date) {
         Race gp = new Race(this, circuit, date);
         this.plannedRaces.add(gp);
         return gp;

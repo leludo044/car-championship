@@ -1,5 +1,6 @@
 package net.leludo.gtrchamp;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class RaceTest {
 
     @Before
     public void setUp() throws Exception {
-        acteur = new Race(null, new Track(), Calendar.getInstance().getTime());
+        acteur = new Race(null, new Track(), LocalDate.now());
     }
 
     @Test

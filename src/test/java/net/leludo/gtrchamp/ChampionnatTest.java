@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import org.junit.Before;
@@ -46,7 +47,7 @@ public class ChampionnatTest {
      */
     @Test
     public final void testPlanRace() {
-        chp.planRace(new Track(), Calendar.getInstance().getTime());
+        chp.planRace(new Track(), LocalDate.now());
         assertEquals(1, chp.getPlannedRaces().size());
     }
 
