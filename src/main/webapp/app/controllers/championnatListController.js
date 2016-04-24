@@ -102,7 +102,9 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 			}
 			
 		};
-		
+		/**
+		 * On clic race date button 
+		 */
 		$scope.onValid = function (circuit, date, index) {
             console.log(circuit);
             console.log(date);
@@ -115,7 +117,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 						date: date
 					}
 				}).then(function () {
-					$scope.selectedTracks[index]={selected:true, dateFr:""};
+					$scope.selectedTracks[index]={selected:true, date:date};
 				}, function () {
 
 				});
