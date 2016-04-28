@@ -3,12 +3,14 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 
 		$scope.championnats = Championnats.query();
 		$scope.tracks = Circuits.query();
-		$scope.selected = {};
-		// Liste des circuits sélectionnables
-		//$scope.circuits = [];
-		// Liste des circtuis sélectionnés
+		/** Store the selected championship */
+		$scope.selected = undefined;
+		
 		$scope.selectedTracks = []
+		/** Store the index of the selected track */
 		var selectedIndex = -1 ;
+		
+		$scope.selectedChampionship = undefined ;
 
 		initForm = function () {
 			$scope.form = {
