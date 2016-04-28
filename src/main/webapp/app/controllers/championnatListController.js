@@ -8,6 +8,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 		//$scope.circuits = [];
 		// Liste des circtuis sélectionnés
 		$scope.selectedTracks = []
+		var selectedIndex = -1 ;
 
 		initForm = function () {
 			$scope.form = {
@@ -87,10 +88,17 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 
 		}
 
+		/**
+		 * On clic a track
+		 */
 		$scope.onSelect = function(track, index) {
 			var exists = $scope.selectedTracks[index];
 			if (!exists) {
+					if (selectedIndex != -1 & selectedIndex != index) {
+						delete $scope.selectedTracks[selectedIndex];
+					}
 					$scope.selectedTracks[index]={selected:true, dateFr:""};
+					selectedIndex = index ;
 			} else {
 				$http({
 					method: 'DELETE',
@@ -103,11 +111,9 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 			
 		};
 		/**
-		 * On clic race date button 
+		 * On clic race date button validation
 		 */
 		$scope.onValid = function (circuit, date, index) {
-            console.log(circuit);
-            console.log(date);
 				$http({
 					method: 'PUT',
 					url: './api/championship/' + $scope.selected.id + '/' + circuit.id,
@@ -117,6 +123,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$http', 'Champio
 						date: date
 					}
 				}).then(function () {
+					selectedIndex = -1 ;
 					$scope.selectedTracks[index]={selected:true, date:date};
 				}, function () {
 

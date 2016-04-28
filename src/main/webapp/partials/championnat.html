@@ -67,6 +67,7 @@
 			<th>Longueur</th>
 			<th>Pays</th>
 			<th>Date</th>
+			<th />
 		</tr>
 	</thead>
 	<tbody>
@@ -79,7 +80,8 @@
 			<td><input type="text" class="form-control"
 									id="raceDate" placeholder="Race date"
 									ng-model="selectedTracks[$index].date"
-									 ng-show="selectedTracks[$index].selected" />
+									 ng-show="selectedTracks[$index].selected" /></td>
+<td>									 
 									<button type="submit" class="btn btn-default" ng-show="selectedTracks[$index].selected"
 									ng-click="onValid(track, selectedTracks[$index].date, $index)">
 										<span class="glyphicon glyphicon-ok" aria-hidden="true"
