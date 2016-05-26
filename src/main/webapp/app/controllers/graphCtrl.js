@@ -7,7 +7,7 @@ controllers.controller('GraphCtrl', [ '$scope', '$routeParams', '$http',
 			$scope.config = {
 				options : {
 					chart : {
-						type : 'column'
+						type : 'bar'
 					},
 					legend : {
 						enabled : false
@@ -23,6 +23,13 @@ controllers.controller('GraphCtrl', [ '$scope', '$routeParams', '$http',
 							text: ''
 						}
 					},
+			        plotOptions: {
+			            bar: {
+			                dataLabels: {
+			                    enabled: true
+			                }
+			            }
+			        },
 				},
 				series : [ {
 					data : y
