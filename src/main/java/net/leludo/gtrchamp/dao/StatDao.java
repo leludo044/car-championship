@@ -18,16 +18,6 @@ public class StatDao {
     private EntityManagerFactory emf;
     protected EntityManager em;
 
-    public List<Stat> findNbVictories() {
-        Session session = this.em.unwrap(org.hibernate.Session.class);
-        SQLQuery query = session.createSQLQuery(
-                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.place=1 group by pilotes.nom order by count desc;");
-        query.addScalar("name", StringType.INSTANCE);
-        query.addScalar("count", IntegerType.INSTANCE);
-        query.setResultTransformer(Transformers.aliasToBean(Stat.class));
-        return query.list();
-    }
-
     public void setEntityManager(final EntityManagerFactory emf) {
         this.emf = emf;
         em = emf.createEntityManager();
@@ -49,10 +39,53 @@ public class StatDao {
         return query.list();
     }
 
+    public List<Stat> findNbPoles(int id) {
+        Session session = this.em.unwrap(org.hibernate.Session.class);
+        SQLQuery query = session.createSQLQuery(
+                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.grille=1 join grandsprix on resultats.idGrandPrix = grandsprix.id and grandsprix.idChampionnat = :id group by pilotes.nom order by count desc;");
+        query.setInteger("id", id);
+        query.addScalar("name", StringType.INSTANCE);
+        query.addScalar("count", IntegerType.INSTANCE);
+        query.setResultTransformer(Transformers.aliasToBean(Stat.class));
+        return query.list();
+    }
+
     public List<Stat> findNbPodium() {
         Session session = this.em.unwrap(org.hibernate.Session.class);
         SQLQuery query = session.createSQLQuery(
                 "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.place >=1 and resultats.place <=3 group by pilotes.nom order by count desc;");
+        query.addScalar("name", StringType.INSTANCE);
+        query.addScalar("count", IntegerType.INSTANCE);
+        query.setResultTransformer(Transformers.aliasToBean(Stat.class));
+        return query.list();
+    }
+
+    public List<Stat> findNbPodium(int id) {
+        Session session = this.em.unwrap(org.hibernate.Session.class);
+        SQLQuery query = session.createSQLQuery(
+                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.place >=1 and resultats.place <=3 join grandsprix on resultats.idGrandPrix = grandsprix.id and grandsprix.idChampionnat = :id group by pilotes.nom order by count desc;");
+        query.setInteger("id", id);
+        query.addScalar("name", StringType.INSTANCE);
+        query.addScalar("count", IntegerType.INSTANCE);
+        query.setResultTransformer(Transformers.aliasToBean(Stat.class));
+        return query.list();
+    }
+
+    public List<Stat> findNbVictories() {
+        Session session = this.em.unwrap(org.hibernate.Session.class);
+        SQLQuery query = session.createSQLQuery(
+                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.place=1 group by pilotes.nom order by count desc;");
+        query.addScalar("name", StringType.INSTANCE);
+        query.addScalar("count", IntegerType.INSTANCE);
+        query.setResultTransformer(Transformers.aliasToBean(Stat.class));
+        return query.list();
+    }
+
+    public List<Stat> findNbVictories(int id) {
+        Session session = this.em.unwrap(org.hibernate.Session.class);
+        SQLQuery query = session.createSQLQuery(
+                "select pilotes.nom as name, sum(!isnull(resultats.place)) as count from pilotes left join resultats on pilotes.id = resultats.idPilote and resultats.place=1 join grandsprix on resultats.idGrandPrix = grandsprix.id and grandsprix.idChampionnat = :id group by pilotes.nom order by count desc;");
+        query.setInteger("id", id);
         query.addScalar("name", StringType.INSTANCE);
         query.addScalar("count", IntegerType.INSTANCE);
         query.setResultTransformer(Transformers.aliasToBean(Stat.class));

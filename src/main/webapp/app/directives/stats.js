@@ -3,7 +3,8 @@ chpApp.directive('stats', function() {
       restrict: 'E',
       scope: {
     	label: '=label',
-    	url: '='
+    	url: '=',
+    	filter: '='
       },
       templateUrl: './partials/graph.html',
       controller: 'GraphCtrl'
