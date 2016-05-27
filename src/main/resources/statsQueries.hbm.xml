@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<sql-query name="podiumCount">
+		<return-scalar column="name" type="string" />
+		<return-scalar column="count" type="integer" />
+	<![CDATA[
+    select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix
+    join resultats on resultats.idGrandPrix = grandsprix.id and resultats.place >=1 and resultats.place <=3 right 
+    join pilotes on pilotes.id = resultats.idPilote 
+    group by pilotes.nom 
+    order by count desc;
+	]]>
+	</sql-query>
+
+	<sql-query name="filteredPodiumCount">
+		<return-scalar column="name" type="string" />
+		<return-scalar column="count" type="integer" />
+	<![CDATA[
+	select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix
+	join championnats on championnats.id = grandsprix.idChampionnat and grandsprix.idChampionnat = :id
+	join resultats on resultats.idGrandPrix = grandsprix.id and resultats.place >=1 and resultats.place <=3 right
+	join pilotes on pilotes.id = resultats.idPilote
+	group by pilotes.nom 
+	order by count desc;	]]>
+	</sql-query>
+</hibernate-mapping>
