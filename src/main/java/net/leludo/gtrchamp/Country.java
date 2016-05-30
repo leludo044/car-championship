@@ -2,35 +2,63 @@ package net.leludo.gtrchamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "pays")
 public class Country {
-	@Id
-	private int id;
+    @Id
+    @GeneratedValue
+    private int id;
 
-	@Column(name = "nom")
-	private String name;
+    @Column(name = "nom")
+    private String name;
 
-	@Override
-	public String toString() {
-		return "Country [id=" + id + ", name=" + name + "]";
-	}
+    /**
+     * Constructor.
+     */
+    public Country() {
+        this.name = "";
+    }
 
-	/**
-	 * @return the id of the country
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * Constructor.
+     *
+     * @param name
+     *            The name of the country
+     */
+    public Country(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @return the name of the country
-	 */
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String toString() {
+        return "Country [id=" + id + ", name=" + name + "]";
+    }
 
+    /**
+     * @return the id of the country
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @return the name of the country
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set the name of the country.
+     *
+     * @param name
+     *            The name of the country
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
 }

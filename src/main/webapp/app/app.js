@@ -19,6 +19,9 @@ chpApp.config([ '$routeProvider', function ($routeProvider) {
 	}).when('/circuits', {
 		templateUrl : 'partials/circuit.html',
 		controller : 'CircuitCtrl'
+	}).when('/country', {
+		templateUrl : 'partials/country.html',
+		controller : 'CountryCtrl'
 	}).when('/championnats', {
 		templateUrl : 'partials/championnat.html',
 		controller : 'ChampionnatListController'
