@@ -211,9 +211,15 @@ public class Competitor {
      *
      * @param raceNumber
      *            The race number to set. Must be 1 or 2
+     * @throws ChampionshipException
+     *             Raised exception if the race number is not 1 and not 2
      */
-    public void setRaceNumber(final int raceNumber) {
-        this.id.setRaceNumber(raceNumber);
+    public void setRaceNumber(final int raceNumber) throws ChampionshipException {
+        if (raceNumber == 1 || raceNumber == 2) {
+            this.id.setRaceNumber(raceNumber);
+        } else {
+            throw new ChampionshipException();
+        }
     }
 
     /**
