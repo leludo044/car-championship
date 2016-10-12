@@ -104,6 +104,9 @@ public class RaceWebService {
             competitor.setRaceNumber(params.getRaceNumber());
             competitor.setStartingPosition(params.getStartingPosition());
             competitor.setArrivalPosition(params.getArrivalPosition());
+
+            checkAgainstOtherCompetitor(params.getRaceId(), params.getRaceNumber(), competitor);
+
             resultDao.create(competitor);
             response = Response
                     .ok(new WsReturn(Status.OK.getStatusCode(),
@@ -155,6 +158,38 @@ public class RaceWebService {
             throw new ChampionshipException(Status.NOT_FOUND, "Race #" + id + " not found !");
         }
         return race;
+    }
+
+    /**
+     * Check the result with the other competitors for the same race.
+     *
+     * @param id
+     *            The race id
+     * @param raceNumber
+     *            The race number
+     * @param competitor
+     *            The new competitor to check
+     * @throws ChampionshipException
+     *             Raised exception on error
+     */
+    private void checkAgainstOtherCompetitor(final Integer id, final int raceNumber,
+            final Competitor competitor) throws ChampionshipException {
+
+        List<Competitor> competitors = resultDao.find(id, raceNumber);
+        for (Competitor other : competitors) {
+            if (other.getDriver().getId() == competitor.getDriver().getId()) {
+                throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                        competitor.getDriver().getName() + " has already a result for this race !");
+            }
+            if (other.getStartingPosition() == competitor.getStartingPosition()) {
+                throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                        competitor.getDriver().getName() + " has already the same starting position than "+other.getDriver().getName());
+            }
+            if (other.getArrivalPosition() == competitor.getArrivalPosition()) {
+                throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                        competitor.getDriver().getName() + " has already the same arrival position than "+other.getDriver().getName());
+            }
+        }
     }
 
     /**

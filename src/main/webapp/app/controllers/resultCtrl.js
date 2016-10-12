@@ -10,13 +10,14 @@ controllers
 							var vm = this;
 							// Drivers 
 							this.drivers = Pilotes.query();
-							this.indexSelectedDriver = -1;
+							this.indexSelectedDriver = null;
 							this.resultInfos = {}
 							this.showDriver = false;
 							this.results = [];
 							this.raceId = -1;
 							this.race = {};
 							this.raceNumber = 0 ;
+							this.message = null ;
 							
 							/**
 							 * Refresh the results for the race
@@ -60,7 +61,9 @@ controllers
 										function successCallback(response) {
 											vm.results.push(newResult);
 											vm.clearResult() ; 
+											vm.message = null;
 										}, function errorCallback(response) {
+											vm.message = response.data.message
 										});
 
 							}
@@ -81,6 +84,7 @@ controllers
 										startingPosition : 0,
 										arrivalPosition : 0
 									};
+								vm.indexSelectedDriver = null ;
 							}
 							// Catch for the race selection
 							$rootScope
