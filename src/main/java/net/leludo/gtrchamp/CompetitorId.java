@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 public class CompetitorId implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4792327019267435193L;
 
@@ -20,8 +20,52 @@ public class CompetitorId implements Serializable {
     @Column(name = "numCourse")
     private int raceNumber;
 
+    public CompetitorId() {
+    }
+
+    public CompetitorId(int driverId, int raceId, int raceNumber) {
+        this.driverId = driverId;
+        this.raceId = raceId;
+        this.raceNumber = raceNumber;
+    }
+
+    /**
+     * @return the driverId
+     */
+    protected int getDriverId() {
+        return driverId;
+    }
+
+    /**
+     * @param driverId the driverId to set
+     */
+    protected void setDriverId(int driverId) {
+        this.driverId = driverId;
+    }
+
+    /**
+     * @return the raceId
+     */
+    protected int getRaceId() {
+        return raceId;
+    }
+
+    /**
+     * @param raceId the raceId to set
+     */
+    protected void setRaceId(int raceId) {
+        this.raceId = raceId;
+    }
+
     public int getRaceNumber() {
         return raceNumber;
+    }
+
+    /**
+     * @param raceNumber the raceNumber to set
+     */
+    protected void setRaceNumber(int raceNumber) {
+        this.raceNumber = raceNumber;
     }
 
     @Override

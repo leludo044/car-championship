@@ -513,12 +513,12 @@ public class ChampionshipWebService {
                     g.writeNumberField("piloteId",
                             ((Competitor) concurrent[0]).getDriver().getId());
                     g.writeStringField("name", ((Competitor) concurrent[0]).getDriver().getName());
-                    g.writeNumberField("startingPosition", ((Competitor) concurrent[0]).getSartingPosition());
+                    g.writeNumberField("startingPosition", ((Competitor) concurrent[0]).getStartingPosition());
                     g.writeNumberField("arrivalPosition",
                             ((Competitor) concurrent[0]).getArrivalPosition());
                     g.writeNumberField("raceNumber", ((Competitor) concurrent[0]).getRaceNumber());
                     g.writeBooleanField("pole",
-                            ((Competitor) concurrent[0]).getSartingPosition() == 1);
+                            ((Competitor) concurrent[0]).getStartingPosition() == 1);
                     g.writeNumberField("points", (Integer) concurrent[1]);
                     g.writeEndObject();
                 }

@@ -1,5 +1,6 @@
 package net.leludo.gtrchamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,19 +17,19 @@ public class Competitor {
     private CompetitorId id;
 
     @MapsId("driverId")
-    @OneToOne
-    @JoinColumn(name = "idPilote")
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name = "idPilote", nullable = false)
     private Driver driver;
 
     @MapsId("raceId")
     @OneToOne
-    @JoinColumn(name = "idGrandPrix")
+    @JoinColumn(name = "idGrandPrix", nullable = false)
     private Race race;
 
-    @Column(name = "grille")
+    @Column(name = "grille", nullable = false)
     private int startingPosition;
 
-    @Column(name = "place")
+    @Column(name = "place", nullable = false)
     private int arrivalPosition;
 
     // TODO Supprimer ou configurer avec une clé primaire composée
@@ -46,21 +47,55 @@ public class Competitor {
 
     public Competitor() {
         super();
+        this.id = new CompetitorId();
         this.startingPosition = 0;
         this.arrivalPosition = 0;
     }
 
-    public Competitor(final Driver driver) {
+    public Competitor(final Driver driver) throws ChampionshipException {
         this();
         this.setDriver(driver);
     }
 
-    public void setDriver(final Driver driver) {
-        this.driver = driver;
+    /**
+     * @return the id
+     */
+    protected CompetitorId getId() {
+        return id;
+    }
+
+    public void setDriver(final Driver driver) throws ChampionshipException {
+        if (driver != null) {
+            this.driver = driver;
+            this.id.setDriverId(this.driver.getId());
+        } else {
+            throw new ChampionshipException();
+        }
     }
 
     public Driver getDriver() {
         return driver;
+    }
+
+    /**
+     * @return the race
+     */
+    public Race getRace() {
+        return race;
+    }
+
+    /**
+     * @param race
+     *            the race to set
+     * @throws ChampionshipException
+     */
+    public void setRace(final Race race) throws ChampionshipException {
+        if (race != null) {
+            this.race = race;
+            this.id.setRaceId(this.race.getId());
+        } else {
+            throw new ChampionshipException();
+        }
     }
 
     public void setStartingPosition(final int startingPosition) throws ChampionshipException {
@@ -79,7 +114,7 @@ public class Competitor {
         }
     }
 
-    public int getSartingPosition() {
+    public int getStartingPosition() {
         return startingPosition;
     }
 
@@ -89,6 +124,10 @@ public class Competitor {
 
     public int getRaceNumber() {
         return this.id.getRaceNumber();
+    }
+
+    public void setRaceNumber(final int raceNumber) {
+        this.id.setRaceNumber(raceNumber);
     }
 
     public PointSet getPoints() {

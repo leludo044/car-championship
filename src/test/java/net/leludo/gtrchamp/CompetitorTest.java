@@ -1,8 +1,11 @@
 package net.leludo.gtrchamp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +21,10 @@ public class CompetitorTest {
     @Test
     public void test() {
         assertNotNull(acteur);
-        assertEquals(0, acteur.getSartingPosition());
+        assertEquals(0, acteur.getStartingPosition());
         assertEquals(0, acteur.getArrivalPosition());
+        assertNull(acteur.getDriver());
+        assertNull(acteur.getRace());
     }
 
     @Test
@@ -31,19 +36,19 @@ public class CompetitorTest {
     @Test
     public void testNotHasPolePosition() throws ChampionshipException {
         acteur.setStartingPosition(2);
-        Assert.assertFalse(acteur.hasPolePosition());
+        assertFalse(acteur.hasPolePosition());
     }
 
     @Test
     public void testIsVainqueur() throws ChampionshipException {
         acteur.setArrivalPosition(1);
-        Assert.assertTrue(acteur.hasWon());
+        assertTrue(acteur.hasWon());
     }
 
     @Test
     public void testNotIsVainqueur() throws ChampionshipException {
         acteur.setArrivalPosition(2);
-        Assert.assertFalse(acteur.hasWon());
+        assertFalse(acteur.hasWon());
     }
 
     @Test(expected = ChampionshipException.class)
@@ -69,18 +74,62 @@ public class CompetitorTest {
     @Test
     public void testAbandon() {
         acteur.abandon();
-        Assert.assertEquals(-1, acteur.getArrivalPosition());
+        assertEquals(-1, acteur.getArrivalPosition());
     }
 
     @Test
     public void testHasNotTermine() {
-        Assert.assertFalse(acteur.hasFinished());
+        assertFalse(acteur.hasFinished());
     }
 
     @Test
     public void testHasTermine() throws ChampionshipException {
         acteur.setArrivalPosition(1);
-        Assert.assertTrue(acteur.hasFinished());
+        assertTrue(acteur.hasFinished());
     }
 
+    @Test
+    public void settingDriverUpdateId() throws ChampionshipException {
+        acteur.setDriver(new Driver());
+        assertNotNull(acteur.getDriver());
+        assertNotNull(acteur.getId());
+        assertEquals(0, acteur.getId().getDriverId());
+    }
+
+    @Test
+    public void settingRaceMustUpdateId() throws ChampionshipException {
+        acteur.setRace(new Race());
+        assertNotNull(acteur.getRace());
+        assertNotNull(acteur.getId());
+        assertEquals(0, acteur.getId().getRaceId());
+    }
+
+    @Test
+    public void settingRaceNumberMustUpdateId() throws ChampionshipException {
+        acteur.setRaceNumber(1);
+        assertNotNull(acteur.getId());
+        assertEquals(1, acteur.getRaceNumber());
+        assertEquals(1, acteur.getId().getRaceNumber());
+    }
+
+    @Test
+    public void settingDriverAndRaceMustUpdateId() throws ChampionshipException {
+        acteur.setDriver(new Driver());
+        acteur.setRace(new Race());
+        assertNotNull(acteur.getDriver());
+        assertNotNull(acteur.getRace());
+        assertNotNull(acteur.getId());
+        assertEquals(0, acteur.getId().getDriverId());
+        assertEquals(0, acteur.getId().getRaceId());
+    }
+
+    @Test(expected = ChampionshipException.class)
+    public void cannotSetNullDriver() throws ChampionshipException {
+        acteur.setDriver(null);
+    }
+
+    @Test(expected = ChampionshipException.class)
+    public void cannotSetNullRace() throws ChampionshipException {
+        acteur.setRace(null);
+    }
 }
