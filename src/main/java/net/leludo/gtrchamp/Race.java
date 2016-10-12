@@ -1,12 +1,10 @@
 package net.leludo.gtrchamp;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -37,7 +35,7 @@ public class Race {
     private boolean twoRacesMode;
 
     @Transient
-    private List<Competitor> competitors = new ArrayList<Competitor>();
+    private List<Competitor> competitors = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idCircuit", nullable = false)
@@ -108,6 +106,14 @@ public class Race {
             isTermine &= competitor.hasFinished();
         }
         return isTermine;
+    }
+
+    /**
+     * Say if this race must be run in two races mode
+     * @return true ou false
+     */
+    public boolean isTwoRacesMode() {
+        return this.twoRacesMode ;
     }
 
     @Override

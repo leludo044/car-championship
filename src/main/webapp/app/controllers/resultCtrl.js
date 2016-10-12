@@ -16,22 +16,20 @@ controllers
 							this.results = [];
 							this.raceId = -1;
 							this.race = {};
-
-							clearResult() ;
+							this.raceNumber = 0 ;
 							
 							/**
 							 * Refresh the results for the race
 							 */
-							var refresh = function(raceId) {
+							var refresh = function(raceId, raceNumber) {
 								this.raceId = raceId;
 								$http({
 									method : 'GET',
-									url : './api/race/results/' + raceId + '/1'
+									url : './api/race/results/' + raceId + '/'+raceNumber
 								}).then(function successCallback(response) {
 									vm.results = response.data;
 								}, function errorCallback(response) {
 								});
-
 							}
 
 							/**
@@ -55,13 +53,13 @@ controllers
 												"driverId" : newResult.driver.id,
 												"startingPosition" : newResult.startingPosition,
 												"arrivalPosition" : newResult.arrivalPosition,
-												"raceNumber" : 1
+												"raceNumber" : vm.raceNumber
 											}
 
 										}).then(
 										function successCallback(response) {
 											vm.results.push(newResult);
-											clearResult() ; 
+											vm.clearResult() ; 
 										}, function errorCallback(response) {
 										});
 
@@ -77,7 +75,7 @@ controllers
 							/**
 							 * Clear the result form : hide inputs and reset to default values
 							 */
-							var clearResult = function() {
+							this.clearResult = function() {
 								vm.showDriver = false 
 								vm.resultInfos = {
 										startingPosition : 0,
@@ -91,7 +89,10 @@ controllers
 											function onRaceChanged(event,
 													params) {
 												vm.race = params ;
-												refresh(vm.race.race.raceId);
+												vm.raceNumber = vm.race.raceNumber ;
+												refresh(vm.race.race.raceId, vm.raceNumber);
 											});
+							
+							this.clearResult() ;
 
 						} ]);

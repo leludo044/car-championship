@@ -24,8 +24,9 @@ public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
     }
 
     public List<Competitor> find(final Integer raceId, final int raceNumber) {
-        Query query = this.em.createQuery("from Competitor c where race.id=:raceId and id.raceNumber=1") ;
+        Query query = this.em.createQuery("from Competitor c where race.id=:raceId and id.raceNumber=:raceNumber") ;
         query.setParameter("raceId", raceId);
+        query.setParameter("raceNumber", raceNumber);
         return query.getResultList();
     }
 

@@ -138,7 +138,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 				for (var j=0; j<championshipTracks.length; j++) {
 					if (allTracks[i].id === championshipTracks[j].track.id) {
 						//$scope.selectedTracks.push({index:i, date:championshipTracks[j].track.date});
-						$scope.selectedTracks[i] = {selected:true, date:championshipTracks[j].dateFr, raceId: championshipTracks[j].id };
+						$scope.selectedTracks[i] = {selected:true, date:championshipTracks[j].dateFr, raceId: championshipTracks[j].id, towRacesMode: championshipTracks[j].twoRacesMode };
 					}
 				}
 			}
@@ -148,8 +148,8 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 		/**
 		 * Show the modal containing the results
 		 */
-		$scope.showResults = function(track, race) {
-			$rootScope.$emit("race.changed", {track: track, race: race}) ;
+		$scope.showResults = function(track, race, raceNumber) {
+			$rootScope.$emit("race.changed", {track: track, race: race, raceNumber: raceNumber}) ;
 			$('#resultsModal').modal('show') ;
 		}
 

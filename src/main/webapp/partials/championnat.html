@@ -88,14 +88,16 @@
 											title="Modifier"></span>
 											</button>
 									<button type="button" class="btn btn-default" data-toggle="modal"
-									data-target="#resultsModal">
+									data-target="#resultsModal" ng-if="selectedTracks[$index].selected">
 										<span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"
 											title="Modifier"></span>
 											</button>
-									<button type="button" class="btn btn-default" ng-click="showResults(track, selectedTracks[$index])">
-										<span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"
-											title="Modifier"></span>
-											</button>
+											<button class="btn btn-primary" type="button" ng-click="showResults(track, selectedTracks[$index], 1)" ng-if="selectedTracks[$index].selected">
+  					<span class="badge">1</span>
+</button>
+											<button class="btn btn-primary" type="button" ng-click="showResults(track, selectedTracks[$index], 2)" ng-if="selectedTracks[$index].selected && selectedTracks[$index].towRacesMode">
+  					<span class="badge">2</span>
+</button>
 									 </td>
 		</tr>
 	</tbody>
