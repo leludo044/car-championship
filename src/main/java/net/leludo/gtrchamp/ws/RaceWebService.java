@@ -21,7 +21,6 @@ import net.leludo.gtrchamp.ChampionshipException;
 import net.leludo.gtrchamp.Competitor;
 import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.Race;
-import net.leludo.gtrchamp.dao.ChampionshipDao;
 import net.leludo.gtrchamp.dao.DriverDao;
 import net.leludo.gtrchamp.dao.RaceDao;
 import net.leludo.gtrchamp.dao.ResultDao;
@@ -32,16 +31,19 @@ import net.leludo.gtrchamp.dao.ResultDao;
 @Path("/race")
 public class RaceWebService {
 
+    /** Servlet context. */
     @Context
     private ServletContext servletContext;
 
-    private HttpServletResponse servletResponse;
-
+    /** JPA entity manager. */
     private EntityManagerFactory emf;
-    private ChampionshipDao championshipDao = new ChampionshipDao();
+
+    /** DAO for driver access. */
     private DriverDao driverDao = new DriverDao();
+    /** DAO for race access. */
     private RaceDao raceDao = new RaceDao();
-    private ResultDao resultDao = new ResultDao() ;
+    /** DAO for result access. */
+    private ResultDao resultDao = new ResultDao();
 
     /**
      * Ask for the entity manager registered for the application and inject it
@@ -50,19 +52,25 @@ public class RaceWebService {
     private void init() {
         emf = (EntityManagerFactory) servletContext
                 .getAttribute(EntityManagerFactory.class.getName());
-        championshipDao.setEntityManager(emf);
         driverDao.setEntityManager(emf);
         raceDao.setEntityManager(emf);
         resultDao.setEntityManager(emf);
     }
 
     /**
+     * Provide the track list for a particular race and her race number.
+     *
+     * @param id
+     *            The race id
+     * @param raceNumber
+     *            The race number
      * @return the track list in JSON format
      */
     @GET
     @Path("/results/{raceId}/{raceNumber}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Competitor> competitors(@PathParam("raceId") final int id, @PathParam("raceNumber") final int raceNumber) {
+    public List<Competitor> competitors(@PathParam("raceId") final int id,
+            @PathParam("raceNumber") final int raceNumber) {
         init();
         List<Competitor> competitors = resultDao.find(id, raceNumber);
         resultDao.close();
@@ -89,7 +97,7 @@ public class RaceWebService {
         Response response;
 
         try {
-            EntityManager em = emf.createEntityManager() ;
+            EntityManager em = emf.createEntityManager();
             resultDao.setEntityManager(em);
             em.getTransaction().begin();
             Driver driver = checkDriver(params.getDriverId());
@@ -117,10 +125,18 @@ public class RaceWebService {
                     .entity(new WsReturn(ce.status().getStatusCode(), ce.getMessage())).build();
         }
 
-        championshipDao.close();
+        resultDao.close();
         return response;
     }
 
+    /**
+     * Check for correct arrival position. Must be above 0.
+     *
+     * @param arrivalPosition
+     *            The arrival position to check
+     * @throws ChampionshipException
+     *             Raised exception if the check fails
+     */
     private void checkArrivalPosition(final int arrivalPosition) throws ChampionshipException {
         if (arrivalPosition <= 0) {
             throw new ChampionshipException(Status.NOT_ACCEPTABLE,
@@ -128,6 +144,14 @@ public class RaceWebService {
         }
     }
 
+    /**
+     * Check for correct starting position. Must be above 0.
+     *
+     * @param startingPosition
+     *            The starting position to check
+     * @throws ChampionshipException
+     *             Raised exception if the check fails
+     */
     private void checkStartingPosition(final int startingPosition) throws ChampionshipException {
         if (startingPosition <= 0) {
             throw new ChampionshipException(Status.NOT_ACCEPTABLE,
@@ -136,6 +160,14 @@ public class RaceWebService {
 
     }
 
+    /**
+     * Check for correct race number. Must be 1 or 2.
+     *
+     * @param raceNumber
+     *            The race number to check
+     * @throws ChampionshipException
+     *             Raised exception if the check fails
+     */
     private void checkRaceNumber(final int raceNumber) throws ChampionshipException {
         if (raceNumber < 1 || raceNumber > 2) {
             throw new ChampionshipException(Status.NOT_ACCEPTABLE,
@@ -144,7 +176,16 @@ public class RaceWebService {
 
     }
 
-    private Driver checkDriver(Integer id) throws ChampionshipException {
+    /**
+     * Check if the driver exists.
+     *
+     * @param id
+     *            The driver id to check
+     * @return The founded driver
+     * @throws ChampionshipException
+     *             Raised exception if the check fails
+     */
+    private Driver checkDriver(final Integer id) throws ChampionshipException {
         Driver driver = driverDao.find(id);
         if (driver == null) {
             throw new ChampionshipException(Status.NOT_FOUND, "Driver #" + id + " not found !");
@@ -152,7 +193,16 @@ public class RaceWebService {
         return driver;
     }
 
-    private Race checkRace(Integer id) throws ChampionshipException {
+    /**
+     * Check if the race exists.
+     *
+     * @param id
+     *            The race id to check
+     * @return The founded race
+     * @throws ChampionshipException
+     *             Raised exception if the check fails
+     */
+    private Race checkRace(final Integer id) throws ChampionshipException {
         Race race = raceDao.find(id);
         if (race == null) {
             throw new ChampionshipException(Status.NOT_FOUND, "Race #" + id + " not found !");
@@ -183,11 +233,15 @@ public class RaceWebService {
             }
             if (other.getStartingPosition() == competitor.getStartingPosition()) {
                 throw new ChampionshipException(Status.NOT_ACCEPTABLE,
-                        competitor.getDriver().getName() + " has already the same starting position than "+other.getDriver().getName());
+                        competitor.getDriver().getName()
+                                + " has already the same starting position than "
+                                + other.getDriver().getName());
             }
             if (other.getArrivalPosition() == competitor.getArrivalPosition()) {
                 throw new ChampionshipException(Status.NOT_ACCEPTABLE,
-                        competitor.getDriver().getName() + " has already the same arrival position than "+other.getDriver().getName());
+                        competitor.getDriver().getName()
+                                + " has already the same arrival position than "
+                                + other.getDriver().getName());
             }
         }
     }
@@ -200,7 +254,6 @@ public class RaceWebService {
      */
     @Context
     public void setHttpServletResponse(final HttpServletResponse pServletResponse) {
-        this.servletResponse = pServletResponse;
-        this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        pServletResponse.setHeader("Access-Control-Allow-Origin", "*");
     }
 }

@@ -10,41 +10,16 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * Represents à driver ans his results about a race
+ */
 @Entity
 @Table(name = "resultats")
 public class Competitor {
-    @EmbeddedId
-    private CompetitorId id;
 
-    @MapsId("driverId")
-    @OneToOne(cascade=CascadeType.DETACH)
-    @JoinColumn(name = "idPilote", nullable = false)
-    private Driver driver;
-
-    @MapsId("raceId")
-    @OneToOne
-    @JoinColumn(name = "idGrandPrix", nullable = false)
-    private Race race;
-
-    @Column(name = "grille", nullable = false)
-    private int startingPosition;
-
-    @Column(name = "place", nullable = false)
-    private int arrivalPosition;
-
-    // TODO Supprimer ou configurer avec une clé primaire composée
-    @ManyToOne()
-    @JoinColumn(name = "place", insertable = false, updatable = false)
-    private PointSet points;
-
-    public boolean hasPolePosition() {
-        return this.startingPosition == 1;
-    }
-
-    public boolean hasWon() {
-        return this.arrivalPosition == 1;
-    }
-
+    /**
+     * Default constructor.
+     */
     public Competitor() {
         super();
         this.id = new CompetitorId();
@@ -52,9 +27,65 @@ public class Competitor {
         this.arrivalPosition = 0;
     }
 
+    /**
+     * Constructor from a known driver.
+     *
+     * @param driver
+     *            The driver
+     * @throws ChampionshipException
+     *             Raised exception if the driver is null
+     */
     public Competitor(final Driver driver) throws ChampionshipException {
         this();
         this.setDriver(driver);
+    }
+
+    /** Id of the competitor. */
+    @EmbeddedId
+    private CompetitorId id;
+
+    /** The driver. */
+    @MapsId("driverId")
+    @OneToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "idPilote", nullable = false)
+    private Driver driver;
+
+    /** The race the driver ran. */
+    @MapsId("raceId")
+    @OneToOne
+    @JoinColumn(name = "idGrandPrix", nullable = false)
+    private Race race;
+
+    /** The starting position of the driver and the race. */
+    @Column(name = "grille", nullable = false)
+    private int startingPosition;
+
+    /** The arrival position of the driver and the race. */
+    @Column(name = "place", nullable = false)
+    private int arrivalPosition;
+
+    /** The earned points. */
+    // TODO Supprimer ou configurer avec une clé primaire composée
+    @ManyToOne()
+    @JoinColumn(name = "place", insertable = false, updatable = false)
+    private PointSet points;
+
+    /**
+     * Say if the drive won the pole position.
+     *
+     * @return true or false
+     */
+    public boolean hasPolePosition() {
+        return this.startingPosition == 1;
+    }
+
+    /**
+     * Say if the drive won the race.
+     *
+     * @return true or false
+     */
+    public boolean hasWon() {
+        return this.arrivalPosition == 1;
     }
 
     /**
@@ -64,6 +95,14 @@ public class Competitor {
         return id;
     }
 
+    /**
+     * Set the driver.
+     *
+     * @param driver
+     *            The driver to set. Cannot be null
+     * @throws ChampionshipException
+     *             Raised exception if the driver is null
+     */
     public void setDriver(final Driver driver) throws ChampionshipException {
         if (driver != null) {
             this.driver = driver;
@@ -73,11 +112,18 @@ public class Competitor {
         }
     }
 
+    /**
+     * Return the driver.
+     *
+     * @return The driver
+     */
     public Driver getDriver() {
         return driver;
     }
 
     /**
+     * Return the race.
+     *
      * @return the race
      */
     public Race getRace() {
@@ -85,9 +131,12 @@ public class Competitor {
     }
 
     /**
+     * Set the race.
+     *
      * @param race
-     *            the race to set
+     *            The race to set. Cannot be null
      * @throws ChampionshipException
+     *             Raised exception if the race is null
      */
     public void setRace(final Race race) throws ChampionshipException {
         if (race != null) {
@@ -98,6 +147,14 @@ public class Competitor {
         }
     }
 
+    /**
+     * Set the starting position.
+     *
+     * @param startingPosition
+     *            The starting position to set. Must be above 0
+     * @throws ChampionshipException
+     *             Raised exception if the starting position is equal or under 0
+     */
     public void setStartingPosition(final int startingPosition) throws ChampionshipException {
         if (startingPosition > 0) {
             this.startingPosition = startingPosition;
@@ -106,6 +163,14 @@ public class Competitor {
         }
     }
 
+    /**
+     * Set the arrival position.
+     *
+     * @param arrivalPosition
+     *            The arrival position to set. Must be above 0
+     * @throws ChampionshipException
+     *             Raised exception if the arrival position is equal or under 0
+     */
     public void setArrivalPosition(final int arrivalPosition) throws ChampionshipException {
         if (arrivalPosition > 0) {
             this.arrivalPosition = arrivalPosition;
@@ -114,30 +179,64 @@ public class Competitor {
         }
     }
 
+    /**
+     * Return the starting position.
+     *
+     * @return The starting position
+     */
     public int getStartingPosition() {
         return startingPosition;
     }
 
+    /**
+     * Return the arrival position.
+     *
+     * @return The arrival position
+     */
     public int getArrivalPosition() {
         return arrivalPosition;
     }
 
+    /**
+     * Get the race number.
+     *
+     * @return The race number
+     */
     public int getRaceNumber() {
         return this.id.getRaceNumber();
     }
 
+    /**
+     * Set the race number.
+     *
+     * @param raceNumber
+     *            The race number to set. Must be 1 or 2
+     */
     public void setRaceNumber(final int raceNumber) {
         this.id.setRaceNumber(raceNumber);
     }
 
+    /**
+     * Return the earned points.
+     *
+     * @return The earned points
+     */
     public PointSet getPoints() {
         return points;
     }
 
-    public void abandon() {
+    /**
+     * Say that the driver has aborted the race.
+     */
+    public void canceled() {
         this.arrivalPosition = -1;
     }
 
+    /**
+     * Say if the driver has finished the race.
+     *
+     * @return true or false
+     */
     public boolean hasFinished() {
         return this.arrivalPosition != 0;
     }

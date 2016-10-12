@@ -1,102 +1,102 @@
-controllers
-		.controller(
-				'ResultCtrl',
-				[
-						'$rootScope',
-						'Pilotes',
-						'$http',
-						function($rootScope, Pilotes, $http) {
+/**
+ * Controller for results edition : add, remove or update
+ */
+controllers.controller('ResultCtrl', [
+		'$rootScope',
+		'Pilotes',
+		'$http',
+		function($rootScope, Pilotes, $http) {
 
-							var vm = this;
-							// Drivers 
-							this.drivers = Pilotes.query();
-							this.indexSelectedDriver = null;
-							this.resultInfos = {}
-							this.showDriver = false;
-							this.results = [];
-							this.raceId = -1;
-							this.race = {};
-							this.raceNumber = 0 ;
-							this.message = null ;
-							
-							/**
-							 * Refresh the results for the race
-							 */
-							var refresh = function(raceId, raceNumber) {
-								this.raceId = raceId;
-								$http({
-									method : 'GET',
-									url : './api/race/results/' + raceId + '/'+raceNumber
-								}).then(function successCallback(response) {
-									vm.results = response.data;
-								}, function errorCallback(response) {
-								});
-							}
+			var vm = this;
+			// Drivers
+			this.drivers = Pilotes.query();
+			this.indexSelectedDriver = null;
+			this.resultInfos = {}
+			this.showDriver = false;
+			this.results = [];
+			this.raceId = -1;
+			this.race = {};
+			this.raceNumber = 0;
+			this.message = null;
 
-							/**
-							 * Save the current result, add it on the results lists and clear form
-							 */
-							this.save = function() {
-								var newResult = {
-									driver : this.drivers[this.indexSelectedDriver],
-									startingPosition : this.resultInfos.startingPosition,
-									arrivalPosition : this.resultInfos.arrivalPosition
-								};
-								console.log(newResult);
-								console.log(newResult.driver.name);
+			/**
+			 * Refresh the results for the race
+			 * @param raceId The race id to Refresh
+			 * @param raceNumber The race number to refresh
+			 */
+			var refresh = function(raceId, raceNumber) {
+				this.raceId = raceId;
+				$http({
+					method : 'GET',
+					url : './api/race/results/' + raceId + '/' + raceNumber
+				}).then(function successCallback(response) {
+					vm.results = response.data;
+				}, function errorCallback(response) {
+				});
+			}
 
-								$http(
-										{
-											method : 'POST',
-											url : './api/race/results',
-											data : {
-												"raceId" : raceId,
-												"driverId" : newResult.driver.id,
-												"startingPosition" : newResult.startingPosition,
-												"arrivalPosition" : newResult.arrivalPosition,
-												"raceNumber" : vm.raceNumber
-											}
+			/**
+			 * Save the current result, add it on the result list and clear
+			 * form. If error, a message is displayed
+			 */
+			this.save = function() {
+				var newResult = {
+					driver : this.drivers[this.indexSelectedDriver],
+					startingPosition : this.resultInfos.startingPosition,
+					arrivalPosition : this.resultInfos.arrivalPosition
+				};
+				console.log(newResult);
+				console.log(newResult.driver.name);
 
-										}).then(
-										function successCallback(response) {
-											vm.results.push(newResult);
-											vm.clearResult() ; 
-											vm.message = null;
-										}, function errorCallback(response) {
-											vm.message = response.data.message
-										});
+				$http({
+					method : 'POST',
+					url : './api/race/results',
+					data : {
+						"raceId" : raceId,
+						"driverId" : newResult.driver.id,
+						"startingPosition" : newResult.startingPosition,
+						"arrivalPosition" : newResult.arrivalPosition,
+						"raceNumber" : vm.raceNumber
+					}
 
-							}
+				}).then(function successCallback(response) {
+					vm.results.push(newResult);
+					vm.clearResult();
+					vm.message = null;
+				}, function errorCallback(response) {
+					vm.message = response.data.message
+				});
 
-							/**
-							 * On driver selection, show the result form
-							 */ 
-							this.selectDriver = function() {
-								this.showDriver = true;
-							}
+			}
 
-							/**
-							 * Clear the result form : hide inputs and reset to default values
-							 */
-							this.clearResult = function() {
-								vm.showDriver = false 
-								vm.resultInfos = {
-										startingPosition : 0,
-										arrivalPosition : 0
-									};
-								vm.indexSelectedDriver = null ;
-							}
-							// Catch for the race selection
-							$rootScope
-									.$on(
-											"race.changed",
-											function onRaceChanged(event,
-													params) {
-												vm.race = params ;
-												vm.raceNumber = vm.race.raceNumber ;
-												refresh(vm.race.race.raceId, vm.raceNumber);
-											});
-							
-							this.clearResult() ;
+			/**
+			 * On driver selection, show the result form
+			 */
+			this.selectDriver = function() {
+				this.showDriver = true;
+			}
 
-						} ]);
+			/**
+			 * Clear the result form : hide inputs, unselect driver and reset to default values
+			 */
+			this.clearResult = function() {
+				vm.showDriver = false
+				vm.resultInfos = {
+					startingPosition : 0,
+					arrivalPosition : 0
+				};
+				vm.indexSelectedDriver = null;
+			}
+
+			// On race selection
+			$rootScope.$on("race.changed",
+					function onRaceChanged(event, params) {
+						vm.race = params;
+						vm.raceNumber = vm.race.raceNumber;
+						refresh(vm.race.race.raceId, vm.raceNumber);
+					});
+
+			// Cleat the result form on init controller
+			this.clearResult();
+
+		} ]);
