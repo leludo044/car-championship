@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -174,6 +175,48 @@ public class RaceWebService {
                     .entity(new WsReturn(ce.status().getStatusCode(), ce.getMessage())).build();
         }
 
+        resultDao.close();
+        return response;
+    }
+
+    /**
+     * Update an existing result.
+     *
+     * @param raceId
+     *            The race id of the result to delete
+     * @param driverId
+     *            The driver id of the result to delete
+     * @param raceNumber
+     *            The race number of the result to delete
+     * @return HTTP 200 if the results has been updated, HTTP 406 (not
+     *         acceptable) if the starting position or arrival position is
+     *         wrong, HTTP 404 (not found) if the driver or the race cannot be
+     *         found.
+     */
+    @DELETE
+    @Path("/result/{raceId}/{driverId}/{raceNumber}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeResult(@PathParam("raceId") final int raceId,
+            @PathParam("driverId") final int driverId,
+            @PathParam("raceNumber") final int raceNumber) {
+        init();
+
+        Response response;
+
+        int rowCount = resultDao.delete(raceId, driverId, raceNumber);
+        if (rowCount == 1) {
+            response = Response.ok(new WsReturn(Status.OK.getStatusCode(), "Result removed !"))
+                    .build();
+        } else if (rowCount == 0) {
+            response = Response.status(Status.BAD_REQUEST).entity(
+                    new WsReturn(Status.BAD_REQUEST.getStatusCode(), "No result to remove !"))
+                    .build();
+        } else {
+            response = Response.status(Status.BAD_REQUEST).entity(
+                    new WsReturn(Status.BAD_REQUEST.getStatusCode(), "To many results removed  !"))
+                    .build();
+        }
         resultDao.close();
         return response;
     }

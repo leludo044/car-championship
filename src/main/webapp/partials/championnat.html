@@ -143,7 +143,9 @@
 								ng-model="result.arrivalPosition" /></td>
 							<td>{{result.points.points}}</td>
 							<td><span class="glyphicon glyphicon-ok" aria-hidden="true"
-								title="Update" ng-click="vm.update($index)"></span> 
+								title="Update" ng-click="vm.update($index)"></span> <span
+								class="glyphicon glyphicon-remove" aria-hidden="true"
+								title="Delete" ng-click="vm.remove($index)"></span>
 						</tr>
 					</tbody>
 					<tfoot>

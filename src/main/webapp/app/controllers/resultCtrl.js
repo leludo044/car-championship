@@ -73,9 +73,8 @@ controllers.controller('ResultCtrl', [
 			}
 
 			/**
-			 * Save the current result, add it on the result list and clear
-			 * form. If error, a message is displayed
-			 * @param index
+			 * Update a result. If error, a message is displayed
+			 * @param index The index of the result to update
 			 */
 			this.update = function(index) {
 				var newResult = {
@@ -83,8 +82,6 @@ controllers.controller('ResultCtrl', [
 					startingPosition : this.results[index].startingPosition,
 					arrivalPosition : this.results[index].arrivalPosition
 				};
-				console.log(newResult);
-				console.log(newResult.driver.name);
 
 				$http({
 					method : 'PUT',
@@ -106,6 +103,26 @@ controllers.controller('ResultCtrl', [
 				});
 
 			}
+			
+			/**
+			 * Remove a result. If error, a message is displayed
+			 * @param index The index of the result to remove
+			 */
+			this.remove = function(index) {
+				$http({
+					method : 'DELETE',
+					url : './api/race/result/'+vm.race.race.raceId+'/'+this.results[index].driver.id+'/'+vm.raceNumber
+				}).then(function successCallback(response) {
+					vm.results.splice(index, 1);
+					vm.message = "Result removed !";
+					vm.error = null ;
+				}, function errorCallback(response) {
+					vm.error = response.data.message;
+					vm.message = null ;
+				});
+
+			}
+
 			/**
 			 * On driver selection, show the result form
 			 */
