@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -88,10 +89,10 @@ public class RaceWebService {
      *         found.
      */
     @POST
-    @Path("/results")
+    @Path("/result")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response results(final ResultParams params) {
+    public Response addResult(final ResultParams params) {
         init();
 
         Response response;
@@ -112,13 +113,61 @@ public class RaceWebService {
             competitor.setRaceNumber(params.getRaceNumber());
             competitor.setStartingPosition(params.getStartingPosition());
             competitor.setArrivalPosition(params.getArrivalPosition());
-
+            checkExistingResult(params.getRaceId(), params.getRaceNumber(), competitor);
             checkAgainstOtherCompetitor(params.getRaceId(), params.getRaceNumber(), competitor);
 
             resultDao.create(competitor);
             response = Response
                     .ok(new WsReturn(Status.OK.getStatusCode(),
                             "Results for driver " + competitor.getDriver().getName() + " saved !"))
+                    .build();
+        } catch (final ChampionshipException ce) {
+            response = Response.status(ce.status())
+                    .entity(new WsReturn(ce.status().getStatusCode(), ce.getMessage())).build();
+        }
+
+        resultDao.close();
+        return response;
+    }
+
+    /**
+     * Update an existing result.
+     *
+     * @param params
+     *            The competitor request parameters needed to update the results
+     * @return HTTP 200 if the results has been updated, HTTP 406 (not
+     *         acceptable) if the starting position or arrival position is
+     *         wrong, HTTP 404 (not found) if the driver or the race cannot be
+     *         found.
+     */
+    @PUT
+    @Path("/result")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateResult(final ResultParams params) {
+        init();
+
+        Response response;
+
+        try {
+            Driver driver = checkDriver(params.getDriverId());
+            Race race = checkRace(params.getRaceId());
+            checkStartingPosition(params.getStartingPosition());
+            checkArrivalPosition(params.getArrivalPosition());
+            checkRaceNumber(params.getRaceNumber());
+
+            Competitor competitor = new Competitor();
+            competitor.setDriver(driver);
+            competitor.setRace(race);
+            competitor.setRaceNumber(params.getRaceNumber());
+            competitor.setStartingPosition(params.getStartingPosition());
+            competitor.setArrivalPosition(params.getArrivalPosition());
+
+            checkAgainstOtherCompetitor(params.getRaceId(), params.getRaceNumber(), competitor);
+
+            resultDao.update(competitor);
+            response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
+                    "Results for driver " + competitor.getDriver().getName() + " updated !"))
                     .build();
         } catch (final ChampionshipException ce) {
             response = Response.status(ce.status())
@@ -227,21 +276,43 @@ public class RaceWebService {
 
         List<Competitor> competitors = resultDao.find(id, raceNumber);
         for (Competitor other : competitors) {
+            if (other.getDriver().getId() != competitor.getDriver().getId()) {
+                if (other.getStartingPosition() == competitor.getStartingPosition()) {
+                    throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                            competitor.getDriver().getName()
+                                    + " has already the same starting position than "
+                                    + other.getDriver().getName());
+                }
+                if (other.getArrivalPosition() == competitor.getArrivalPosition()) {
+                    throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                            competitor.getDriver().getName()
+                                    + " has already the same arrival position than "
+                                    + other.getDriver().getName());
+                }
+            }
+        }
+    }
+
+    /**
+     * Check if the competitor has already a result
+     *
+     * @param id
+     *            The race id
+     * @param raceNumber
+     *            The race number
+     * @param competitor
+     *            The new competitor to check
+     * @throws ChampionshipException
+     *             Raised exception on error
+     */
+    private void checkExistingResult(final Integer id, final int raceNumber,
+            final Competitor competitor) throws ChampionshipException {
+
+        List<Competitor> competitors = resultDao.find(id, raceNumber);
+        for (Competitor other : competitors) {
             if (other.getDriver().getId() == competitor.getDriver().getId()) {
                 throw new ChampionshipException(Status.NOT_ACCEPTABLE,
                         competitor.getDriver().getName() + " has already a result for this race !");
-            }
-            if (other.getStartingPosition() == competitor.getStartingPosition()) {
-                throw new ChampionshipException(Status.NOT_ACCEPTABLE,
-                        competitor.getDriver().getName()
-                                + " has already the same starting position than "
-                                + other.getDriver().getName());
-            }
-            if (other.getArrivalPosition() == competitor.getArrivalPosition()) {
-                throw new ChampionshipException(Status.NOT_ACCEPTABLE,
-                        competitor.getDriver().getName()
-                                + " has already the same arrival position than "
-                                + other.getDriver().getName());
             }
         }
     }

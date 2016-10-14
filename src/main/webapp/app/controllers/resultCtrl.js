@@ -18,6 +18,7 @@ controllers.controller('ResultCtrl', [
 			this.race = {};
 			this.raceNumber = 0;
 			this.message = null;
+			this.error = null ;
 
 			/**
 			 * Refresh the results for the race
@@ -50,7 +51,7 @@ controllers.controller('ResultCtrl', [
 
 				$http({
 					method : 'POST',
-					url : './api/race/results',
+					url : './api/race/result',
 					data : {
 						"raceId" : raceId,
 						"driverId" : newResult.driver.id,
@@ -62,13 +63,49 @@ controllers.controller('ResultCtrl', [
 				}).then(function successCallback(response) {
 					vm.results.push(newResult);
 					vm.clearResult();
-					vm.message = null;
+					vm.message = "Result added !";
+					vm.error = null ;
 				}, function errorCallback(response) {
-					vm.message = response.data.message
+					vm.error = response.data.message;
+					vm.message = null ;
 				});
 
 			}
 
+			/**
+			 * Save the current result, add it on the result list and clear
+			 * form. If error, a message is displayed
+			 * @param index
+			 */
+			this.update = function(index) {
+				var newResult = {
+					driver : this.results[index].driver,
+					startingPosition : this.results[index].startingPosition,
+					arrivalPosition : this.results[index].arrivalPosition
+				};
+				console.log(newResult);
+				console.log(newResult.driver.name);
+
+				$http({
+					method : 'PUT',
+					url : './api/race/result',
+					data : {
+						"raceId" : raceId,
+						"driverId" : newResult.driver.id,
+						"startingPosition" : newResult.startingPosition,
+						"arrivalPosition" : newResult.arrivalPosition,
+						"raceNumber" : vm.raceNumber
+					}
+
+				}).then(function successCallback(response) {
+					vm.message = "Result updated !";
+					vm.error = null ;
+				}, function errorCallback(response) {
+					vm.error = response.data.message;
+					vm.message = null ;
+				});
+
+			}
 			/**
 			 * On driver selection, show the result form
 			 */
