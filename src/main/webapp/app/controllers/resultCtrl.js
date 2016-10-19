@@ -19,6 +19,7 @@ controllers.controller('ResultCtrl', [
 			this.raceNumber = 0;
 			this.message = null;
 			this.error = null ;
+			this.scoringSystem = null ;
 
 			/**
 			 * Refresh the results for the race
@@ -57,7 +58,8 @@ controllers.controller('ResultCtrl', [
 						"driverId" : newResult.driver.id,
 						"startingPosition" : newResult.startingPosition,
 						"arrivalPosition" : newResult.arrivalPosition,
-						"raceNumber" : vm.raceNumber
+						"raceNumber" : vm.raceNumber,
+						"scoringSystem" : vm.scoringSystem
 					}
 
 				}).then(function successCallback(response) {
@@ -76,7 +78,7 @@ controllers.controller('ResultCtrl', [
 			 * Update a result. If error, a message is displayed
 			 * @param index The index of the result to update
 			 */
-			this.update = function(index) {
+			this.update = function(index, scoringSystem) {
 				var newResult = {
 					driver : this.results[index].driver,
 					startingPosition : this.results[index].startingPosition,
@@ -91,7 +93,8 @@ controllers.controller('ResultCtrl', [
 						"driverId" : newResult.driver.id,
 						"startingPosition" : newResult.startingPosition,
 						"arrivalPosition" : newResult.arrivalPosition,
-						"raceNumber" : vm.raceNumber
+						"raceNumber" : vm.raceNumber,
+						"scoringSystem" : vm.scoringSystem
 					}
 
 				}).then(function successCallback(response) {
@@ -147,6 +150,7 @@ controllers.controller('ResultCtrl', [
 					function onRaceChanged(event, params) {
 						vm.race = params;
 						vm.raceNumber = vm.race.raceNumber;
+						vm.scoringSystem = params.scoringSystem;
 						refresh(vm.race.race.raceId, vm.raceNumber);
 					});
 

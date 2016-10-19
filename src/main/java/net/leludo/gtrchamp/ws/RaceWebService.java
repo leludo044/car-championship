@@ -26,6 +26,7 @@ import net.leludo.gtrchamp.Race;
 import net.leludo.gtrchamp.dao.DriverDao;
 import net.leludo.gtrchamp.dao.RaceDao;
 import net.leludo.gtrchamp.dao.ResultDao;
+import net.leludo.gtrchamp.dao.ScoringDao;
 
 /**
  * Race web service. Provides functionality for results management
@@ -46,6 +47,8 @@ public class RaceWebService {
     private RaceDao raceDao = new RaceDao();
     /** DAO for result access. */
     private ResultDao resultDao = new ResultDao();
+    /** DAO for scoring system access */
+    private ScoringDao scoringDao = new ScoringDao();
 
     /**
      * Ask for the entity manager registered for the application and inject it
@@ -57,6 +60,7 @@ public class RaceWebService {
         driverDao.setEntityManager(emf);
         raceDao.setEntityManager(emf);
         resultDao.setEntityManager(emf);
+        scoringDao.setEntityManager(emf);
     }
 
     /**
@@ -105,7 +109,7 @@ public class RaceWebService {
             Driver driver = checkDriver(params.getDriverId());
             Race race = checkRace(params.getRaceId());
             checkStartingPosition(params.getStartingPosition());
-            checkArrivalPosition(params.getArrivalPosition());
+            checkArrivalPosition(params);
             checkRaceNumber(params.getRaceNumber());
 
             Competitor competitor = new Competitor();
@@ -154,7 +158,7 @@ public class RaceWebService {
             Driver driver = checkDriver(params.getDriverId());
             Race race = checkRace(params.getRaceId());
             checkStartingPosition(params.getStartingPosition());
-            checkArrivalPosition(params.getArrivalPosition());
+            checkArrivalPosition(params);
             checkRaceNumber(params.getRaceNumber());
 
             Competitor competitor = new Competitor();
@@ -222,17 +226,24 @@ public class RaceWebService {
     }
 
     /**
-     * Check for correct arrival position. Must be above 0.
+     * Check for correct arrival position. Must be above 0 and under the max value
+     * corresponding to the scoring system.
      *
-     * @param arrivalPosition
-     *            The arrival position to check
+     * @param params
+     *            The competitor request parameters received by the request
      * @throws ChampionshipException
      *             Raised exception if the check fails
      */
-    private void checkArrivalPosition(final int arrivalPosition) throws ChampionshipException {
-        if (arrivalPosition <= 0) {
+    private void checkArrivalPosition(final ResultParams params) throws ChampionshipException {
+        if (params.getArrivalPosition() <= 0) {
             throw new ChampionshipException(Status.NOT_ACCEPTABLE,
                     "Incorrect arrival position ! Must be > 0 !");
+        } else {
+            Integer maxArrivalPosition = scoringDao.max(params.getScoringSystem());
+            if (params.getArrivalPosition() > maxArrivalPosition) {
+                throw new ChampionshipException(Status.NOT_ACCEPTABLE, String.format(
+                        "Incorrect arrival position ! Must be <= %s !", maxArrivalPosition));
+            }
         }
     }
 

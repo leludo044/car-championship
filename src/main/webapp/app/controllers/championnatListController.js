@@ -9,8 +9,6 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 		$scope.selectedTracks = []
 		/** Store the index of the selected track */
 		var selectedIndex = -1 ;
-		
-		$scope.selectedChampionship = undefined ;
 
 		initForm = function () {
 			$scope.form = {
@@ -149,7 +147,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 		 * Show the modal containing the results
 		 */
 		$scope.showResults = function(track, race, raceNumber) {
-			$rootScope.$emit("race.changed", {track: track, race: race, raceNumber: raceNumber}) ;
+			$rootScope.$emit("race.changed", {track: track, race: race, raceNumber: raceNumber, scoringSystem:$scope.selected.type}) ;
 			$('#resultsModal').modal('show') ;
 		}
 

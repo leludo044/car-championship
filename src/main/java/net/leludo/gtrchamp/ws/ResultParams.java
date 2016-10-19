@@ -9,6 +9,7 @@ public class ResultParams {
     private int raceNumber;
     private int startingPosition;
     private int arrivalPosition;
+    private String scoringSystem;
 
     /**
      * @return the raceId
@@ -69,6 +70,18 @@ public class ResultParams {
      */
     public void setArrivalPosition(final int arrivalPosition) {
         this.arrivalPosition = arrivalPosition;
+    }
+    /**
+     * @return the scoringSystem
+     */
+    protected String getScoringSystem() {
+        return scoringSystem;
+    }
+    /**
+     * @param scoringSystem the scoringSystem to set
+     */
+    protected void setScoringSystem(String scoringSystem) {
+        this.scoringSystem = scoringSystem;
     }
 
 }
