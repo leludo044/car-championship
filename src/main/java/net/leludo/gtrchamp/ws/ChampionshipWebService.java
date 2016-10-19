@@ -422,7 +422,7 @@ public class ChampionshipWebService {
                 championship.planRace(track, date);
                 championshipDao.update(championship);
                 response = Response
-                        .ok(new WsReturn(Status.OK.getStatusCode(), "Track " + track.getName()
+                        .ok(new WsReturn(championship.lastRace().getId(), "Track " + track.getName()
                                 + " added to championship " + championship.getName() + "."))
                         .build();
             } else {

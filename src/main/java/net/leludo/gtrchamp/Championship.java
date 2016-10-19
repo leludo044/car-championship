@@ -26,7 +26,7 @@ public class Championship {
     private String type;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "championship", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Race> plannedRaces = new ArrayList<Race>();
+    private List<Race> plannedRaces = new ArrayList<>();
 
     /**
      * Constructor. By default the name is "Choose..." and the planned races
@@ -35,7 +35,7 @@ public class Championship {
      */
     public Championship() {
         this.name = "Choose...";
-        this.plannedRaces = new ArrayList<Race>();
+        this.plannedRaces = new ArrayList<>();
     }
 
     /**
@@ -49,7 +49,7 @@ public class Championship {
     public Championship(final String name, final String type) {
         this.name = name;
         this.type = type;
-        this.plannedRaces = new ArrayList<Race>();
+        this.plannedRaces = new ArrayList<>();
     }
 
     /**
@@ -133,6 +133,15 @@ public class Championship {
         }
 
         return toDelete;
+    }
+
+    /**
+     * Return the last planned race.
+     *
+     * @return the last planned race
+     */
+    public Race lastRace() {
+        return this.plannedRaces.get(this.plannedRaces.size() - 1);
     }
 
     @Override

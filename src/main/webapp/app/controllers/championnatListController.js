@@ -122,9 +122,10 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 						trackId: circuit.id,
 						date: date
 					}
-				}).then(function () {
+				}).then(function (response) {
+					console.log(response.data.code);
 					selectedIndex = -1 ;
-					$scope.selectedTracks[index]={selected:true, date:date};
+					$scope.selectedTracks[index]={selected:true, date:date, raceId:response.data.code};
 				}, function () {
 
 				});
