@@ -10,6 +10,7 @@ public class DefaultDao<T, PK> {
 
     public DefaultDao(final Class<T> entity) {
         entityClass = entity;
+        em = DaoManager.getInstance().entityManagerFactory().createEntityManager();
     }
 
     public void close() {
@@ -18,6 +19,7 @@ public class DefaultDao<T, PK> {
         }
     }
 
+    @Deprecated
     public void setEntityManager(final EntityManagerFactory emf) {
         this.emf = emf;
         em = emf.createEntityManager();

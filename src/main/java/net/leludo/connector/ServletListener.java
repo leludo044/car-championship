@@ -14,6 +14,8 @@ import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.leludo.gtrchamp.dao.DaoManager;
+
 @WebListener
 public class ServletListener implements ServletContextListener {
 
@@ -23,12 +25,11 @@ public class ServletListener implements ServletContextListener {
     /** Environment variable name holding connection URL to SGBD */
     private static final String DATABASE_URL = "CLEARDB_DATABASE_URL";
 
-    private EntityManager entityManager;
+    private EntityManagerFactory emf ;
 
     @Override
     public void contextDestroyed(final ServletContextEvent arg0) {
-        // TODO Auto-generated method stub
-
+        emf.close();
     }
 
     @Override
@@ -50,10 +51,11 @@ public class ServletListener implements ServletContextListener {
                 properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
                 properties.put("hibernate.show_sql", "false");
 
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("gtrchamp",
+                emf = Persistence.createEntityManagerFactory("gtrchamp",
                         properties);
-                entityManager = emf.createEntityManager();
 
+                DaoManager.getInstance().setEntityManagerfactory(emf);
+                
                 arg0.getServletContext().setAttribute(EntityManagerFactory.class.getName(), emf);
             } else {
                 LOG.error(
