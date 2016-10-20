@@ -2,7 +2,6 @@ package net.leludo.gtrchamp.ws;
 
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import net.leludo.gtrchamp.Country;
 import net.leludo.gtrchamp.dao.CountryDao;
+import net.leludo.gtrchamp.dao.DaoFactory;
 
 /**
  * Web service for all country requests.
@@ -29,20 +29,6 @@ public class CountryWebService {
     @Context
     private ServletContext servletContext;
 
-    private EntityManagerFactory emf;
-
-    private CountryDao dao = new CountryDao();
-
-    /**
-     * Ask for the entity manager registered for the application and inject it
-     * in the DAO.
-     */
-    public void init() {
-        emf = (EntityManagerFactory) servletContext
-                .getAttribute(EntityManagerFactory.class.getName());
-        dao.setEntityManager(emf);
-    }
-
     /**
      * @return The countries list
      */
@@ -50,7 +36,7 @@ public class CountryWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Country> countries() {
-        init();
+        CountryDao dao  = DaoFactory.countryDao();
         List<Country> country = dao.all();
         dao.close();
         return country;
@@ -69,10 +55,9 @@ public class CountryWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(final CountryParams params) {
-        init();
-
         Response response;
 
+        CountryDao dao  = DaoFactory.countryDao();
         String name = params.getName();
 
         if (name == null || name.equals("")) {
@@ -106,9 +91,9 @@ public class CountryWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(final CountryParams params) {
-        init();
-
         Response response;
+
+        CountryDao dao  = DaoFactory.countryDao();
 
         String name = params.getName();
 
@@ -147,9 +132,9 @@ public class CountryWebService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") final int id) {
-        init();
-
         Response response;
+
+        CountryDao dao  = DaoFactory.countryDao();
 
         Country country = dao.find(id);
         if (country != null) {
@@ -178,8 +163,7 @@ public class CountryWebService {
     @Path("/{id}/havetrack")
     @Produces(MediaType.APPLICATION_JSON)
     public Response haveTrack(@PathParam("id") final Integer id) {
-        init();
-
+        CountryDao dao  = DaoFactory.countryDao();
         boolean trackCount = dao.haveTack(id);
         return Response.ok().entity(new WsReturn(trackCount ? 1 : 0, "")).build();
     }

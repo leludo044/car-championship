@@ -13,7 +13,7 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 	/**
 	 * Constructor.
 	 */
-	public DriverDao() {
+	protected DriverDao() {
 		super(Driver.class);
 	}
 
@@ -22,8 +22,8 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 	 */
 	public List<Driver> findAll() {
 		String queryString = "from Driver";
-		javax.persistence.Query query = this.em.createQuery(queryString);
-		this.em.clear();
+		javax.persistence.Query query = this.getSession().createQuery(queryString);
+		this.getSession().clear();
 		return query.getResultList();
 	}
 
@@ -34,10 +34,10 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 	 *            The driver to crate
 	 */
 	public void create(final Driver pilote) {
-		this.em.getTransaction().begin();
-		this.em.persist(pilote);
-		this.em.getTransaction().commit();
-		this.em.clear();
+		this.getSession().getTransaction().begin();
+		this.getSession().persist(pilote);
+		this.getSession().getTransaction().commit();
+		this.getSession().clear();
 	}
 
 	/**
@@ -47,10 +47,10 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 	 *            The driver to update
 	 */
 	public void update(final Driver pilote) {
-		this.em.getTransaction().begin();
-		this.em.merge(pilote);
-		this.em.getTransaction().commit();
-		this.em.clear();
+		this.getSession().getTransaction().begin();
+		this.getSession().merge(pilote);
+		this.getSession().getTransaction().commit();
+		this.getSession().clear();
 	}
 
 	/**
@@ -60,10 +60,10 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 	 *            The driver to delete
 	 */
 	public void delete(final Driver pilote) {
-		this.em.getTransaction().begin();
-		this.em.remove(pilote);
-		this.em.getTransaction().commit();
-		this.em.clear();
+		this.getSession().getTransaction().begin();
+		this.getSession().remove(pilote);
+		this.getSession().getTransaction().commit();
+		this.getSession().clear();
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class DriverDao extends DefaultDao<Driver, Integer> {
 	 * @return true ou false
 	 */
 	public boolean ran(final int piloteId) {
-		this.em.getTransaction().begin();
-		Query query = this.em.createQuery("select count(*) from Competitor where driver.id=:id");
+		this.getSession().getTransaction().begin();
+		Query query = this.getSession().createQuery("select count(*) from Competitor where driver.id=:id");
 		query.setParameter("id", piloteId);
 		Long raceNumber = (Long) query.getSingleResult();
-		this.em.getTransaction().commit();
+		this.getSession().getTransaction().commit();
 
 		return raceNumber > 0;
 	}

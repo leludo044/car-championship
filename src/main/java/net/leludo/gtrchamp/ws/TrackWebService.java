@@ -2,7 +2,6 @@ package net.leludo.gtrchamp.ws;
 
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -22,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import net.leludo.gtrchamp.Country;
 import net.leludo.gtrchamp.Track;
 import net.leludo.gtrchamp.dao.CountryDao;
+import net.leludo.gtrchamp.dao.DaoFactory;
 import net.leludo.gtrchamp.dao.TrackDao;
 
 /**
@@ -42,23 +42,6 @@ public class TrackWebService {
     @Context
     private ServletContext servletContext;
 
-    private EntityManagerFactory emf;
-
-    private TrackDao dao = new TrackDao();
-
-    private CountryDao countryDao = new CountryDao();
-
-    /**
-     * Ask for the entity manager registered for the application and inject it
-     * in the DAO.
-     */
-    public void init() {
-        emf = (EntityManagerFactory) servletContext
-                .getAttribute(EntityManagerFactory.class.getName());
-        dao.setEntityManager(emf);
-        countryDao.setEntityManager(emf);
-    }
-
     /**
      * @return the track list in JSON format
      */
@@ -66,7 +49,7 @@ public class TrackWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Track> tracks() {
-        init();
+        TrackDao dao  = DaoFactory.trackDao();
         List<Track> tracks = dao.findAll();
         dao.close();
         return tracks;
@@ -84,7 +67,7 @@ public class TrackWebService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Track track(@PathParam("id") final int id) {
-        init();
+        TrackDao dao  = DaoFactory.trackDao();
         Track track = dao.find(id);
         dao.close();
         return track;
@@ -103,10 +86,11 @@ public class TrackWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(final TrackParams params) {
-        init();
-
         String name = params.getName();
         String countryId = params.getCountryId();
+
+        CountryDao countryDao  = DaoFactory.countryDao();
+        TrackDao dao  = DaoFactory.trackDao();
 
         Response response;
         String message = validate(params);
@@ -136,6 +120,7 @@ public class TrackWebService {
      * @return An error message of a blank string if all is right
      */
     private String validate(final TrackParams params) {
+        CountryDao countryDao  = DaoFactory.countryDao();
         String name = params.getName();
         String countryId = params.getCountryId();
         Float length = 0f;
@@ -174,7 +159,8 @@ public class TrackWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(final TrackParams params) {
-        init();
+        CountryDao countryDao  = DaoFactory.countryDao();
+        TrackDao dao  = DaoFactory.trackDao();
 
         String name = params.getName();
         String countryId = params.getCountryId();
@@ -218,9 +204,9 @@ public class TrackWebService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") final int id) {
-        init();
-
         Response response;
+
+        TrackDao dao  = DaoFactory.trackDao();
 
         Track track = dao.find(id);
         if (track != null) {
@@ -248,8 +234,7 @@ public class TrackWebService {
     @Path("/{id}/wasrun")
     @Produces(MediaType.APPLICATION_JSON)
     public Response wasRun(@PathParam("id") final Integer id) {
-        init();
-
+        TrackDao dao  = DaoFactory.trackDao();
         boolean wasRun = dao.wasRun(id);
         return Response.ok().entity(new WsReturn(wasRun ? 1 : 0, "")).build();
     }

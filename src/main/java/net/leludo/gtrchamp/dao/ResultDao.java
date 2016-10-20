@@ -3,7 +3,6 @@ package net.leludo.gtrchamp.dao;
 import java.util.List;
 
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Competitor;
@@ -15,16 +14,12 @@ public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
     /**
      * Constructor.
      */
-    public ResultDao() {
+    protected ResultDao() {
         super(Competitor.class);
     }
 
-    public void setEntityManager(EntityManager em) {
-        this.em = em;
-    }
-
     public List<Competitor> find(final Integer raceId, final int raceNumber) {
-        Query query = this.em.createQuery(
+        Query query = this.getSession().createQuery(
                 "from Competitor c where race.id=:raceId and id.raceNumber=:raceNumber");
         query.setParameter("raceId", raceId);
         query.setParameter("raceNumber", raceNumber);
@@ -38,13 +33,13 @@ public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
      *            The competitor to crate
      */
     public void create(final Competitor competitor) {
-        if (!this.em.getTransaction().isActive()) {
-            this.em.getTransaction().begin();
+        if (!this.getSession().getTransaction().isActive()) {
+            this.getSession().getTransaction().begin();
         }
-        this.em.merge(competitor);
-        // this.em.persist(competitor);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().merge(competitor);
+        // this.getSession().persist(competitor);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -54,10 +49,10 @@ public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
      *            The competitor to update
      */
     public void update(final Competitor competitor) {
-        this.em.getTransaction().begin();
-        this.em.merge(competitor);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().merge(competitor);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -67,10 +62,10 @@ public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
      *            The competitor to delete
      */
     public void delete(final Competitor competitor) {
-        this.em.getTransaction().begin();
-        this.em.remove(competitor);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().remove(competitor);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -85,15 +80,15 @@ public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
      * @return the number deleted entities
      */
     public int delete(final int raceId, final int driverId, final int raceNumber) {
-        this.em.getTransaction().begin();
+        this.getSession().getTransaction().begin();
         String deleteQuery = "delete from Competitor c where c.race.id=:raceId and c.driver.id=:driverId and c.id.raceNumber=:raceNumber";
-        javax.persistence.Query query = this.em.createQuery(deleteQuery);
+        javax.persistence.Query query = this.getSession().createQuery(deleteQuery);
         query.setParameter("raceId", raceId);
         query.setParameter("driverId", driverId);
         query.setParameter("raceNumber", raceNumber);
         int rowCount = query.executeUpdate();
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
         return rowCount;
     }
 

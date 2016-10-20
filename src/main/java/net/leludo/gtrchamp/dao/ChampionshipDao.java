@@ -5,6 +5,9 @@ import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.leludo.gtrchamp.Championship;
 
 /**
@@ -16,10 +19,13 @@ import net.leludo.gtrchamp.Championship;
 @Singleton
 public class ChampionshipDao extends DefaultDao<Championship, Integer> {
 
+    /** Logger. */
+    private static final Logger LOG = LoggerFactory.getLogger(ChampionshipDao.class);
+
     /**
      * Constructor.
      */
-    public ChampionshipDao() {
+    protected ChampionshipDao() {
         super(Championship.class);
     }
 
@@ -28,7 +34,7 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      */
     public List<Championship> all() {
         String queryString = "from Championship";
-        javax.persistence.Query query = this.em.createQuery(queryString);
+        javax.persistence.Query query = this.getSession().createQuery(queryString);
         return query.getResultList();
     }
 
@@ -41,7 +47,7 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      */
     public List<Object[]> results(final int raceId) {
         String queryString = "select c, p.points from Competitor c, PointSet p where c.race.id=:id and p.rank = c.arrivalPosition and p.type = c.race.championship.type order by c.id.raceNumber, p.rank";
-        javax.persistence.Query query = this.em.createQuery(queryString);
+        javax.persistence.Query query = this.getSession().createQuery(queryString);
         query.setParameter("id", raceId);
         return query.getResultList();
     }
@@ -56,7 +62,7 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
     public List<Object[]> standings(final int idChampionnat) {
         String queryString = "select c.driver, sum(p.points) from Competitor c, PointSet p where c.race.championship.id = :id and p.rank = c.arrivalPosition and p.type = c.race.championship.type group by c.driver order by sum(p.points) desc";
 
-        javax.persistence.Query query = this.em.createQuery(queryString);
+        javax.persistence.Query query = this.getSession().createQuery(queryString);
         query.setParameter("id", idChampionnat);
         List<Object[]> toto = query.getResultList();
         return toto;
@@ -69,10 +75,10 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      *            The new championship to save
      */
     public void save(final Championship championnat) {
-        this.em.getTransaction().begin();
-        this.em.persist(championnat);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().persist(championnat);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -82,10 +88,10 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      *            The existing championship to update
      */
     public void update(final Championship championnat) {
-        this.em.getTransaction().begin();
-        this.em.merge(championnat);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().merge(championnat);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -95,10 +101,10 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      *            Le existing championship to delete
      */
     public void delete(final Championship championnat) {
-        this.em.getTransaction().begin();
-        this.em.remove(championnat);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().remove(championnat);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -110,12 +116,12 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
      * @return true ou false
      */
     public boolean isStarted(final int id) {
-        this.em.getTransaction().begin();
-        Query query = this.em
+        this.getSession().getTransaction().begin();
+        Query query = this.getSession()
                 .createQuery("select count(*) from Race where championship.id=:id");
         query.setParameter("id", id);
         Long nbGrandsPrix = (Long) query.getSingleResult();
-        this.em.getTransaction().commit();
+        this.getSession().getTransaction().commit();
 
         return nbGrandsPrix > 0;
     }

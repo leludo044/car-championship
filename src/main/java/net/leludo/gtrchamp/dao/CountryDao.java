@@ -10,7 +10,7 @@ import net.leludo.gtrchamp.Country;
 @Singleton
 public class CountryDao extends DefaultDao<Country, Integer> {
 
-    public CountryDao() {
+    protected CountryDao() {
         super(Country.class);
     }
 
@@ -19,8 +19,8 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      */
     public List<Country> all() {
         String queryString = "from Country";
-        javax.persistence.Query query = this.em.createQuery(queryString);
-        this.em.clear();
+        javax.persistence.Query query = this.getSession().createQuery(queryString);
+        this.getSession().clear();
         return query.getResultList();
     }
 
@@ -42,10 +42,10 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      *            The driver to crate
      */
     public void create(final Country country) {
-        this.em.getTransaction().begin();
-        this.em.persist(country);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().persist(country);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -55,10 +55,10 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      *            The country to update
      */
     public void update(final Country country) {
-        this.em.getTransaction().begin();
-        this.em.merge(country);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().merge(country);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -68,10 +68,10 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      *            The country to delete
      */
     public void delete(final Country country) {
-        this.em.getTransaction().begin();
-        this.em.remove(country);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().remove(country);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -82,11 +82,11 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      * @return true ou false
      */
     public boolean haveTack(final int countryId) {
-        this.em.getTransaction().begin();
-        Query query = this.em.createQuery("select count(*) from Track where country.id=:id");
+        this.getSession().getTransaction().begin();
+        Query query = this.getSession().createQuery("select count(*) from Track where country.id=:id");
         query.setParameter("id", countryId);
         Long trackCount = (Long) query.getSingleResult();
-        this.em.getTransaction().commit();
+        this.getSession().getTransaction().commit();
 
         return trackCount > 0;
     }

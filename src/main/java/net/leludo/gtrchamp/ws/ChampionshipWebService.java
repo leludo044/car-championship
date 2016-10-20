@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.inject.Singleton;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -21,6 +22,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
@@ -30,22 +34,35 @@ import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.Race;
 import net.leludo.gtrchamp.Track;
 import net.leludo.gtrchamp.dao.ChampionshipDao;
+import net.leludo.gtrchamp.dao.DaoFactory;
 import net.leludo.gtrchamp.dao.TrackDao;
 
 /**
  * Championship web service
  */
+@Singleton
 @Path("/championship")
 public class ChampionshipWebService {
+
+    /** Logger */
+    private static final Logger LOG = LoggerFactory.getLogger(ChampionshipWebService.class);
 
     @Context
     private ServletContext servletContext;
 
     private HttpServletResponse servletResponse;
 
-    private ChampionshipDao championshipDao = new ChampionshipDao();
+    //private ChampionshipDao championshipDao = new ChampionshipDao();
     private TrackDao trackDao = new TrackDao();
-    
+
+
+
+    public ChampionshipWebService() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Instanciate "+this.getClass());
+        }
+    }
+
     /**
      * @return The championships list
      */
@@ -53,6 +70,7 @@ public class ChampionshipWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public String championships() {
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         List<Championship> chps = championshipDao.all();
         championshipDao.close();
         if (chps == null) {
@@ -91,6 +109,7 @@ public class ChampionshipWebService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String championship(@PathParam("id") final int id) {
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         Championship chp = championshipDao.find(new Integer(id));
         championshipDao.close();
         if (chp == null) {
@@ -138,6 +157,8 @@ public class ChampionshipWebService {
     public Response create(final ChampionshipParams params) {
         Response response;
 
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
+
         String name = params.getName();
         String type = params.getType();
 
@@ -177,8 +198,9 @@ public class ChampionshipWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(final ChampionshipParams params) {
-
         Response response;
+
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
 
         String name = params.getName();
         String type = params.getType();
@@ -227,6 +249,8 @@ public class ChampionshipWebService {
     public Response delete(@PathParam("id") final int id) {
         Response response;
 
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
+
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             championshipDao.delete(championship);
@@ -254,7 +278,7 @@ public class ChampionshipWebService {
     @Path("/{id}/isstarted")
     @Produces(MediaType.APPLICATION_JSON)
     public Response isStarted(@PathParam("id") final Integer id) {
-
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         boolean isStarted = championshipDao.isStarted(id);
         return Response.ok().entity(new WsReturn(isStarted ? 1 : 0, "")).build();
     }
@@ -270,6 +294,7 @@ public class ChampionshipWebService {
     @Path("/{championshipId}/race/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String races(@PathParam("championshipId") final int championshipId) {
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         Championship chp = championshipDao.find(new Integer(championshipId));
         championshipDao.close();
         if (chp == null) {
@@ -311,6 +336,7 @@ public class ChampionshipWebService {
     @Path("/{championshipId}/standings")
     @Produces(MediaType.APPLICATION_JSON)
     public String standings(@PathParam("championshipId") final int championshipId) {
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         List<Object[]> standings = championshipDao.standings(championshipId);
         championshipDao.close();
         if (standings == null) {
@@ -353,6 +379,7 @@ public class ChampionshipWebService {
     public Response update(@PathParam("id") final Integer id) {
         List<Race> races;
         Response response;
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             races = championship.getPlannedRaces();
@@ -384,6 +411,7 @@ public class ChampionshipWebService {
     public Response update(@PathParam("id") final Integer id,
             @PathParam("trackId") final Integer trackId, RaceParams params) {
         Response response;
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             Track track = trackDao.find(trackId);
@@ -431,6 +459,7 @@ public class ChampionshipWebService {
     public Response remove(@PathParam("id") final Integer id,
             @PathParam("trackId") final Integer trackId) {
         Response response;
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             if (trackId != null) {
@@ -459,7 +488,7 @@ public class ChampionshipWebService {
     /**
      * Return the results of a race.
      *
-     * @param idGp
+     * @param raceId
      *            The id of the race to ask
      * @return The results of a race in JSON format
      */
@@ -468,6 +497,7 @@ public class ChampionshipWebService {
     @Path("/race/{raceId}/results")
     @Produces(MediaType.APPLICATION_JSON)
     public String results(@PathParam("raceId") final int raceId) {
+        ChampionshipDao championshipDao  = DaoFactory.championshipDao();
         List<Object[]> results = championshipDao.results(raceId);
         championshipDao.close();
         if (results == null) {

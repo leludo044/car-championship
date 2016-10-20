@@ -13,7 +13,7 @@ public class ScoringDao extends DefaultDao<PointSet, String> {
     /**
      * Constructor.
      */
-    public ScoringDao() {
+    protected ScoringDao() {
         super(PointSet.class);
     }
 
@@ -26,9 +26,9 @@ public class ScoringDao extends DefaultDao<PointSet, String> {
      */
     public Integer max(final String scoringSystem) {
         String queryString = "select max(rank) from PointSet where type=:scoringSystem";
-        javax.persistence.Query query = this.em.createQuery(queryString);
+        javax.persistence.Query query = this.getSession().createQuery(queryString);
         query.setParameter("scoringSystem", scoringSystem);
-        this.em.clear();
+        this.getSession().clear();
         return (Integer) query.getSingleResult();
     }
 }

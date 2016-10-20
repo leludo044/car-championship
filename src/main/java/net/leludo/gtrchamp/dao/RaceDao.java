@@ -11,7 +11,7 @@ import net.leludo.gtrchamp.Race;
 @Singleton
 public class RaceDao extends DefaultDao<Race, Integer> {
 
-    public RaceDao() {
+    protected RaceDao() {
         super(Race.class);
     }
 

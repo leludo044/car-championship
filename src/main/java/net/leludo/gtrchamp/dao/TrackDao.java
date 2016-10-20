@@ -19,8 +19,8 @@ public class TrackDao extends DefaultDao<Track, Integer> {
      */
     public List<Track> findAll() {
         String queryString = "from Track order by name";
-        javax.persistence.Query query = this.em.createQuery(queryString);
-        this.em.clear();
+        javax.persistence.Query query = this.getSession().createQuery(queryString);
+        this.getSession().clear();
         return query.getResultList();
     }
 
@@ -31,10 +31,10 @@ public class TrackDao extends DefaultDao<Track, Integer> {
      *            The track to create
      */
     public void create(final Track track) {
-        this.em.getTransaction().begin();
-        this.em.persist(track);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().persist(track);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -44,10 +44,10 @@ public class TrackDao extends DefaultDao<Track, Integer> {
      *            The track to update
      */
     public void update(final Track track) {
-        this.em.getTransaction().begin();
-        this.em.merge(track);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().merge(track);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -57,10 +57,10 @@ public class TrackDao extends DefaultDao<Track, Integer> {
      *            The track to delete
      */
     public void delete(final Track track) {
-        this.em.getTransaction().begin();
-        this.em.remove(track);
-        this.em.getTransaction().commit();
-        this.em.clear();
+        this.getSession().getTransaction().begin();
+        this.getSession().remove(track);
+        this.getSession().getTransaction().commit();
+        this.getSession().clear();
     }
 
     /**
@@ -71,12 +71,12 @@ public class TrackDao extends DefaultDao<Track, Integer> {
      * @return true ou false
      */
     public boolean wasRun(final int trackId) {
-        this.em.getTransaction().begin();
-        Query query = this.em
+        this.getSession().getTransaction().begin();
+        Query query = this.getSession()
                 .createQuery("select count(*) from Competitor where race.track.id=:id");
         query.setParameter("id", trackId);
         Long raceCount = (Long) query.getSingleResult();
-        this.em.getTransaction().commit();
+        this.getSession().getTransaction().commit();
 
         return raceCount > 0;
     }
