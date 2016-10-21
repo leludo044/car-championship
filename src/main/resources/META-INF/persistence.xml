@@ -13,7 +13,7 @@
     version="2.0">
 
     <persistence-unit name="gtrchamp" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- <class>localdomain.localhost.domain.Product</class> <class>net.leludo.gtrchamp.Championnat</class> -->
         <properties>
         <property name="hibernate.show_sql" value="true" />
