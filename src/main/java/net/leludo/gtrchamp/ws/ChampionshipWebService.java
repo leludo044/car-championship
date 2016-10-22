@@ -52,10 +52,6 @@ public class ChampionshipWebService {
 
     private HttpServletResponse servletResponse;
 
-    //private ChampionshipDao championshipDao = new ChampionshipDao();
-    private TrackDao trackDao = new TrackDao();
-
-
 
     public ChampionshipWebService() {
         if (LOG.isDebugEnabled()) {
@@ -412,6 +408,7 @@ public class ChampionshipWebService {
             @PathParam("trackId") final Integer trackId, RaceParams params) {
         Response response;
         ChampionshipDao championshipDao  = DaoFactory.championshipDao();
+        TrackDao trackDao  = DaoFactory.trackDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             Track track = trackDao.find(trackId);
