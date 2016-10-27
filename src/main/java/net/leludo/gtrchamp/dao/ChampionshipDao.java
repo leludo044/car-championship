@@ -3,6 +3,7 @@ package net.leludo.gtrchamp.dao;
 import java.util.List;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.slf4j.Logger;
@@ -24,9 +25,13 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
 
     /**
      * Constructor.
+     *
+     * @param entityManager
+     *            The JPA entity manager affected to this DAO
      */
-    protected ChampionshipDao() {
+    protected ChampionshipDao(final EntityManager entityManager) {
         super(Championship.class);
+        super.entityManager(entityManager);
     }
 
     /**

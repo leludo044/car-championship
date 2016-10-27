@@ -22,8 +22,8 @@ public final class DaoManager {
      *
      * @return a new championship DAO
      */
-    public static ChampionshipDao championshipDao() {
-        return new ChampionshipDao();
+    public ChampionshipDao championshipDao() {
+        return new ChampionshipDao(this.em);
     }
 
     /**

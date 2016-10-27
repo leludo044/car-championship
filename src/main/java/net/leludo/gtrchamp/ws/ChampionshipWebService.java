@@ -35,6 +35,7 @@ import net.leludo.gtrchamp.Race;
 import net.leludo.gtrchamp.Track;
 import net.leludo.gtrchamp.dao.ChampionshipDao;
 import net.leludo.gtrchamp.dao.DaoManager;
+import net.leludo.gtrchamp.dao.DataAccess;
 import net.leludo.gtrchamp.dao.TrackDao;
 
 /**
@@ -66,9 +67,10 @@ public class ChampionshipWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public String championships() {
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         List<Championship> chps = championshipDao.all();
-        championshipDao.close();
+        daoFactory.close();
         if (chps == null) {
             return "Unknown !";
         } else {
@@ -105,9 +107,10 @@ public class ChampionshipWebService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String championship(@PathParam("id") final int id) {
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship chp = championshipDao.find(new Integer(id));
-        championshipDao.close();
+        daoFactory.close();
         if (chp == null) {
             return "Unknown !";
         } else {
@@ -153,8 +156,6 @@ public class ChampionshipWebService {
     public Response create(final ChampionshipParams params) {
         Response response;
 
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
-
         String name = params.getName();
         String type = params.getType();
 
@@ -169,13 +170,15 @@ public class ChampionshipWebService {
                             "Championship type is missing !"))
                     .build();
         } else {
+            DaoManager daoFactory = DataAccess.getInstance().getManager();
+            ChampionshipDao championshipDao = daoFactory.championshipDao();
             Championship championship = new Championship(name, type);
             championshipDao.save(championship);
             response = Response.ok(new WsReturn(championship.getId(),
                     "Championship " + championship.getName() + " created !")).build();
+            daoFactory.close();
         }
 
-        championshipDao.close();
         return response;
     }
 
@@ -196,8 +199,6 @@ public class ChampionshipWebService {
     public Response update(final ChampionshipParams params) {
         Response response;
 
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
-
         String name = params.getName();
         String type = params.getType();
 
@@ -212,6 +213,8 @@ public class ChampionshipWebService {
                             "Championship type is missing !"))
                     .build();
         } else {
+            DaoManager daoFactory = DataAccess.getInstance().getManager();
+            ChampionshipDao championshipDao = daoFactory.championshipDao();
             Championship championship = championshipDao.find(params.getId().intValue());
             if (championship != null) {
                 championship.setName(name);
@@ -225,8 +228,8 @@ public class ChampionshipWebService {
                                 "Driver #" + params.getId() + " not found !"))
                         .build();
             }
+            daoFactory.close();
         }
-        championshipDao.close();
         return response;
     }
 
@@ -245,7 +248,8 @@ public class ChampionshipWebService {
     public Response delete(@PathParam("id") final int id) {
         Response response;
 
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
 
         Championship championship = championshipDao.find(id);
         if (championship != null) {
@@ -258,7 +262,7 @@ public class ChampionshipWebService {
                             "Championship #" + id + " not found !"))
                     .build();
         }
-        championshipDao.close();
+        daoFactory.close();
         return response;
     }
 
@@ -274,8 +278,10 @@ public class ChampionshipWebService {
     @Path("/{id}/isstarted")
     @Produces(MediaType.APPLICATION_JSON)
     public Response isStarted(@PathParam("id") final Integer id) {
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         boolean isStarted = championshipDao.isStarted(id);
+        daoFactory.close();
         return Response.ok().entity(new WsReturn(isStarted ? 1 : 0, "")).build();
     }
 
@@ -290,9 +296,10 @@ public class ChampionshipWebService {
     @Path("/{championshipId}/race/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String races(@PathParam("championshipId") final int championshipId) {
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship chp = championshipDao.find(new Integer(championshipId));
-        championshipDao.close();
+        daoFactory.close();
         if (chp == null) {
             return "Unknown !";
         } else {
@@ -332,9 +339,10 @@ public class ChampionshipWebService {
     @Path("/{championshipId}/standings")
     @Produces(MediaType.APPLICATION_JSON)
     public String standings(@PathParam("championshipId") final int championshipId) {
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         List<Object[]> standings = championshipDao.standings(championshipId);
-        championshipDao.close();
+        daoFactory.close();
         if (standings == null) {
             return "Unknown !";
         } else {
@@ -375,7 +383,8 @@ public class ChampionshipWebService {
     public Response update(@PathParam("id") final Integer id) {
         List<Race> races;
         Response response;
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             races = championship.getPlannedRaces();
@@ -386,6 +395,7 @@ public class ChampionshipWebService {
                             "Championship #" + id + " not found !"))
                     .build();
         }
+        daoFactory.close();
 
         return response;
     }
@@ -407,8 +417,9 @@ public class ChampionshipWebService {
     public Response update(@PathParam("id") final Integer id,
             @PathParam("trackId") final Integer trackId, RaceParams params) {
         Response response;
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
-        TrackDao trackDao  = DaoManager.trackDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
+        TrackDao trackDao  = daoFactory.trackDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             Track track = trackDao.find(trackId);
@@ -435,7 +446,7 @@ public class ChampionshipWebService {
                             "Championship #" + id + " not found !"))
                     .build();
         }
-        championshipDao.close();
+        daoFactory.close();
         return response;
     }
 
@@ -456,7 +467,8 @@ public class ChampionshipWebService {
     public Response remove(@PathParam("id") final Integer id,
             @PathParam("trackId") final Integer trackId) {
         Response response;
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             if (trackId != null) {
@@ -478,6 +490,7 @@ public class ChampionshipWebService {
                             "Championship #" + id + " not found !"))
                     .build();
         }
+        daoFactory.close();
 
         return response;
     }
@@ -494,9 +507,10 @@ public class ChampionshipWebService {
     @Path("/race/{raceId}/results")
     @Produces(MediaType.APPLICATION_JSON)
     public String results(@PathParam("raceId") final int raceId) {
-        ChampionshipDao championshipDao  = DaoManager.championshipDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        ChampionshipDao championshipDao = daoFactory.championshipDao();
         List<Object[]> results = championshipDao.results(raceId);
-        championshipDao.close();
+        daoFactory.close();
         if (results == null) {
             return "Unknown !";
         } else {
