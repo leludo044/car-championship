@@ -3,6 +3,7 @@ package net.leludo.gtrchamp.dao;
 import java.util.List;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Competitor;
@@ -13,9 +14,13 @@ public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
 
     /**
      * Constructor.
+     *
+     * @param entityManager
+     *            The JPA entity manager affected to this DAO
      */
-    protected ResultDao() {
+    protected ResultDao(final EntityManager entityManager) {
         super(Competitor.class);
+        super.entityManager(entityManager);
     }
 
     public List<Competitor> find(final Integer raceId, final int raceNumber) {

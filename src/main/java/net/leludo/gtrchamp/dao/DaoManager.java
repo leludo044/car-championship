@@ -58,8 +58,8 @@ public final class DaoManager {
      *
      * @return a new race DAO
      */
-    public static RaceDao raceDao() {
-        return new RaceDao();
+    public RaceDao raceDao() {
+        return new RaceDao(this.em);
     }
 
     /**
@@ -67,8 +67,8 @@ public final class DaoManager {
      *
      * @return a new result DAO
      */
-    public static ResultDao resultDao() {
-        return new ResultDao();
+    public ResultDao resultDao() {
+        return new ResultDao(this.em);
     }
 
     /**
@@ -76,8 +76,8 @@ public final class DaoManager {
      *
      * @return a new scoring system DAO
      */
-    public static ScoringDao scoringDao() {
-        return new ScoringDao();
+    public ScoringDao scoringDao() {
+        return new ScoringDao(this.em);
     }
 
     public final EntityManager getEntityManager() {

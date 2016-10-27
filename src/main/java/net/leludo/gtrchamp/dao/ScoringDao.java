@@ -1,6 +1,7 @@
 package net.leludo.gtrchamp.dao;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 
 import net.leludo.gtrchamp.PointSet;
 
@@ -12,9 +13,13 @@ public class ScoringDao extends DefaultDao<PointSet, String> {
 
     /**
      * Constructor.
+     *
+     * @param entityManager
+     *            The JPA entity manager affected to this DAO
      */
-    protected ScoringDao() {
+    protected ScoringDao(final EntityManager entityManager) {
         super(PointSet.class);
+        super.entityManager(entityManager);
     }
 
     /**

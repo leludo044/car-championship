@@ -1,6 +1,7 @@
 package net.leludo.gtrchamp.dao;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 
 import net.leludo.gtrchamp.Race;
 
@@ -11,8 +12,15 @@ import net.leludo.gtrchamp.Race;
 @Singleton
 public class RaceDao extends DefaultDao<Race, Integer> {
 
-    protected RaceDao() {
+    /**
+     * Constructor.
+     *
+     * @param entityManager
+     *            The JPA entity manager affected to this DAO
+     */
+    protected RaceDao(final EntityManager entityManager) {
         super(Race.class);
+        super.entityManager(entityManager);
     }
 
     /**
