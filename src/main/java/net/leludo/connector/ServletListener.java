@@ -4,7 +4,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.ServletContextEvent;
@@ -14,7 +13,7 @@ import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.leludo.gtrchamp.dao.DaoFactory;
+import net.leludo.gtrchamp.dao.DataAccess;
 
 @WebListener
 public class ServletListener implements ServletContextListener {
@@ -50,12 +49,14 @@ public class ServletListener implements ServletContextListener {
                 properties.put("hibernate.connection.password", connector.getPassword());
                 properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
                 properties.put("hibernate.show_sql", "false");
+                properties.put("hibernate.format_sql", "false");
+                properties.put("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
 
                 emf = Persistence.createEntityManagerFactory("gtrchamp",
                         properties);
 
-                DaoFactory.getInstance().setEntityManagerfactory(emf);
-                
+                DataAccess.getInstance().setEntityManagerfactory(emf);
+
                 arg0.getServletContext().setAttribute(EntityManagerFactory.class.getName(), emf);
             } else {
                 LOG.error(

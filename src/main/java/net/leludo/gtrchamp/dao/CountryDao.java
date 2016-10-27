@@ -3,6 +3,7 @@ package net.leludo.gtrchamp.dao;
 import java.util.List;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Country;
@@ -10,18 +11,26 @@ import net.leludo.gtrchamp.Country;
 @Singleton
 public class CountryDao extends DefaultDao<Country, Integer> {
 
-    protected CountryDao() {
+    /**
+     * Constructor.
+     *
+     * @param entityManager
+     *            The JPA entity manager affected to this DAO
+     */
+    protected CountryDao(final EntityManager entityManager) {
         super(Country.class);
+        super.entityManager(entityManager);
     }
 
     /**
      * @return all the countries
      */
     public List<Country> all() {
+        EntityManager session = this.getSession();
         String queryString = "from Country";
-        javax.persistence.Query query = this.getSession().createQuery(queryString);
-        this.getSession().clear();
-        return query.getResultList();
+        javax.persistence.Query query = session.createQuery(queryString);
+        List<Country> countries = query.getResultList();
+        return countries;
     }
 
     /**
@@ -38,14 +47,14 @@ public class CountryDao extends DefaultDao<Country, Integer> {
     /**
      * Create a new driver.
      *
-     * @param pilote
-     *            The driver to crate
+     * @param country
+     *            The country to create
      */
     public void create(final Country country) {
-        this.getSession().getTransaction().begin();
-        this.getSession().persist(country);
-        this.getSession().getTransaction().commit();
-        this.getSession().clear();
+        EntityManager session = this.getSession();
+        session.getTransaction().begin();
+        session.persist(country);
+        session.getTransaction().commit();
     }
 
     /**
@@ -55,10 +64,11 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      *            The country to update
      */
     public void update(final Country country) {
-        this.getSession().getTransaction().begin();
-        this.getSession().merge(country);
-        this.getSession().getTransaction().commit();
-        this.getSession().clear();
+        EntityManager session = this.getSession();
+        session.getTransaction().begin();
+        session.merge(country);
+        session.getTransaction().commit();
+
     }
 
     /**
@@ -68,10 +78,11 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      *            The country to delete
      */
     public void delete(final Country country) {
-        this.getSession().getTransaction().begin();
-        this.getSession().remove(country);
-        this.getSession().getTransaction().commit();
-        this.getSession().clear();
+        EntityManager session = this.getSession();
+        session.getTransaction().begin();
+        session.remove(country);
+        session.getTransaction().commit();
+
     }
 
     /**
@@ -82,11 +93,11 @@ public class CountryDao extends DefaultDao<Country, Integer> {
      * @return true ou false
      */
     public boolean haveTack(final int countryId) {
-        this.getSession().getTransaction().begin();
-        Query query = this.getSession().createQuery("select count(*) from Track where country.id=:id");
+        EntityManager session = this.getSession();
+        Query query = session
+                .createQuery("select count(*) from Track where country.id=:id");
         query.setParameter("id", countryId);
         Long trackCount = (Long) query.getSingleResult();
-        this.getSession().getTransaction().commit();
 
         return trackCount > 0;
     }

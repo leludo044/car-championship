@@ -3,6 +3,7 @@ package net.leludo.gtrchamp.dao;
 import java.util.List;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Track;
@@ -10,17 +11,24 @@ import net.leludo.gtrchamp.Track;
 @Singleton
 public class TrackDao extends DefaultDao<Track, Integer> {
 
-    public TrackDao() {
+    /**
+     * Constructor.
+     *
+     * @param entityManager
+     *            The JPA entity manager affected to this DAO
+     */
+    public TrackDao(final EntityManager entityManager) {
         super(Track.class);
+        super.entityManager(entityManager);
     }
 
     /**
      * @return all the tracks
      */
     public List<Track> findAll() {
+        EntityManager session = this.getSession();
         String queryString = "from Track order by name";
-        javax.persistence.Query query = this.getSession().createQuery(queryString);
-        this.getSession().clear();
+        javax.persistence.Query query = session.createQuery(queryString);
         return query.getResultList();
     }
 
@@ -31,10 +39,10 @@ public class TrackDao extends DefaultDao<Track, Integer> {
      *            The track to create
      */
     public void create(final Track track) {
-        this.getSession().getTransaction().begin();
-        this.getSession().persist(track);
-        this.getSession().getTransaction().commit();
-        this.getSession().clear();
+        EntityManager session = this.getSession();
+        session.getTransaction().begin();
+        session.persist(track);
+        session.getTransaction().commit();
     }
 
     /**
@@ -44,39 +52,38 @@ public class TrackDao extends DefaultDao<Track, Integer> {
      *            The track to update
      */
     public void update(final Track track) {
-        this.getSession().getTransaction().begin();
-        this.getSession().merge(track);
-        this.getSession().getTransaction().commit();
-        this.getSession().clear();
+        EntityManager session = this.getSession();
+        session.getTransaction().begin();
+        session.merge(track);
+        session.getTransaction().commit();
     }
 
     /**
-     * Delete a track
+     * Delete a track.
      *
      * @param track
      *            The track to delete
      */
     public void delete(final Track track) {
-        this.getSession().getTransaction().begin();
-        this.getSession().remove(track);
-        this.getSession().getTransaction().commit();
-        this.getSession().clear();
+        EntityManager session = this.getSession();
+        session.getTransaction().begin();
+        session.remove(track);
+        session.getTransaction().commit();
     }
 
     /**
-     * Say if the track has been run
+     * Say if the track has been run.
      *
      * @param trackId
      *            The id of the track to ask
      * @return true ou false
      */
     public boolean wasRun(final int trackId) {
-        this.getSession().getTransaction().begin();
-        Query query = this.getSession()
+        EntityManager session = this.getSession();
+        Query query = session
                 .createQuery("select count(*) from Competitor where race.track.id=:id");
         query.setParameter("id", trackId);
         Long raceCount = (Long) query.getSingleResult();
-        this.getSession().getTransaction().commit();
 
         return raceCount > 0;
     }

@@ -21,7 +21,7 @@ import net.leludo.gtrchamp.ChampionshipException;
 import net.leludo.gtrchamp.Competitor;
 import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.Race;
-import net.leludo.gtrchamp.dao.DaoFactory;
+import net.leludo.gtrchamp.dao.DaoManager;
 import net.leludo.gtrchamp.dao.DriverDao;
 import net.leludo.gtrchamp.dao.RaceDao;
 import net.leludo.gtrchamp.dao.ResultDao;
@@ -51,7 +51,7 @@ public class RaceWebService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Competitor> competitors(@PathParam("raceId") final int id,
             @PathParam("raceNumber") final int raceNumber) {
-        ResultDao resultDao = DaoFactory.resultDao();
+        ResultDao resultDao = DaoManager.resultDao();
         List<Competitor> competitors = resultDao.find(id, raceNumber);
         resultDao.close();
         return competitors;
@@ -74,7 +74,7 @@ public class RaceWebService {
     public Response addResult(final ResultParams params) {
         Response response;
 
-        ResultDao resultDao = DaoFactory.resultDao();
+        ResultDao resultDao = DaoManager.resultDao();
 
         try {
             Driver driver = checkDriver(params.getDriverId());
@@ -123,7 +123,7 @@ public class RaceWebService {
     public Response updateResult(final ResultParams params) {
         Response response;
 
-        ResultDao resultDao = DaoFactory.resultDao();
+        ResultDao resultDao = DaoManager.resultDao();
 
         try {
             Driver driver = checkDriver(params.getDriverId());
@@ -177,7 +177,7 @@ public class RaceWebService {
             @PathParam("raceNumber") final int raceNumber) {
         Response response;
 
-        ResultDao resultDao = DaoFactory.resultDao();
+        ResultDao resultDao = DaoManager.resultDao();
 
         int rowCount = resultDao.delete(raceId, driverId, raceNumber);
         if (rowCount == 1) {
@@ -210,7 +210,7 @@ public class RaceWebService {
             throw new ChampionshipException(Status.NOT_ACCEPTABLE,
                     "Incorrect arrival position ! Must be > 0 !");
         } else {
-            ScoringDao scoringDao = DaoFactory.scoringDao();
+            ScoringDao scoringDao = DaoManager.scoringDao();
             Integer maxArrivalPosition = scoringDao.max(params.getScoringSystem());
             if (params.getArrivalPosition() > maxArrivalPosition) {
                 throw new ChampionshipException(Status.NOT_ACCEPTABLE, String.format(
@@ -261,7 +261,7 @@ public class RaceWebService {
      *             Raised exception if the check fails
      */
     private Driver checkDriver(final Integer id) throws ChampionshipException {
-        DriverDao driverDao = DaoFactory.driverDao();
+        DriverDao driverDao = DaoManager.driverDao();
         Driver driver = driverDao.find(id);
         if (driver == null) {
             throw new ChampionshipException(Status.NOT_FOUND, "Driver #" + id + " not found !");
@@ -279,7 +279,7 @@ public class RaceWebService {
      *             Raised exception if the check fails
      */
     private Race checkRace(final Integer id) throws ChampionshipException {
-        RaceDao raceDao = DaoFactory.raceDao();
+        RaceDao raceDao = DaoManager.raceDao();
         Race race = raceDao.find(id);
         if (race == null) {
             throw new ChampionshipException(Status.NOT_FOUND, "Race #" + id + " not found !");
@@ -302,7 +302,7 @@ public class RaceWebService {
     private void checkAgainstOtherCompetitor(final Integer id, final int raceNumber,
             final Competitor competitor) throws ChampionshipException {
 
-        ResultDao resultDao = DaoFactory.resultDao();
+        ResultDao resultDao = DaoManager.resultDao();
         List<Competitor> competitors = resultDao.find(id, raceNumber);
         for (Competitor other : competitors) {
             if (other.getDriver().getId() != competitor.getDriver().getId()) {
@@ -337,7 +337,7 @@ public class RaceWebService {
     private void checkExistingResult(final Integer id, final int raceNumber,
             final Competitor competitor) throws ChampionshipException {
 
-        ResultDao resultDao = DaoFactory.resultDao();
+        ResultDao resultDao = DaoManager.resultDao();
         List<Competitor> competitors = resultDao.find(id, raceNumber);
         for (Competitor other : competitors) {
             if (other.getDriver().getId() == competitor.getDriver().getId()) {

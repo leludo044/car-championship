@@ -2,7 +2,6 @@ package net.leludo.gtrchamp.ws;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,23 +10,20 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import net.leludo.gtrchamp.Country;
 import net.leludo.gtrchamp.dao.CountryDao;
-import net.leludo.gtrchamp.dao.DaoFactory;
+import net.leludo.gtrchamp.dao.DaoManager;
+import net.leludo.gtrchamp.dao.DataAccess;
 
 /**
  * Web service for all country requests.
  */
 @Path("/country")
 public class CountryWebService {
-
-    @Context
-    private ServletContext servletContext;
 
     /**
      * @return The countries list
@@ -36,9 +32,8 @@ public class CountryWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Country> countries() {
-        CountryDao dao  = DaoFactory.countryDao();
+        CountryDao dao = DataAccess.getInstance().getManager().countryDao();
         List<Country> country = dao.all();
-        dao.close();
         return country;
     }
 
@@ -57,7 +52,9 @@ public class CountryWebService {
     public Response create(final CountryParams params) {
         Response response;
 
-        CountryDao dao  = DaoFactory.countryDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
+
         String name = params.getName();
 
         if (name == null || name.equals("")) {
@@ -73,7 +70,7 @@ public class CountryWebService {
                     .build();
         }
 
-        dao.close();
+        daoFactory.close();
         return response;
     }
 
@@ -93,7 +90,8 @@ public class CountryWebService {
     public Response update(final CountryParams params) {
         Response response;
 
-        CountryDao dao  = DaoFactory.countryDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
 
         String name = params.getName();
 
@@ -103,6 +101,7 @@ public class CountryWebService {
                             "Country name is missing !"))
                     .build();
         } else {
+
             Country country = dao.find(params.getId().intValue());
             if (country != null) {
                 country.setName(name);
@@ -115,8 +114,9 @@ public class CountryWebService {
                                 "Driver #" + params.getId() + " not found !"))
                         .build();
             }
+
+            daoFactory.close();
         }
-        dao.close();
         return response;
     }
 
@@ -134,11 +134,13 @@ public class CountryWebService {
     public Response delete(@PathParam("id") final int id) {
         Response response;
 
-        CountryDao dao  = DaoFactory.countryDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
 
         Country country = dao.find(id);
         if (country != null) {
             dao.delete(country);
+
             response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
                     "Country " + country.getName() + " deleted !")).build();
         } else {
@@ -147,7 +149,8 @@ public class CountryWebService {
                             "Country #" + id + " not found !"))
                     .build();
         }
-        dao.close();
+
+        daoFactory.close();
         return response;
     }
 
@@ -163,8 +166,10 @@ public class CountryWebService {
     @Path("/{id}/havetrack")
     @Produces(MediaType.APPLICATION_JSON)
     public Response haveTrack(@PathParam("id") final Integer id) {
-        CountryDao dao  = DaoFactory.countryDao();
+        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
         boolean trackCount = dao.haveTack(id);
+        daoFactory.close();
         return Response.ok().entity(new WsReturn(trackCount ? 1 : 0, "")).build();
     }
 }
