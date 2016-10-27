@@ -11,10 +11,11 @@ public final class DaoManager {
     private EntityManager em = null;
 
     /**
-     * Constructor. Private to avoid the factory creations.
+     * Constructor.
+     * @param entityManager The entity manager to use for all the DAO instantiated by the factory.
      */
-    public DaoManager(final EntityManager em) {
-        this.em = em;
+    public DaoManager(final EntityManager entityManager) {
+        this.em = entityManager;
     }
 
     /**
@@ -78,10 +79,6 @@ public final class DaoManager {
      */
     public ScoringDao scoringDao() {
         return new ScoringDao(this.em);
-    }
-
-    public final EntityManager getEntityManager() {
-        return this.em;
     }
 
     /**
