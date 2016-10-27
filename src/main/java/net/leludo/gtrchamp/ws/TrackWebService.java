@@ -21,8 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import net.leludo.gtrchamp.Country;
 import net.leludo.gtrchamp.Track;
 import net.leludo.gtrchamp.dao.CountryDao;
-import net.leludo.gtrchamp.dao.DaoManager;
-import net.leludo.gtrchamp.dao.DataAccess;
+import net.leludo.gtrchamp.dao.DaoFactory;
+import net.leludo.gtrchamp.dao.DataManager;
 import net.leludo.gtrchamp.dao.TrackDao;
 
 /**
@@ -50,7 +50,7 @@ public class TrackWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Track> tracks() {
-        TrackDao dao = DataAccess.getInstance().getManager().trackDao();
+        TrackDao dao = DataManager.getInstance().getManager().trackDao();
         List<Track> tracks = dao.findAll();
         return tracks;
     }
@@ -67,7 +67,7 @@ public class TrackWebService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Track track(@PathParam("id") final int id) {
-        TrackDao dao = DataAccess.getInstance().getManager().trackDao();
+        TrackDao dao = DataManager.getInstance().getManager().trackDao();
         Track track = dao.find(id);
         return track;
     }
@@ -95,7 +95,7 @@ public class TrackWebService {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), message)).build();
         } else {
-            DaoManager daoFactory = DataAccess.getInstance().getManager();
+            DaoFactory daoFactory = DataManager.getInstance().getManager();
             TrackDao dao = daoFactory.trackDao();
             CountryDao countryDao = daoFactory.countryDao();
             Country country = countryDao.find(Integer.valueOf(countryId));
@@ -119,7 +119,7 @@ public class TrackWebService {
      * @return An error message of a blank string if all is right
      */
     private String validate(final TrackParams params) {
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao countryDao = daoFactory.countryDao();
 
         String name = params.getName();
@@ -173,7 +173,7 @@ public class TrackWebService {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), message)).build();
         } else {
-            DaoManager daoFactory = DataAccess.getInstance().getManager();
+            DaoFactory daoFactory = DataManager.getInstance().getManager();
             TrackDao dao = daoFactory.trackDao();
             CountryDao countryDao = daoFactory.countryDao();
             Country country = countryDao.find(Integer.valueOf(countryId));
@@ -210,7 +210,7 @@ public class TrackWebService {
     public Response delete(@PathParam("id") final int id) {
         Response response;
 
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         TrackDao dao = daoFactory.trackDao();
 
         Track track = dao.find(id);
@@ -239,7 +239,7 @@ public class TrackWebService {
     @Path("/{id}/wasrun")
     @Produces(MediaType.APPLICATION_JSON)
     public Response wasRun(@PathParam("id") final Integer id) {
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         TrackDao dao = daoFactory.trackDao();
         boolean wasRun = dao.wasRun(id);
         daoFactory.close();

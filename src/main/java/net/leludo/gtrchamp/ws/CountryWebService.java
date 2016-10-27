@@ -16,8 +16,8 @@ import javax.ws.rs.core.Response.Status;
 
 import net.leludo.gtrchamp.Country;
 import net.leludo.gtrchamp.dao.CountryDao;
-import net.leludo.gtrchamp.dao.DaoManager;
-import net.leludo.gtrchamp.dao.DataAccess;
+import net.leludo.gtrchamp.dao.DaoFactory;
+import net.leludo.gtrchamp.dao.DataManager;
 
 /**
  * Web service for all country requests.
@@ -32,7 +32,7 @@ public class CountryWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Country> countries() {
-        CountryDao dao = DataAccess.getInstance().getManager().countryDao();
+        CountryDao dao = DataManager.getInstance().getManager().countryDao();
         List<Country> country = dao.all();
         return country;
     }
@@ -52,7 +52,7 @@ public class CountryWebService {
     public Response create(final CountryParams params) {
         Response response;
 
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
 
         String name = params.getName();
@@ -90,7 +90,7 @@ public class CountryWebService {
     public Response update(final CountryParams params) {
         Response response;
 
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
 
         String name = params.getName();
@@ -134,7 +134,7 @@ public class CountryWebService {
     public Response delete(@PathParam("id") final int id) {
         Response response;
 
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
 
         Country country = dao.find(id);
@@ -166,7 +166,7 @@ public class CountryWebService {
     @Path("/{id}/havetrack")
     @Produces(MediaType.APPLICATION_JSON)
     public Response haveTrack(@PathParam("id") final Integer id) {
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
         boolean trackCount = dao.haveTack(id);
         daoFactory.close();

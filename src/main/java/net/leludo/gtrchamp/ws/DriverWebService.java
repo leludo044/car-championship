@@ -17,8 +17,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import net.leludo.gtrchamp.Driver;
-import net.leludo.gtrchamp.dao.DaoManager;
-import net.leludo.gtrchamp.dao.DataAccess;
+import net.leludo.gtrchamp.dao.DaoFactory;
+import net.leludo.gtrchamp.dao.DataManager;
 import net.leludo.gtrchamp.dao.DriverDao;
 
 /**
@@ -35,7 +35,7 @@ public class DriverWebService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Driver> drivers() {
-        DriverDao dao = DataAccess.getInstance().getManager().driverDao();
+        DriverDao dao = DataManager.getInstance().getManager().driverDao();
         List<Driver> drivers = dao.findAll();
         return drivers;
     }
@@ -52,7 +52,7 @@ public class DriverWebService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Driver driver(@PathParam("id") final int id) {
-        DriverDao dao = DataAccess.getInstance().getManager().driverDao();
+        DriverDao dao = DataManager.getInstance().getManager().driverDao();
         Driver driver = dao.find(id);
         return driver;
     }
@@ -87,7 +87,7 @@ public class DriverWebService {
                 date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
             Driver driver = new Driver(name, date);
-            DaoManager daoFactory = DataAccess.getInstance().getManager();
+            DaoFactory daoFactory = DataManager.getInstance().getManager();
             DriverDao dao = daoFactory.driverDao();
             dao.create(driver);
             daoFactory.close();
@@ -129,7 +129,7 @@ public class DriverWebService {
             if (birthdate != null && !birthdate.equals("")) {
                 date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
-            DaoManager daoFactory = DataAccess.getInstance().getManager();
+            DaoFactory daoFactory = DataManager.getInstance().getManager();
             DriverDao dao = daoFactory.driverDao();
             Driver driver = dao.find(params.getId().intValue());
             if (driver != null) {
@@ -164,7 +164,7 @@ public class DriverWebService {
 
         Response response;
 
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         DriverDao dao = daoFactory.driverDao();
         Driver pilodriverte = dao.find(id);
         if (pilodriverte != null) {
@@ -193,7 +193,7 @@ public class DriverWebService {
     @Path("/{id}/ran")
     @Produces(MediaType.APPLICATION_JSON)
     public Response ran(@PathParam("id") final Integer id) {
-        DaoManager daoFactory = DataAccess.getInstance().getManager();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
         DriverDao dao = daoFactory.driverDao();
         boolean ran = dao.ran(id);
         daoFactory.close();

@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 /**
  * Factory for DAO creation.
  */
-public final class DaoManager {
+public final class DaoFactory {
 
     /** EntotyManagerFactory used by all the DAO. */
     private EntityManager em = null;
@@ -14,7 +14,7 @@ public final class DaoManager {
      * Constructor.
      * @param entityManager The entity manager to use for all the DAO instantiated by the factory.
      */
-    public DaoManager(final EntityManager entityManager) {
+    public DaoFactory(final EntityManager entityManager) {
         this.em = entityManager;
     }
 

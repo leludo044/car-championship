@@ -8,10 +8,10 @@ import javax.persistence.EntityManagerFactory;
  *
  */
 @Singleton
-public class DataAccess {
+public class DataManager {
 
     /** The instance of the manager. */
-    private static DataAccess instance;
+    private static DataManager instance;
 
     /** The JPA entity manager factory to use to create the entity managers for the DAO factory. */
     private EntityManagerFactory emf;
@@ -19,7 +19,7 @@ public class DataAccess {
     /**
      * Constructor. Private to avoid instantiation
      */
-    private DataAccess() {
+    private DataManager() {
         emf = null;
     }
 
@@ -27,9 +27,9 @@ public class DataAccess {
      * Return the unique instance of the manager.
      * @return the unique instance of the manager
      */
-    public static final DataAccess getInstance() {
+    public static final DataManager getInstance() {
         if (instance == null) {
-            instance = new DataAccess();
+            instance = new DataManager();
         }
         return instance;
     }
@@ -38,8 +38,8 @@ public class DataAccess {
      * Return a DAO factory linked with an newly created JPA entity manager.
      * @return the DAO factory
      */
-    public DaoManager getManager() {
-        return new DaoManager(emf.createEntityManager());
+    public DaoFactory getManager() {
+        return new DaoFactory(emf.createEntityManager());
     }
 
     /**

@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.leludo.gtrchamp.dao.DataAccess;
+import net.leludo.gtrchamp.dao.DataManager;
 
 @WebListener
 public class ServletListener implements ServletContextListener {
@@ -55,7 +55,7 @@ public class ServletListener implements ServletContextListener {
                 emf = Persistence.createEntityManagerFactory("gtrchamp",
                         properties);
 
-                DataAccess.getInstance().setEntityManagerfactory(emf);
+                DataManager.getInstance().setEntityManagerfactory(emf);
 
                 arg0.getServletContext().setAttribute(EntityManagerFactory.class.getName(), emf);
             } else {
