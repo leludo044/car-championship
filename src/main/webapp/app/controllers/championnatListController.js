@@ -14,7 +14,8 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 			$scope.form = {
 				id: 0,
 				libelle: "",
-				type: ""
+				type: "",
+				mode: ""
 			};
 		}
 		initForm();
@@ -38,6 +39,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 			var championnat = new Championnats();
 			championnat.name = $scope.form.name;
 			championnat.type = $scope.form.type;
+			championnat.mode = $scope.form.mode;
 			Championnats.save(championnat, function (response) {
 				$scope.message = response.message;
 				championnat.id = response.code;
@@ -51,6 +53,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 			championnat.id = $scope.form.id;
 			championnat.name = $scope.form.name;
 			championnat.type = $scope.form.type;
+			championnat.mode = $scope.form.mode;
 			Championnats.update(championnat, function (response) {
 				$scope.message = response.message;
 				$scope.championnats[$scope.index] = championnat;

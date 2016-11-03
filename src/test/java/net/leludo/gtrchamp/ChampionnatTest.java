@@ -8,7 +8,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
-import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -26,7 +25,7 @@ public class ChampionnatTest {
      */
     @Before
     public void setUp() throws Exception {
-        chp = new Championship("JUnit", "gt");
+        chp = new Championship("JUnit", "gt", 1);
         assertNotNull(chp);
     }
 
@@ -36,7 +35,7 @@ public class ChampionnatTest {
      */
     @Test
     public final void testChampionnat() {
-        Championship jUnitChp = new Championship("JUnit", "gt");
+        Championship jUnitChp = new Championship("JUnit", "gt", 1);
         assertEquals("JUnit", jUnitChp.getName());
     }
 

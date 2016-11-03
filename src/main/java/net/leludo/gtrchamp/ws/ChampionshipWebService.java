@@ -160,6 +160,7 @@ public class ChampionshipWebService {
 
         String name = params.getName();
         String type = params.getType();
+        int mode = params.getMode();
 
         if (name == null || name.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
@@ -171,10 +172,15 @@ public class ChampionshipWebService {
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Championship type is missing !"))
                     .build();
+        } else if (mode != 1 && mode != 2) {
+            response = Response.status(Status.NOT_ACCEPTABLE)
+                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
+                            "Championship mode is wrong !"))
+                    .build();
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             ChampionshipDao championshipDao = daoFactory.championshipDao();
-            Championship championship = new Championship(name, type);
+            Championship championship = new Championship(name, type, mode);
             championshipDao.save(championship);
             response = Response.ok(new WsReturn(championship.getId(),
                     "Championship " + championship.getName() + " created !")).build();
@@ -203,6 +209,7 @@ public class ChampionshipWebService {
 
         String name = params.getName();
         String type = params.getType();
+        int mode = params.getMode();
 
         if (name == null || name.equals("")) {
             response = Response.status(Status.NOT_ACCEPTABLE)
@@ -214,6 +221,11 @@ public class ChampionshipWebService {
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Championship type is missing !"))
                     .build();
+        } else if (mode != 1 && mode != 2) {
+            response = Response.status(Status.NOT_ACCEPTABLE)
+                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
+                            "Championship mode is wrong !"))
+                    .build();
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             ChampionshipDao championshipDao = daoFactory.championshipDao();
@@ -221,6 +233,7 @@ public class ChampionshipWebService {
             if (championship != null) {
                 championship.setName(name);
                 championship.setType(type);
+                championship.setMode(mode);
                 championshipDao.update(championship);
                 response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
                         "Championship " + championship.getName() + " updated !")).build();

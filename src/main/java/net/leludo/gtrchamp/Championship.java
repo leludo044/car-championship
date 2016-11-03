@@ -48,10 +48,13 @@ public class Championship {
      *            The name of the championship
      * @param type
      *            The type of the championship (gtr, wtcc, etc)
+     * @param mode
+     *            The mode race (1 race or 2 races)
      */
-    public Championship(final String name, final String type) {
+    public Championship(final String name, final String type, final int mode) {
         this.name = name;
         this.type = type;
+        this.mode = mode;
         this.plannedRaces = new ArrayList<>();
     }
 

@@ -10,6 +10,7 @@ public class ChampionshipParams {
     private Integer id;
     private String name;
     private String type;
+    private int mode ;
 
     /**
      * @return the id
@@ -54,5 +55,19 @@ public class ChampionshipParams {
      */
     public void setType(final String type) {
         this.type = type;
+    }
+
+    /**
+     * @return the mode
+     */
+    protected int getMode() {
+        return mode;
+    }
+
+    /**
+     * @param mode the mode to set
+     */
+    protected void setMode(Integer mode) {
+        this.mode = mode;
     }
 }
