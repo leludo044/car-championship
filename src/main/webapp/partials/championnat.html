@@ -13,6 +13,7 @@
 								<th>#</th>
 								<th>Nom</th>
 								<th>Type</th>
+								<th>Mode</th>
 								<th width="100em" />
 							</tr>
 						</thead>
@@ -21,6 +22,7 @@
 								<td ng-click="selectionner(championnat, $index)">{{championnat.id}}</td>
 								<td ng-click="selectionner(championnat, $index)">{{championnat.name}}</td>
 								<td>{{championnat.type}}</td>
+								<td>{{championnat.mode}}</td>
 								<td><span class="glyphicon glyphicon-flag"
 									aria-hidden="true" title="Affecter les circuits"
 									ng-click="selectionnerCircuits(championnat, $index)"></span></td>
@@ -99,7 +101,7 @@
 				</button>
 				<button class="btn btn-primary" type="button"
 					ng-click="showResults(track, selectedTracks[$index], 2)"
-					ng-if="selectedTracks[$index].selected && selectedTracks[$index].towRacesMode">
+					ng-if="selectedTracks[$index].selected && (selected.mode == 2)">
 					<span class="badge">2</span>
 				</button>
 			</td>

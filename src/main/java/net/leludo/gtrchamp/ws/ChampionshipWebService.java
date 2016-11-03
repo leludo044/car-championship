@@ -84,6 +84,7 @@ public class ChampionshipWebService {
                     g.writeNumberField("id", chp.getId());
                     g.writeStringField("name", chp.getName());
                     g.writeStringField("type", chp.getType());
+                    g.writeNumberField("mode", chp.getMode());
                     g.writeEndObject();
                 }
                 g.writeEndArray();
@@ -123,6 +124,7 @@ public class ChampionshipWebService {
                 g.writeNumberField("id", chp.getId());
                 g.writeStringField("name", chp.getName());
                 g.writeStringField("type", chp.getType());
+                g.writeNumberField("mode", chp.getMode());
                 // g.writeEndObject(); // for field 'name'
                 // 9 g.writeStringField("gender", Gender.MALE);
                 // 10 g.writeBooleanField("verified", false);

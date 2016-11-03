@@ -25,6 +25,9 @@ public class Championship {
 
     private String type;
 
+    /** Race mode. */
+    private int mode;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "championship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Race> plannedRaces = new ArrayList<>();
 
@@ -116,6 +119,25 @@ public class Championship {
     }
 
     /**
+     * Return the race mode : 1 race or 2 races.
+     *
+     * @return The race mode
+     */
+    public int getMode() {
+        return mode;
+    }
+
+    /**
+     * Set the race mode.
+     *
+     * @param mode
+     *            The new mode to set
+     */
+    public void setMode(final int mode) {
+        this.mode = mode;
+    }
+
+    /**
      * Cancel a planned race.
      *
      * @param raceId
@@ -146,7 +168,8 @@ public class Championship {
 
     @Override
     public String toString() {
-        return "Cahmpionship [id=" + id + ", name=" + name + ", plannedRaces=" + plannedRaces + "]";
+        return "Cahmpionship [id=" + id + ", name=" + name + ", type=" + type + ", mode=" + mode
+                + ", plannedRaces=" + plannedRaces + "]";
     }
 
 }

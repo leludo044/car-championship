@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,9 +29,6 @@ public class Race {
 
 	@Convert(converter = LocalDateConverter.class)
     private LocalDate date;
-
-    @Column(name = "mode2Courses")
-    private boolean twoRacesMode;
 
     @Transient
     private List<Competitor> competitors = new ArrayList<>();
@@ -81,7 +77,6 @@ public class Race {
         this.championship = championship;
         this.track = track;
         this.date = date;
-        this.twoRacesMode = true;
     }
 
     public Race() {
@@ -108,18 +103,10 @@ public class Race {
         return isTermine;
     }
 
-    /**
-     * Say if this race must be run in two races mode
-     * @return true ou false
-     */
-    public boolean isTwoRacesMode() {
-        return this.twoRacesMode ;
-    }
-
     @Override
     public String toString() {
-        return "Race [id=" + id + ", date=" + date + ", twoRacesMode=" + twoRacesMode
-                + ", competitors=" + competitors + ", track=" + track + "]";
+        return "Race [id=" + id + ", date=" + date + ", competitors=" + competitors + ", track="
+                + track + "]";
     }
 
     public LocalDate getDate() {
