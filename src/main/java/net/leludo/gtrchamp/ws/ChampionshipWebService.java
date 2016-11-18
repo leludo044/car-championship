@@ -346,7 +346,7 @@ public class ChampionshipWebService {
     /**
      * Return the standings of a championship.
      *
-     * @param idChp
+     * @param championshipId
      *            The id of the championship to ask
      * @return The standings of a championship in JSON format
      */
@@ -420,8 +420,10 @@ public class ChampionshipWebService {
      *
      * @param id
      *            The id of the championship for which to schedule the race
-     * @param idCircuit
+     * @param trackId
      *            The id of the track to schedule
+     * @param params
+     *            The race request parameters needed to schedule it for the championship
      * @return HTTP 200 if the race has been scheduled, HTTP 404 (not found) if
      *         the championship or the track to schedule doesn't exists
      */
@@ -430,7 +432,7 @@ public class ChampionshipWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") final Integer id,
-            @PathParam("trackId") final Integer trackId, RaceParams params) {
+            @PathParam("trackId") final Integer trackId, final RaceParams params) {
         Response response;
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
@@ -470,7 +472,7 @@ public class ChampionshipWebService {
      *
      * @param id
      *            The id of the championship for which to cancel the race
-     * @param idCircuit
+     * @param trackId
      *            The id of the track to cancel
      * @return HTTP 200 if the race has been canceled, HTTP 404 (not found) if
      *         the championship or the track to cancel doesn't exists

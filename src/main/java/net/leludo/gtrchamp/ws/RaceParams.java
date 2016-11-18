@@ -49,7 +49,7 @@ public class RaceParams {
     }
 
     /**
-     * @param birthdate
+     * @param date
      *            the date to set
      */
     public void setDate(final String date) {
