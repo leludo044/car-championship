@@ -1,6 +1,5 @@
 package net.leludo.connector;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
@@ -36,11 +35,9 @@ public class ServletListener implements ServletContextListener {
         try {
             String uri = System.getenv(DATABASE_URL);
             if (uri != null) {
-                URI dbUri = new URI(uri);
-
                 LOG.info(DATABASE_URL + " variable found.");
 
-                BdConnector connector = new BdConnector(dbUri);
+                DbConnector connector = new DbConnector(uri);
 
                 Properties properties = new Properties();
                 properties.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
