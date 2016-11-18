@@ -82,6 +82,15 @@ public final class DaoFactory {
     }
 
     /**
+     * Create a scoring system DAO.
+     *
+     * @return a new scoring system DAO
+     */
+    public StatDao statDao() {
+        return new StatDao(this.em);
+    }
+
+    /**
      * Close the entity manager.
      */
     public void close() {

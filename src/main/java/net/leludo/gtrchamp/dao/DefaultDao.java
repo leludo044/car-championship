@@ -1,8 +1,5 @@
 package net.leludo.gtrchamp.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,13 +11,10 @@ import org.slf4j.LoggerFactory;
  * @param <PK>
  *            The type of her primary key
  */
-public class DefaultDao<T, PK> {
+public class DefaultDao<T, PK> extends Dao {
 
     /** Logger. */
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDao.class);
-
-    /** Entity manager to use. */
-    private EntityManager em;
 
     /** The class of the entity to manage. */
     private Class<T> entityClass;
@@ -34,32 +28,12 @@ public class DefaultDao<T, PK> {
     public DefaultDao(final Class<T> entity) {
         // FIXME Avoir entity parameter. use dynamic instanciation
         entityClass = entity;
-        em = null;
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("Instanciate repository " + super.getClass());
         }
     }
 
-    /**
-     * Return the entity manager used by this DAO. Must be called by all the derived class to obtain
-     * access to the database.
-     *
-     * @return The entity manager to use
-     */
-    protected EntityManager getSession() {
-        return this.em;
-    }
-
-    /**
-     * Set the entityManager that will be used by the DAO.
-     *
-     * @param entityManager
-     *            The new entity manager to use
-     */
-    protected void entityManager(final EntityManager entityManager) {
-        this.em = entityManager;
-        this.em.setFlushMode(FlushModeType.AUTO);
-    }
 
 //    /**
 //     * Close the entity manager.
