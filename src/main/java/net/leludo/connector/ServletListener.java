@@ -14,16 +14,20 @@ import org.slf4j.LoggerFactory;
 
 import net.leludo.gtrchamp.dao.DataManager;
 
+/**
+ * Servlet listener providing JPA initialization.
+ */
 @WebListener
 public class ServletListener implements ServletContextListener {
 
-    /** Logger */
+    /** Logger. */
     private static final Logger LOG = LoggerFactory.getLogger(ServletListener.class);
 
-    /** Environment variable name holding connection URL to SGBD */
+    /** Environment variable name holding connection URL to SGBD. */
     private static final String DATABASE_URL = "CLEARDB_DATABASE_URL";
 
-    private EntityManagerFactory emf ;
+    /** The unique instance of entity manager factory. */
+    private EntityManagerFactory emf;
 
     @Override
     public void contextDestroyed(final ServletContextEvent arg0) {
@@ -47,17 +51,16 @@ public class ServletListener implements ServletContextListener {
                 properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
                 properties.put("hibernate.show_sql", "false");
                 properties.put("hibernate.format_sql", "false");
-                properties.put("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
+                properties.put("hibernate.cache.provider_class",
+                        "org.hibernate.cache.NoCacheProvider");
 
-                emf = Persistence.createEntityManagerFactory("gtrchamp",
-                        properties);
+                emf = Persistence.createEntityManagerFactory("gtrchamp", properties);
 
                 DataManager.getInstance().setEntityManagerfactory(emf);
 
                 arg0.getServletContext().setAttribute(EntityManagerFactory.class.getName(), emf);
             } else {
-                LOG.error(
-                        DATABASE_URL + " variable not found ! SGBD connection impossible.");
+                LOG.error(DATABASE_URL + " variable not found ! SGBD connection impossible.");
             }
 
         } catch (URISyntaxException e) {
