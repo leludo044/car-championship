@@ -124,7 +124,6 @@ public class TrackWebService {
 
         String name = params.getName();
         String countryId = params.getCountryId();
-        Float length = 0f;
         String message = "";
 
         if (name == null || name.equals("")) {
@@ -137,7 +136,7 @@ public class TrackWebService {
             message = "Country #" + countryId + " not found !";
         } else {
             try {
-                length = Float.valueOf(params.getLength());
+                Float.valueOf(params.getLength());
             } catch (final NumberFormatException nfe) {
                 message = "Track length must be a numeric value !";
             }

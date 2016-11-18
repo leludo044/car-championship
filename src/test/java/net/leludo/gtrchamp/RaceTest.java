@@ -1,7 +1,6 @@
 package net.leludo.gtrchamp;
 
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Assert;

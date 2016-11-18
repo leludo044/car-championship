@@ -6,9 +6,6 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.leludo.gtrchamp.Championship;
 
 /**
@@ -19,9 +16,6 @@ import net.leludo.gtrchamp.Championship;
  */
 @Singleton
 public class ChampionshipDao extends DefaultDao<Championship, Integer> {
-
-    /** Logger. */
-    private static final Logger LOG = LoggerFactory.getLogger(ChampionshipDao.class);
 
     /**
      * Constructor.
