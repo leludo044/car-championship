@@ -5,9 +5,8 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: Copy of Sun Checks
-    Description: 
-Checkstyle configuration that checks the sun coding conventions.
+    Checkstyle-Configuration: Leludo Checks
+    Description: none
 -->
 <module name="Checker">
   <property name="severity" value="warning"/>
@@ -79,8 +78,13 @@ Checkstyle configuration that checks the sun coding conventions.
     <module name="TodoComment"/>
     <module name="UpperEll"/>
   </module>
-  <module name="JavadocPackage"/>
-  <module name="NewlineAtEndOfFile"/>
+  <module name="JavadocPackage">
+    <property name="severity" value="ignore"/>
+    <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+  </module>
+  <module name="NewlineAtEndOfFile">
+    <property name="lineSeparator" value="lf"/>
+  </module>
   <module name="Translation"/>
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
