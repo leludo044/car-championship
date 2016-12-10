@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,7 @@ import javax.persistence.Table;
  * Championship business object.
  */
 @Entity
-@Table(name = "championnats")
+@Table(name = "championship")
 public class Championship {
     /** Unique id of the championship. */
     @Id
@@ -25,7 +24,6 @@ public class Championship {
     private int id;
 
     /** Name/label. */
-    @Column(name = "libelle")
     private String name;
 
     /** Type (gtr or wtcc). */
