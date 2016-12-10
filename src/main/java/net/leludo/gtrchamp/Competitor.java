@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * Represents à driver ans his results about a race
  */
 @Entity
-@Table(name = "resultats")
+@Table(name = "result")
 public class Competitor {
 
     /**
@@ -47,27 +47,27 @@ public class Competitor {
     /** The driver. */
     @MapsId("driverId")
     @OneToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "idPilote", nullable = false)
+    @JoinColumn(name = "driverId", nullable = false)
     private Driver driver;
 
     /** The race the driver ran. */
     @MapsId("raceId")
     @OneToOne
-    @JoinColumn(name = "idGrandPrix", nullable = false)
+    @JoinColumn(name = "raceId", nullable = false)
     private Race race;
 
     /** The starting position of the driver and the race. */
-    @Column(name = "grille", nullable = false)
+    @Column(name = "startingPosition", nullable = false)
     private int startingPosition;
 
     /** The arrival position of the driver and the race. */
-    @Column(name = "place", nullable = false)
+    @Column(name = "arrivalPosition", nullable = false)
     private int arrivalPosition;
 
     /** The earned points. */
     // TODO Supprimer ou configurer avec une clé primaire composée
     @ManyToOne()
-    @JoinColumn(name = "place", insertable = false, updatable = false)
+    @JoinColumn(name = "arrivalPosition", insertable = false, updatable = false)
     private PointSet points;
 
     /**

@@ -2,7 +2,6 @@ package net.leludo.gtrchamp;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
@@ -17,15 +16,12 @@ public class CompetitorId implements Serializable {
     private static final long serialVersionUID = -4792327019267435193L;
 
     /** Id of the driver. */
-    @Column(name = "idPilote")
     private int driverId;
 
     /** Id of the race. */
-    @Column(name = "idGrandPrix")
     private int raceId;
 
     /** Race number. */
-    @Column(name = "numCourse")
     private int raceNumber;
 
     /**
