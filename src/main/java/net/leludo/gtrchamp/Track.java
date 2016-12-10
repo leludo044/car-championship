@@ -8,19 +8,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * TRack.
+ */
 @Entity
 @Table(name = "circuits")
 public class Track {
+    /** Unique id of the track. */
     @Id
     @GeneratedValue
     private int id;
 
+    /** Name of the track. */
     @Column(name = "nom")
     private String name;
 
+    /** Length of the track. */
     @Column(name = "longueur")
     private Float length;
 
+    /** Country where the track is located. */
     @OneToOne
     @JoinColumn(name = "idPays", nullable = false)
     private Country country;
@@ -42,7 +49,7 @@ public class Track {
      * @param length
      *            The length (in kilometer unit) of the track
      * @param country
-     *            The country where the track take place
+     *            The country where the track is located
      */
     public Track(final String name, final Float length, final Country country) {
         this.name = name;
@@ -57,13 +64,17 @@ public class Track {
     }
 
     /**
-     * @return the id
+     * Return the unique id of the track.
+     *
+     * @return the unique id of the track
      */
     public int getId() {
         return id;
     }
 
     /**
+     * Return the name of the track.
+     *
      * @return the name of the track
      */
     public String getName() {
@@ -71,14 +82,18 @@ public class Track {
     }
 
     /**
+     * Set the name of the track.
+     *
      * @param name
-     *            the nom to set
+     *            The name to set
      */
     public void setName(final String name) {
         this.name = name;
     }
 
     /**
+     * Return the length of the track.
+     *
      * @return the length of the track in kilometer unit
      */
     public Float getLength() {
@@ -86,23 +101,29 @@ public class Track {
     }
 
     /**
+     * Set the length of the track.
+     *
      * @param length
-     *            the longueur to set
+     *            The length to set in kilometer unit
      */
     public void setLength(final Float length) {
         this.length = length;
     }
 
     /**
-     * @return the country where the track take place
+     * Return the country where the track is located.
+     *
+     * @return the country where the track is located
      */
     public Country getCountry() {
         return country;
     }
 
     /**
+     * Set the country where the track is located.
+     *
      * @param country
-     *            the pays to set
+     *            the country where the track is located
      */
     public void setCountry(final Country country) {
         this.country = country;

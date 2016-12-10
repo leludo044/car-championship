@@ -12,129 +12,145 @@ import javax.persistence.Table;
 
 import net.leludo.gtrchamp.dao.converter.LocalDateConverter;
 
+/**
+ * Driver.
+ */
 @Entity
 @Table(name = "pilotes")
 public class Driver {
-	@Id
-	@GeneratedValue
-	private int id;
 
-	@Column(name = "nom")
-	private String name;
+    /** Unique id of the driver. */
+    @Id
+    @GeneratedValue
+    private int id;
 
-	@Column(name = "dateNaissance")
-	@Convert(converter = LocalDateConverter.class)
-	private LocalDate birthdate;
+    /** Driver name. */
+    @Column(name = "nom")
+    private String name;
 
-	/**
-	 * Constructor.
-	 */
-	public Driver() {
-		this.name = "";
-		this.birthdate = null;
-	}
+    /** Birth date of the driver. */
+    @Column(name = "dateNaissance")
+    @Convert(converter = LocalDateConverter.class)
+    private LocalDate birthdate;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param name
-	 *            The name of the driver
-	 * @param birthdate
-	 *            The birthdate of the driver or null if the birthdate is
-	 *            unknown
-	 */
-	public Driver(final String name, final LocalDate birthdate) {
-		this.name = name;
-		this.birthdate = birthdate;
-	}
+    /**
+     * Constructor.
+     */
+    public Driver() {
+        this.name = "";
+        this.birthdate = null;
+    }
 
-	/**
-	 * Set the id of the driver.
-	 * 
-	 * @param id
-	 *            The id of the driver
-	 */
-	public void setId(final int id) {
-		this.id = id;
-	}
+    /**
+     * Constructor.
+     *
+     * @param name
+     *            The name of the driver
+     * @param birthdate
+     *            The birth date of the driver or null if the birth date is
+     *            unknown
+     */
+    public Driver(final String name, final LocalDate birthdate) {
+        this.name = name;
+        this.birthdate = birthdate;
+    }
 
-	/**
-	 * @return the id of the driver
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * Set the id of the driver.
+     *
+     * @param id
+     *            The id of the driver to set
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the name of the driver
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Return th unique id of the driver.
+     *
+     * @return the id of the driver
+     */
+    public int getId() {
+        return id;
+    }
 
-	/**
-	 * Set the name of the driver.
-	 * 
-	 * @param name
-	 *            The name of the driver
-	 */
-	public void setName(final String name) {
-		this.name = name;
-	}
+    /**
+     * Return the name of the driver.
+     *
+     * @return the name of the driver
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the birthdate of the driver to "dd/MM/yyyy" format or blank
-	 *         string if birthdate is null
-	 */
-	public String getBirthdate() {
-		return this.birthdate == null ? "" : birthdate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	}
+    /**
+     * Set the name of the driver.
+     *
+     * @param name
+     *            The name of the driver to set
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * Set the birthdate of the driver.
-	 * @param date The birthdate of the driver
-	 */
-	public void setBirthdate(final LocalDate date) {
-		this.birthdate = date;
-	}
+    /**
+     * Return the birth date of the driver in string format.
+     *
+     * @return the birth date of the driver to "dd/MM/yyyy" format or blank
+     *         string if birth date is null
+     */
+    public String getBirthdate() {
+        return this.birthdate == null ? ""
+                : birthdate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
+    /**
+     * Set the birth date of the driver.
+     *
+     * @param date
+     *            The birth date of the driver
+     */
+    public void setBirthdate(final LocalDate date) {
+        this.birthdate = date;
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Driver other = (Driver) obj;
-		if (id != other.id) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Driver [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", birthdate=");
-		builder.append(birthdate);
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Driver other = (Driver) obj;
+        if (id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Driver [id=");
+        builder.append(id);
+        builder.append(", name=");
+        builder.append(name);
+        builder.append(", birthdate=");
+        builder.append(birthdate);
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

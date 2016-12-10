@@ -13,28 +13,34 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Championship business object.
+ */
 @Entity
 @Table(name = "championnats")
 public class Championship {
+    /** Unique id of the championship. */
     @Id
     @GeneratedValue
     private int id;
 
+    /** Name/label. */
     @Column(name = "libelle")
     private String name;
 
+    /** Type (gtr or wtcc). */
     private String type;
 
     /** Race mode. */
     private int mode;
 
+    /** Liste of planned races. */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "championship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Race> plannedRaces = new ArrayList<>();
 
     /**
      * Constructor. By default the name is "Choose..." and the planned races
      * list is empty
-     *
      */
     public Championship() {
         this.name = "Choose...";

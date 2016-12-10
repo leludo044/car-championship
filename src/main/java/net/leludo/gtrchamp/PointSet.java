@@ -5,37 +5,48 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Scoring system.
+ */
 @Entity
 @Table(name = "points")
 public class PointSet {
 
+    // FIXME JPA ID is not correct. Should be type AND rank and not only rank
+    /** Position. */
     @Id
     @Column(name = "place")
     private int rank;
 
+    /** Points received. */
     private int points;
 
+    /** Type of the scoring system. */
     private String type;
 
     /**
-     * @return the number of points for this rank
+     * Return the number of points received .
+     *
+     * @return the number of points received
      */
     public int getPoints() {
         return points;
     }
 
     /**
-     * @return the type of the set of points
+     * Return the type of the score (gtr or wtcc).
+     *
+     * @return the type of the score
      */
     public String getType() {
         return type;
     }
 
     /**
-     * Set the type of the set of points
+     * Set the type of the scoring system.
      *
      * @param type
-     *            the type to set
+     *            The type of the scoring system to set
      */
     public void setType(final String type) {
         this.type = type;

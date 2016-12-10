@@ -6,13 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Country. A country is where a race take place.
+ */
 @Entity
 @Table(name = "pays")
 public class Country {
+    /** Unique id of the country. */
     @Id
     @GeneratedValue
     private int id;
 
+    /** Country name. */
     @Column(name = "nom")
     private String name;
 
@@ -39,6 +44,7 @@ public class Country {
     }
 
     /**
+     * Return the id of the country.
      * @return the id of the country
      */
     public int getId() {
@@ -46,6 +52,7 @@ public class Country {
     }
 
     /**
+     * Return the name of the country.
      * @return the name of the country
      */
     public String getName() {
@@ -56,7 +63,7 @@ public class Country {
      * Set the name of the country.
      *
      * @param name
-     *            The name of the country
+     *            The name of the country to set
      */
     public void setName(final String name) {
         this.name = name;

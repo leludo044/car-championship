@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * JPA embedded id of a competitor. A competitor is a registered driver for a race.
+ */
 @Embeddable
 public class CompetitorId implements Serializable {
 
@@ -13,58 +16,91 @@ public class CompetitorId implements Serializable {
      */
     private static final long serialVersionUID = -4792327019267435193L;
 
+    /** Id of the driver. */
     @Column(name = "idPilote")
     private int driverId;
+
+    /** Id of the race. */
     @Column(name = "idGrandPrix")
     private int raceId;
+
+    /** Race number. */
     @Column(name = "numCourse")
     private int raceNumber;
 
+    /**
+     * Constructor.
+     */
     public CompetitorId() {
     }
 
-    public CompetitorId(int driverId, int raceId, int raceNumber) {
+    /**
+     * Constructor.
+     *
+     * @param driverId
+     *            Id of the driver
+     * @param raceId
+     *            Id of the race
+     * @param raceNumber
+     *            raceNumber
+     */
+    public CompetitorId(final int driverId, final int raceId, final int raceNumber) {
         this.driverId = driverId;
         this.raceId = raceId;
         this.raceNumber = raceNumber;
     }
 
     /**
-     * @return the driverId
+     * Return the driver id as a part of the embedded JPA id.
+     *
+     * @return the driverId the driver id as a part of the embedded JPA id
      */
     protected int getDriverId() {
         return driverId;
     }
 
     /**
-     * @param driverId the driverId to set
+     * Set the driver id as a part of the embedded JPA id.
+     * @param driverId
+     *            The driver id to set
      */
-    protected void setDriverId(int driverId) {
+    protected void setDriverId(final int driverId) {
         this.driverId = driverId;
     }
 
     /**
-     * @return the raceId
+     * Returne the race id as a part of the embedded JPA id.
+     *
+     * @return the raceId the race id as a part of the embedded JPA id
      */
     protected int getRaceId() {
         return raceId;
     }
 
     /**
-     * @param raceId the raceId to set
+     * Set the race id as a part of the embedded JPA id.
+     * @param raceId
+     *            The race id to set
      */
-    protected void setRaceId(int raceId) {
+    protected void setRaceId(final int raceId) {
         this.raceId = raceId;
     }
 
+    /**
+     * Return the race number as a part of the embedded JPA id.
+     *
+     * @return the race number as a part of the embedded JPA id
+     */
     public int getRaceNumber() {
         return raceNumber;
     }
 
     /**
-     * @param raceNumber the raceNumber to set
+     * Set the race number as a part of the embedded JPA id.
+     * @param raceNumber
+     *            The race number to set
      */
-    protected void setRaceNumber(int raceNumber) {
+    protected void setRaceNumber(final int raceNumber) {
         this.raceNumber = raceNumber;
     }
 
