@@ -1,6 +1,5 @@
 package net.leludo.gtrchamp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +9,7 @@ import javax.persistence.Table;
  * Country. A country is where a race take place.
  */
 @Entity
-@Table(name = "pays")
+@Table(name = "country")
 public class Country {
     /** Unique id of the country. */
     @Id
@@ -18,7 +17,6 @@ public class Country {
     private int id;
 
     /** Country name. */
-    @Column(name = "nom")
     private String name;
 
     /**
