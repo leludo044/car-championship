@@ -23,7 +23,7 @@ import net.leludo.gtrchamp.dao.converter.LocalDateConverter;
  * Race.
  */
 @Entity
-@Table(name = "grandsprix")
+@Table(name = "race")
 public class Race {
 
     /** Unique id of the race. */
@@ -41,12 +41,12 @@ public class Race {
 
     /** Track where the race take place. */
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idCircuit", nullable = false)
+    @JoinColumn(name = "trackId", nullable = false)
     private Track track;
 
     /** Championship owning this race. */
     @OneToOne
-    @JoinColumn(name = "idChampionnat", nullable = false)
+    @JoinColumn(name = "championshipId", nullable = false)
     private Championship championship;
 
     /**
