@@ -7,10 +7,10 @@
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
-	select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix 
+	select driver.name as name, sum(!isnull(resultats.place)) as count from grandsprix 
 	join resultats on resultats.idGrandPrix = grandsprix.id and resultats.place=1 right 
-	join pilotes on pilotes.id = resultats.idPilote 
-	group by pilotes.nom 
+	join driver on driver.id = resultats.idPilote 
+	group by driver.name 
 	order by count desc;
 	]]>
 	</sql-query>
@@ -19,11 +19,11 @@
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
-	select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix 
+	select driver.name as name, sum(!isnull(resultats.place)) as count from grandsprix 
 	join championnats on championnats.id = grandsprix.idChampionnat and grandsprix.idChampionnat = :id 
 	join resultats on resultats.idGrandPrix = grandsprix.id and resultats.place=1 right 
-	join pilotes on pilotes.id = resultats.idPilote 
-	group by pilotes.nom 
+	join driver on driver.id = resultats.idPilote 
+	group by driver.name 
 	order by count desc;
 	]]>
 	</sql-query>
@@ -32,10 +32,10 @@
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
-    select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix
+    select driver.name as name, sum(!isnull(resultats.place)) as count from grandsprix
     join resultats on resultats.idGrandPrix = grandsprix.id and resultats.place >=1 and resultats.place <=3 right 
-    join pilotes on pilotes.id = resultats.idPilote 
-    group by pilotes.nom 
+    join driver on driver.id = resultats.idPilote 
+    group by driver.name 
     order by count desc;
 	]]>
 	</sql-query>
@@ -44,11 +44,11 @@
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
-	select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix
+	select driver.name as name, sum(!isnull(resultats.place)) as count from grandsprix
 	join championnats on championnats.id = grandsprix.idChampionnat and grandsprix.idChampionnat = :id
 	join resultats on resultats.idGrandPrix = grandsprix.id and resultats.place >=1 and resultats.place <=3 right
-	join pilotes on pilotes.id = resultats.idPilote
-	group by pilotes.nom 
+	join driver on driver.id = resultats.idPilote
+	group by driver.name 
 	order by count desc;
 	]]>
 	</sql-query>
@@ -57,10 +57,10 @@
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
-	select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix 
+	select driver.name as name, sum(!isnull(resultats.place)) as count from grandsprix 
 	join resultats on resultats.idGrandPrix = grandsprix.id and resultats.grille=1 right 
-	join pilotes on pilotes.id = resultats.idPilote 
-	group by pilotes.nom 
+	join driver on driver.id = resultats.idPilote 
+	group by driver.name 
 	order by count desc;
 	]]>
 	</sql-query>
@@ -69,11 +69,11 @@
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
-	select pilotes.nom as name, sum(!isnull(resultats.place)) as count from grandsprix 
+	select driver.name as name, sum(!isnull(resultats.place)) as count from grandsprix 
 	join championnats on championnats.id = grandsprix.idChampionnat and grandsprix.idChampionnat = :id 
 	join resultats on resultats.idGrandPrix = grandsprix.id and resultats.grille=1 right 
-	join pilotes on pilotes.id = resultats.idPilote 
-	group by pilotes.nom 
+	join driver on driver.id = resultats.idPilote 
+	group by driver.name 
 	order by count desc;
 	]]>
 	</sql-query>

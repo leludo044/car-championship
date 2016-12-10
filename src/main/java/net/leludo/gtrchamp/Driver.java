@@ -3,7 +3,6 @@ package net.leludo.gtrchamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +15,7 @@ import net.leludo.gtrchamp.dao.converter.LocalDateConverter;
  * Driver.
  */
 @Entity
-@Table(name = "pilotes")
+@Table(name = "driver")
 public class Driver {
 
     /** Unique id of the driver. */
@@ -25,11 +24,9 @@ public class Driver {
     private int id;
 
     /** Driver name. */
-    @Column(name = "nom")
     private String name;
 
     /** Birth date of the driver. */
-    @Column(name = "dateNaissance")
     @Convert(converter = LocalDateConverter.class)
     private LocalDate birthdate;
 
