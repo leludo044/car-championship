@@ -1,6 +1,5 @@
 package net.leludo.gtrchamp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +11,7 @@ import javax.persistence.Table;
  * TRack.
  */
 @Entity
-@Table(name = "circuits")
+@Table(name = "track")
 public class Track {
     /** Unique id of the track. */
     @Id
@@ -20,16 +19,14 @@ public class Track {
     private int id;
 
     /** Name of the track. */
-    @Column(name = "nom")
     private String name;
 
     /** Length of the track. */
-    @Column(name = "longueur")
     private Float length;
 
     /** Country where the track is located. */
     @OneToOne
-    @JoinColumn(name = "idPays", nullable = false)
+    @JoinColumn(name = "countryId", nullable = false)
     private Country country;
 
     /**
