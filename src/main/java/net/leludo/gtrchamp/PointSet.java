@@ -9,13 +9,13 @@ import javax.persistence.Table;
  * Scoring system.
  */
 @Entity
-@Table(name = "points")
+@Table(name = "score")
 public class PointSet {
 
     // FIXME JPA ID is not correct. Should be type AND rank and not only rank
     /** Position. */
     @Id
-    @Column(name = "place")
+    @Column(name = "position")
     private int rank;
 
     /** Points received. */
