@@ -11,59 +11,61 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "country")
 public class Country {
-    /** Unique id of the country. */
-    @Id
-    @GeneratedValue
-    private int id;
+	/** Unique id of the country. */
+	@Id
+	@GeneratedValue
+	private int id;
 
-    /** Country name. */
-    private String name;
+	/** Country name. */
+	private String name;
 
-    /**
-     * Constructor.
-     */
-    public Country() {
-        this.name = "";
-    }
+	/**
+	 * Constructor.
+	 */
+	public Country() {
+		this.name = "";
+	}
 
-    /**
-     * Constructor.
-     *
-     * @param name
-     *            The name of the country
-     */
-    public Country(final String name) {
-        this.name = name;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param name
+	 *            The name of the country
+	 */
+	public Country(final String name) {
+		this.name = name;
+	}
 
-    @Override
-    public String toString() {
-        return "Country [id=" + id + ", name=" + name + "]";
-    }
+	@Override
+	public String toString() {
+		return "Country [id=" + id + ", name=" + name + "]";
+	}
 
-    /**
-     * Return the id of the country.
-     * @return the id of the country
-     */
-    public int getId() {
-        return id;
-    }
+	/**
+	 * Return the id of the country.
+	 * 
+	 * @return the id of the country
+	 */
+	public int getId() {
+		return id;
+	}
 
-    /**
-     * Return the name of the country.
-     * @return the name of the country
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Return the name of the country.
+	 * 
+	 * @return the name of the country
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Set the name of the country.
-     *
-     * @param name
-     *            The name of the country to set
-     */
-    public void setName(final String name) {
-        this.name = name;
-    }
+	/**
+	 * Set the name of the country.
+	 *
+	 * @param name
+	 *            The name of the country to set
+	 */
+	public void setName(final String name) {
+		this.name = name;
+	}
 }

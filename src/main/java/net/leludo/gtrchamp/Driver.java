@@ -63,7 +63,7 @@ public class Driver {
     }
 
     /**
-     * Return th unique id of the driver.
+     * Return the unique id of the driver.
      *
      * @return the id of the driver
      */
