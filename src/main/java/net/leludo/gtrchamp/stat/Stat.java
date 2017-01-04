@@ -1,23 +1,51 @@
 package net.leludo.gtrchamp.stat;
 
+/**
+ * Statistic for a driver.
+ */
 public class Stat {
 
-    private String name;
-    private Integer count;
+	/** Name of the driver */
+	private String name;
 
-    public String getName() {
-        return name;
-    }
+	/** Count of a particular statistic */
+	private Integer count;
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+	/**
+	 * Return the name of the driver
+	 * 
+	 * @return the name of the driver
+	 */
+	public String getName() {
+		return name;
+	}
 
-    public Integer getCount() {
-        return count;
-    }
+	/**
+	 * Set the name of the driver
+	 * 
+	 * @param name
+	 *            The new name of the driver
+	 */
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setCount(final Integer count) {
-        this.count = count;
-    }
+	/**
+	 * Return the statistic count
+	 * 
+	 * @return the statistic count
+	 */
+	public Integer getCount() {
+		return count;
+	}
+
+	/**
+	 * Set the statistic count
+	 * 
+	 * @param count
+	 *            The new statistic count
+	 */
+	public void setCount(final Integer count) {
+		this.count = count;
+	}
 }
