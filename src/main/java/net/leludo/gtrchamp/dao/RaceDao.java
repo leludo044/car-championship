@@ -12,25 +12,25 @@ import net.leludo.gtrchamp.Race;
 @Singleton
 public class RaceDao extends DefaultDao<Race, Integer> {
 
-    /**
-     * Constructor.
-     *
-     * @param entityManager
-     *            The JPA entity manager affected to this DAO
-     */
-    protected RaceDao(final EntityManager entityManager) {
-        super(Race.class);
-        super.entityManager(entityManager);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param entityManager
+	 *            The JPA entity manager affected to this DAO
+	 */
+	protected RaceDao(final EntityManager entityManager) {
+		super(Race.class);
+		super.entityManager(entityManager);
+	}
 
-    /**
-     * Return a race.
-     *
-     * @param id
-     *            The id of the race to find
-     * @return the race
-     */
-    public Race get(final Integer id) {
-        return find(id);
-    }
+	/**
+	 * Return a race.
+	 *
+	 * @param id
+	 *            The id of the race to find
+	 * @return the race
+	 */
+	public Race get(final Integer id) {
+		return find(id);
+	}
 }
