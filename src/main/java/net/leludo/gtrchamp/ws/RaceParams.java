@@ -7,52 +7,64 @@ package net.leludo.gtrchamp.ws;
  *
  */
 public class RaceParams {
-    private Integer championshipId;
-    private Integer trackId;
-    private String date;
+	private Integer championshipId;
+	private Integer trackId;
+	private String date;
 
-    /**
-     * @return the championship id
-     */
-    public Integer getChampionshipId() {
-        return championshipId;
-    }
+	/**
+	 * Return the championship id of the race parameter
+	 * 
+	 * @return The championship id of the race parameter
+	 */
+	public Integer getChampionshipId() {
+		return championshipId;
+	}
 
-    /**
-     * @param id
-     *            the championship id to set
-     */
-    public void setChampionshipId(final Integer id) {
-        this.championshipId = id;
-    }
+	/**
+	 * Set the championship id of the race parameter
+	 * 
+	 * @param id
+	 *            the championship id to set
+	 */
+	public void setChampionshipId(final Integer id) {
+		this.championshipId = id;
+	}
 
-    /**
-     * @return the track id
-     */
-    public Integer getTrackId() {
-        return trackId;
-    }
+	/**
+	 * Return the track id of the race parameter
+	 * 
+	 * @return The track id of the race parameter
+	 */
+	public Integer getTrackId() {
+		return trackId;
+	}
 
-    /**
-     * @param id
-     *            the championship id to set
-     */
-    public void setTrackId(final Integer id) {
-        this.trackId = id;
-    }
+	/**
+	 * Set the track id of the race parameter
+	 * 
+	 * @param id
+	 *            the track id to set
+	 */
+	public void setTrackId(final Integer id) {
+		this.trackId = id;
+	}
 
-    /**
-     * @return the date
-     */
-    public String getDate() {
-        return date;
-    }
+	/**
+	 * Return the date parameter of the race
+	 * 
+	 * @return the date parameter of the race
+	 */
+	public String getDate() {
+		return date;
+	}
 
-    /**
-     * @param date
-     *            the date to set
-     */
-    public void setDate(final String date) {
-        this.date = date;
-    }
+	/**
+	 * Set the date parameter of the race
+	 * 
+	 * @param date
+	 *            the date to set
+	 */
+	public void setDate(final String date) {
+		this.date = date;
+	}
 }
