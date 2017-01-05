@@ -28,175 +28,172 @@ import net.leludo.gtrchamp.dao.DriverDao;
 @Path("/driver")
 public class DriverWebService {
 
-    /**
-     * @return the driver list to JSON format
-     */
-    @GET
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Driver> drivers() {
-        DriverDao dao = DataManager.getInstance().getManager().driverDao();
-        List<Driver> drivers = dao.findAll();
-        return drivers;
-    }
+	/**
+	 * Return the list of the drivers.
+	 * 
+	 * @return the driver list to JSON format
+	 */
+	@GET
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Driver> drivers() {
+		DriverDao dao = DataManager.getInstance().getManager().driverDao();
+		List<Driver> drivers = dao.findAll();
+		return drivers;
+	}
 
-    /**
-     * Return the driver from his id.
-     *
-     * @param id
-     *            the id of the driver to search
-     *
-     * @return the driver corresponding to the id
-     */
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Driver driver(@PathParam("id") final int id) {
-        DriverDao dao = DataManager.getInstance().getManager().driverDao();
-        Driver driver = dao.find(id);
-        return driver;
-    }
+	/**
+	 * Return the driver from his id.
+	 *
+	 * @param id
+	 *            the id of the driver to search
+	 *
+	 * @return the driver corresponding to the id
+	 */
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Driver driver(@PathParam("id") final int id) {
+		DriverDao dao = DataManager.getInstance().getManager().driverDao();
+		Driver driver = dao.find(id);
+		return driver;
+	}
 
-    /**
-     * Create a new driver.
-     *
-     * @param params
-     *            The driver request parameters needed to create the driver
-     * @return HTTP 200 if the driver has been created, HTTP 406 (not
-     *         acceptable) if one of the request parameters is wrong.
-     */
-    @POST
-    @Path("/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response create(final DriverParams params) {
+	/**
+	 * Create a new driver.
+	 *
+	 * @param params
+	 *            The driver request parameters needed to create the driver
+	 * @return HTTP 200 if the driver has been created, HTTP 406 (not
+	 *         acceptable) if one of the request parameters is wrong.
+	 */
+	@POST
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response create(final DriverParams params) {
 
-        Response response;
+		Response response;
 
-        String name = params.getName();
-        String birthdate = params.getBirthdate();
+		String name = params.getName();
+		String birthdate = params.getBirthdate();
 
-        if (name == null || name.equals("")) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Driver firstname is missing !"))
-                    .build();
-        } else {
-            LocalDate date = null;
-            if (birthdate != null && !birthdate.equals("")) {
-                date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            }
-            Driver driver = new Driver(name, date);
-            DaoFactory daoFactory = DataManager.getInstance().getManager();
-            DriverDao dao = daoFactory.driverDao();
-            dao.create(driver);
-            daoFactory.close();
-            response = Response
-                    .ok(new WsReturn(driver.getId(), "Driver " + driver.getName() + " added !"))
-                    .build();
-        }
+		if (name == null || name.equals("")) {
+			response = Response.status(Status.NOT_ACCEPTABLE)
+					.entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Driver firstname is missing !"))
+					.build();
+		} else {
+			LocalDate date = null;
+			if (birthdate != null && !birthdate.equals("")) {
+				date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			}
+			Driver driver = new Driver(name, date);
+			DaoFactory daoFactory = DataManager.getInstance().getManager();
+			DriverDao dao = daoFactory.driverDao();
+			dao.create(driver);
+			daoFactory.close();
+			response = Response.ok(new WsReturn(driver.getId(), "Driver " + driver.getName() + " added !")).build();
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    /**
-     * Update an existing driver.
-     *
-     * @param params
-     *            The driver request parameters needed to update the driver
-     * @return HTTP 200 if the driver has been updated, HTTP 404 (not found) if
-     *         the driver to update doesn't exists, HTTP 406 (not acceptable) if
-     *         one of the request parameters is wrong.
-     */
-    @PUT
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response update(final DriverParams params) {
+	/**
+	 * Update an existing driver.
+	 *
+	 * @param params
+	 *            The driver request parameters needed to update the driver
+	 * @return HTTP 200 if the driver has been updated, HTTP 404 (not found) if
+	 *         the driver to update doesn't exists, HTTP 406 (not acceptable) if
+	 *         one of the request parameters is wrong.
+	 */
+	@PUT
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response update(final DriverParams params) {
 
-        Response response;
+		Response response;
 
-        String name = params.getName();
-        String birthdate = params.getBirthdate();
+		String name = params.getName();
+		String birthdate = params.getBirthdate();
 
-        if (name == null || name.equals("")) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Diver firstname is missing !"))
-                    .build();
-        } else {
-            LocalDate date = null;
-            if (birthdate != null && !birthdate.equals("")) {
-                date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            }
-            DaoFactory daoFactory = DataManager.getInstance().getManager();
-            DriverDao dao = daoFactory.driverDao();
-            Driver driver = dao.find(params.getId().intValue());
-            if (driver != null) {
-                driver.setName(name);
-                driver.setBirthdate(date);
-                dao.update(driver);
-                response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Driver " + driver.getName() + " updated !")).build();
-            } else {
-                response = Response.status(Status.NOT_FOUND)
-                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Driver #" + params.getId() + " not found !"))
-                        .build();
-            }
-            daoFactory.close();
-        }
-        return response;
-    }
+		if (name == null || name.equals("")) {
+			response = Response.status(Status.NOT_ACCEPTABLE)
+					.entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Diver firstname is missing !"))
+					.build();
+		} else {
+			LocalDate date = null;
+			if (birthdate != null && !birthdate.equals("")) {
+				date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			}
+			DaoFactory daoFactory = DataManager.getInstance().getManager();
+			DriverDao dao = daoFactory.driverDao();
+			Driver driver = dao.find(params.getId().intValue());
+			if (driver != null) {
+				driver.setName(name);
+				driver.setBirthdate(date);
+				dao.update(driver);
+				response = Response
+						.ok(new WsReturn(Status.OK.getStatusCode(), "Driver " + driver.getName() + " updated !"))
+						.build();
+			} else {
+				response = Response.status(Status.NOT_FOUND).entity(
+						new WsReturn(Status.NOT_FOUND.getStatusCode(), "Driver #" + params.getId() + " not found !"))
+						.build();
+			}
+			daoFactory.close();
+		}
+		return response;
+	}
 
-    /**
-     * Delete an existing driver.
-     *
-     * @param id
-     *            The id of the driver to delete
-     * @return HTTP 200 if the driver has been deleted, HTTP 404 (not found) if
-     *         the driver to delete doesn't exists
-     */
-    @DELETE
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") final int id) {
+	/**
+	 * Delete an existing driver.
+	 *
+	 * @param id
+	 *            The id of the driver to delete
+	 * @return HTTP 200 if the driver has been deleted, HTTP 404 (not found) if
+	 *         the driver to delete doesn't exists
+	 */
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response delete(@PathParam("id") final int id) {
 
-        Response response;
+		Response response;
 
-        DaoFactory daoFactory = DataManager.getInstance().getManager();
-        DriverDao dao = daoFactory.driverDao();
-        Driver pilodriverte = dao.find(id);
-        if (pilodriverte != null) {
-            dao.delete(pilodriverte);
-            response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                    "Driver " + pilodriverte.getName() + " deleted !")).build();
-        } else {
-            response = Response.status(Status.NOT_FOUND)
-                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Driver #" + id + " not found !"))
-                    .build();
-        }
-        daoFactory.close();
-        return response;
-    }
+		DaoFactory daoFactory = DataManager.getInstance().getManager();
+		DriverDao dao = daoFactory.driverDao();
+		Driver pilodriverte = dao.find(id);
+		if (pilodriverte != null) {
+			dao.delete(pilodriverte);
+			response = Response
+					.ok(new WsReturn(Status.OK.getStatusCode(), "Driver " + pilodriverte.getName() + " deleted !"))
+					.build();
+		} else {
+			response = Response.status(Status.NOT_FOUND)
+					.entity(new WsReturn(Status.NOT_FOUND.getStatusCode(), "Driver #" + id + " not found !")).build();
+		}
+		daoFactory.close();
+		return response;
+	}
 
-    /**
-     * Say if a driver ran a race.
-     *
-     * @param id
-     *            The id of the driver to ask
-     * @return {code:1,message:""} if the driver ran at least one race
-     *         {code:0,message:""} if the driver didn't run a race
-     */
-    @GET
-    @Path("/{id}/ran")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response ran(@PathParam("id") final Integer id) {
-        DaoFactory daoFactory = DataManager.getInstance().getManager();
-        DriverDao dao = daoFactory.driverDao();
-        boolean ran = dao.ran(id);
-        daoFactory.close();
-        return Response.ok().entity(new WsReturn(ran ? 1 : 0, "")).build();
-    }
+	/**
+	 * Say if a driver ran a race.
+	 *
+	 * @param id
+	 *            The id of the driver to ask
+	 * @return {code:1,message:""} if the driver ran at least one race
+	 *         {code:0,message:""} if the driver didn't run a race
+	 */
+	@GET
+	@Path("/{id}/ran")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response ran(@PathParam("id") final Integer id) {
+		DaoFactory daoFactory = DataManager.getInstance().getManager();
+		DriverDao dao = daoFactory.driverDao();
+		boolean ran = dao.ran(id);
+		daoFactory.close();
+		return Response.ok().entity(new WsReturn(ran ? 1 : 0, "")).build();
+	}
 }
