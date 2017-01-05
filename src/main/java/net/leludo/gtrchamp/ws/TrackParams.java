@@ -7,69 +7,85 @@ package net.leludo.gtrchamp.ws;
  *
  */
 public class TrackParams {
-    private Integer id;
-    private String name;
-    private Float length;
-    private String countryId;
+	private Integer id;
+	private String name;
+	private Float length;
+	private String countryId;
 
-    /**
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
+	/**
+	 * Return the track id parameter
+	 * 
+	 * @return The track id parameter
+	 */
+	public Integer getId() {
+		return id;
+	}
 
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(final Integer id) {
-        this.id = id;
-    }
+	/**
+	 * Set the track id parameter
+	 * 
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(final Integer id) {
+		this.id = id;
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Return the track name parameter
+	 * 
+	 * @return The track name parameter
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param name
-     *            the nom to set
-     */
-    public void setName(final String name) {
-        this.name = name;
-    }
+	/**
+	 * Set the track name parameter
+	 * 
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    /**
-     * @return the length
-     */
-    public Float getLength() {
-        return length;
-    }
+	/**
+	 * Return the track length parameter
+	 * 
+	 * @return The track length parameter
+	 */
+	public Float getLength() {
+		return length;
+	}
 
-    /**
-     * @param length
-     *            the length to set
-     */
-    public void setLength(final Float length) {
-        this.length = length;
-    }
+	/**
+	 * Set the track length parameter
+	 * 
+	 * @param length
+	 *            the length to set
+	 */
+	public void setLength(final Float length) {
+		this.length = length;
+	}
 
-    /**
-     * @return the id of the country
-     */
-    public String getCountryId() {
-        return countryId;
-    }
+	/**
+	 * Return the country id parameter of the track
+	 * 
+	 * @return The country id parameter of the track
+	 */
+	public String getCountryId() {
+		return countryId;
+	}
 
-    /**
-     * @param countryId
-     *            the id of the country to set
-     */
-    public void setCountryId(final String countryId) {
-        this.countryId = countryId;
-    }
+	/**
+	 * Set the country id parameter of the track
+	 * 
+	 * @param countryId
+	 *            the id of the country to set
+	 */
+	public void setCountryId(final String countryId) {
+		this.countryId = countryId;
+	}
 
 }
