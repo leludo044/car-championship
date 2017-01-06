@@ -4,11 +4,22 @@ package net.leludo.gtrchamp.ws;
  * Wrapper for competitor request parameters.
  */
 public class ResultParams {
+    /** Race id parameter of the result. */
     private Integer raceId;
+
+    /** Driver id parameter of the result. */
     private Integer driverId;
+
+    /** Race number parameter of the result. */
     private int raceNumber;
+
+    /** Starting position parameter of the result. */
     private int startingPosition;
+
+    /** Arrival position parameter of the result. */
     private int arrivalPosition;
+
+    /** Scoring system parameter of the result. */
     private String scoringSystem;
 
     /**

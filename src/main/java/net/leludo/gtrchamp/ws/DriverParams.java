@@ -4,8 +4,13 @@ package net.leludo.gtrchamp.ws;
  * Wrapper for driver request parameters.
  */
 public class DriverParams {
+    /** Driver id parameter. */
     private Integer id;
+
+    /** Driver name parameter. */
     private String name;
+
+    /** Driver birth date parameter. */
     private String birthdate;
 
     /**

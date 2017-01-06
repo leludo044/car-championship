@@ -8,6 +8,9 @@ import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Country;
 
+/**
+ * DAO for country access.
+ */
 @Singleton
 public class CountryDao extends DefaultDao<Country, Integer> {
 

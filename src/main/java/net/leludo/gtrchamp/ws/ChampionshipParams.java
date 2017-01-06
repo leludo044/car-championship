@@ -4,9 +4,16 @@ package net.leludo.gtrchamp.ws;
  * Wrapper for championship request parameters.
  */
 public class ChampionshipParams {
+    /** Championship id parameter. */
     private Integer id;
+
+    /** Championship name parameter. */
     private String name;
+
+    /** Championship type parameter. */
     private String type;
+
+    /** Championship mode parameter. */
     private int mode;
 
     /**

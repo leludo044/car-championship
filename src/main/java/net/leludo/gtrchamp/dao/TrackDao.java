@@ -8,6 +8,9 @@ import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Track;
 
+/**
+ * DAO for track access.
+ */
 @Singleton
 public class TrackDao extends DefaultDao<Track, Integer> {
 

@@ -48,9 +48,11 @@ public class ChampionshipWebService {
     /** Logger. */
     private static final Logger LOG = LoggerFactory.getLogger(ChampionshipWebService.class);
 
+    /** Servlet context. */
     @Context
     private ServletContext servletContext;
 
+    /** Servlet response. */
     private HttpServletResponse servletResponse;
 
     /**

@@ -40,6 +40,7 @@ import net.leludo.gtrchamp.dao.TrackDao;
 @Path("/track")
 public class TrackWebService {
 
+    /** Servlet context. */
     @Context
     private ServletContext servletContext;
 

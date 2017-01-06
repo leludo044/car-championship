@@ -9,6 +9,9 @@ import javax.persistence.Query;
 import net.leludo.gtrchamp.Competitor;
 import net.leludo.gtrchamp.CompetitorId;
 
+/**
+ * DAO for result access.
+ */
 @Singleton
 public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
 

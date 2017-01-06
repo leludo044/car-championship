@@ -4,7 +4,10 @@ package net.leludo.gtrchamp.ws;
  * Wrapper for country request parameters.
  */
 public class CountryParams {
+    /** Country id parameter. */
     private Integer id;
+
+    /** Country name parameter. */
     private String name;
 
     /**

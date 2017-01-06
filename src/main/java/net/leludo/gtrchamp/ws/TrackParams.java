@@ -7,9 +7,16 @@ package net.leludo.gtrchamp.ws;
  *
  */
 public class TrackParams {
+    /** Track id parameter. */
     private Integer id;
+
+    /** Track name parameter. */
     private String name;
+
+    /** Track length parameter. */
     private Float length;
+
+    /** Country id parameter of the track. */
     private String countryId;
 
     /**

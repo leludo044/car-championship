@@ -8,6 +8,9 @@ import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Driver;
 
+/**
+ * DAO for driver access.
+ */
 @Singleton
 public class DriverDao extends DefaultDao<Driver, Integer> {
 

@@ -2,13 +2,15 @@ package net.leludo.gtrchamp.ws;
 
 /**
  * Wrapper for race request parameters.
- *
- * @author Ludovic THOMAS
- *
  */
 public class RaceParams {
+    /** Championship id parameter of the race. */
     private Integer championshipId;
+
+    /** Track id parameter of the race. */
     private Integer trackId;
+
+    /** Date parameter of the race. */
     private String date;
 
     /**

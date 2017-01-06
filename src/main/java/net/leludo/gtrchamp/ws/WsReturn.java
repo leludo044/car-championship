@@ -5,7 +5,10 @@ package net.leludo.gtrchamp.ws;
  */
 public class WsReturn {
 
+    /** Response code*. */
     private int code;
+
+    /** Response message. */
     private String message;
 
     /**
