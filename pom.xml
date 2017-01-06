@@ -122,5 +122,6 @@
 	<description>Gestion du championnat GTR entre pôtes</description>
 	<properties>
 		<jersey.version>2.23.2</jersey.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 </project>
