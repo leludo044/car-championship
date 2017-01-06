@@ -8,35 +8,35 @@ import javax.persistence.FlushModeType;
  */
 public class Dao {
 
-	/** Entity manager to use. */
-	private EntityManager em;
+    /** Entity manager to use. */
+    private EntityManager em;
 
-	/**
-	 * Constructor
-	 */
-	public Dao() {
-		super();
-		em = null;
-	}
+    /**
+     * Constructor.
+     */
+    public Dao() {
+        super();
+        em = null;
+    }
 
-	/**
-	 * Return the entity manager used by this DAO. Must be called by all the
-	 * derived class to obtain access to the database.
-	 *
-	 * @return The entity manager to use
-	 */
-	protected EntityManager getSession() {
-		return this.em;
-	}
+    /**
+     * Return the entity manager used by this DAO. Must be called by all the
+     * derived class to obtain access to the database.
+     *
+     * @return The entity manager to use
+     */
+    protected EntityManager getSession() {
+        return this.em;
+    }
 
-	/**
-	 * Set the entityManager that will be used by the DAO.
-	 *
-	 * @param entityManager
-	 *            The new entity manager to use
-	 */
-	protected void entityManager(final EntityManager entityManager) {
-		this.em = entityManager;
-		this.em.setFlushMode(FlushModeType.AUTO);
-	}
+    /**
+     * Set the entityManager that will be used by the DAO.
+     *
+     * @param entityManager
+     *            The new entity manager to use
+     */
+    protected void entityManager(final EntityManager entityManager) {
+        this.em = entityManager;
+        this.em.setFlushMode(FlushModeType.AUTO);
+    }
 }

@@ -27,7 +27,7 @@
 	order by count desc;
 	]]>
 	</sql-query>
-	
+
 	<sql-query name="podiumCount">
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />
@@ -52,7 +52,7 @@
 	order by count desc;
 	]]>
 	</sql-query>
-	
+
 	<sql-query name="poleCount">
 		<return-scalar column="name" type="string" />
 		<return-scalar column="count" type="integer" />

@@ -4,84 +4,84 @@ package net.leludo.gtrchamp.ws;
  * Wrapper for championship request parameters.
  */
 public class ChampionshipParams {
-	private Integer id;
-	private String name;
-	private String type;
-	private int mode;
+    private Integer id;
+    private String name;
+    private String type;
+    private int mode;
 
-	/**
-	 * Return the championship id parameter
-	 * 
-	 * @return the championship id parameter
-	 */
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * Return the championship id parameter.
+     *
+     * @return the championship id parameter
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	/**
-	 * Set the championship id parameter
-	 * 
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(final Integer id) {
-		this.id = id;
-	}
+    /**
+     * Set the championship id parameter.
+     *
+     * @param id
+     *            the id to set
+     */
+    public void setId(final Integer id) {
+        this.id = id;
+    }
 
-	/**
-	 * Return the championship name parameter
-	 * 
-	 * @return the championship name parameter
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Return the championship name parameter.
+     *
+     * @return the championship name parameter
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Set the championship name parameter
-	 * 
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(final String name) {
-		this.name = name;
-	}
+    /**
+     * Set the championship name parameter.
+     *
+     * @param name
+     *            the name to set
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * Return the championship type parameter
-	 * 
-	 * @return the championship type parameter
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * Return the championship type parameter.
+     *
+     * @return the championship type parameter
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * Set the championship type parameter
-	 * 
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(final String type) {
-		this.type = type;
-	}
+    /**
+     * Set the championship type parameter.
+     *
+     * @param type
+     *            the type to set
+     */
+    public void setType(final String type) {
+        this.type = type;
+    }
 
-	/**
-	 * Return the championship mode parameter
-	 * 
-	 * @return the championship mode parameter
-	 */
-	protected int getMode() {
-		return mode;
-	}
+    /**
+     * Return the championship mode parameter.
+     *
+     * @return the championship mode parameter
+     */
+    protected int getMode() {
+        return mode;
+    }
 
-	/**
-	 * Set the championship mode parameter
-	 * 
-	 * @param mode
-	 *            the mode to set
-	 */
-	protected void setMode(Integer mode) {
-		this.mode = mode;
-	}
+    /**
+     * Set the championship mode parameter.
+     *
+     * @param mode
+     *            the mode to set
+     */
+    protected void setMode(final Integer mode) {
+        this.mode = mode;
+    }
 }

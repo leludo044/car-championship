@@ -25,145 +25,153 @@ import net.leludo.gtrchamp.dao.DataManager;
 @Path("/country")
 public class CountryWebService {
 
-	/**
-	 * Return the countries list
-	 * 
-	 * @return The countries list
-	 */
-	@GET
-	@Path("/")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Country> countries() {
-		CountryDao dao = DataManager.getInstance().getManager().countryDao();
-		List<Country> country = dao.all();
-		return country;
-	}
+    /**
+     * Return the countries list.
+     *
+     * @return The countries list
+     */
+    @GET
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Country> countries() {
+        CountryDao dao = DataManager.getInstance().getManager().countryDao();
+        List<Country> country = dao.all();
+        return country;
+    }
 
-	/**
-	 * Create a new country.
-	 *
-	 * @param params
-	 *            The country request parameters needed to create the country
-	 * @return HTTP 200 if the country has been created, HTTP 406 (not
-	 *         acceptable) if one of the request parameters is wrong.
-	 */
-	@POST
-	@Path("/")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(final CountryParams params) {
-		Response response;
+    /**
+     * Create a new country.
+     *
+     * @param params
+     *            The country request parameters needed to create the country
+     * @return HTTP 200 if the country has been created, HTTP 406 (not
+     *         acceptable) if one of the request parameters is wrong.
+     */
+    @POST
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(final CountryParams params) {
+        Response response;
 
-		DaoFactory daoFactory = DataManager.getInstance().getManager();
-		CountryDao dao = daoFactory.countryDao();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
 
-		String name = params.getName();
+        String name = params.getName();
 
-		if (name == null || name.equals("")) {
-			response = Response.status(Status.NOT_ACCEPTABLE)
-					.entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Country name is missing !")).build();
-		} else {
-			Country country = new Country(name);
-			dao.create(country);
-			response = Response.ok(new WsReturn(country.getId(), "Country " + country.getName() + " added !")).build();
-		}
+        if (name == null || name.equals("")) {
+            response = Response.status(Status.NOT_ACCEPTABLE)
+                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
+                            "Country name is missing !"))
+                    .build();
+        } else {
+            Country country = new Country(name);
+            dao.create(country);
+            response = Response
+                    .ok(new WsReturn(country.getId(), "Country " + country.getName() + " added !"))
+                    .build();
+        }
 
-		daoFactory.close();
-		return response;
-	}
+        daoFactory.close();
+        return response;
+    }
 
-	/**
-	 * Update an existing country.
-	 *
-	 * @param params
-	 *            The country request parameters needed to update the country
-	 * @return HTTP 200 if the country has been updated, HTTP 404 (not found) if
-	 *         the country to update doesn't exists, HTTP 406 (not acceptable)
-	 *         if one of the request parameters is wrong.
-	 */
-	@PUT
-	@Path("/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(final CountryParams params) {
-		Response response;
+    /**
+     * Update an existing country.
+     *
+     * @param params
+     *            The country request parameters needed to update the country
+     * @return HTTP 200 if the country has been updated, HTTP 404 (not found) if
+     *         the country to update doesn't exists, HTTP 406 (not acceptable)
+     *         if one of the request parameters is wrong.
+     */
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(final CountryParams params) {
+        Response response;
 
-		DaoFactory daoFactory = DataManager.getInstance().getManager();
-		CountryDao dao = daoFactory.countryDao();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
 
-		String name = params.getName();
+        String name = params.getName();
 
-		if (name == null || name.equals("")) {
-			response = Response.status(Status.NOT_ACCEPTABLE)
-					.entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), "Country name is missing !")).build();
-		} else {
+        if (name == null || name.equals("")) {
+            response = Response.status(Status.NOT_ACCEPTABLE)
+                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
+                            "Country name is missing !"))
+                    .build();
+        } else {
 
-			Country country = dao.find(params.getId().intValue());
-			if (country != null) {
-				country.setName(name);
-				dao.update(country);
-				response = Response
-						.ok(new WsReturn(Status.OK.getStatusCode(), "Country  " + country.getName() + " updated !"))
-						.build();
-			} else {
-				response = Response.status(Status.NOT_FOUND).entity(
-						new WsReturn(Status.NOT_FOUND.getStatusCode(), "Driver #" + params.getId() + " not found !"))
-						.build();
-			}
+            Country country = dao.find(params.getId().intValue());
+            if (country != null) {
+                country.setName(name);
+                dao.update(country);
+                response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
+                        "Country  " + country.getName() + " updated !")).build();
+            } else {
+                response = Response.status(Status.NOT_FOUND)
+                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                                "Driver #" + params.getId() + " not found !"))
+                        .build();
+            }
 
-			daoFactory.close();
-		}
-		return response;
-	}
+            daoFactory.close();
+        }
+        return response;
+    }
 
-	/**
-	 * Delete an existing country.
-	 *
-	 * @param id
-	 *            The id of the country to delete
-	 * @return HTTP 200 if the country has been deleted, HTTP 404 (not found) if
-	 *         the country to delete doesn't exists
-	 */
-	@DELETE
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("id") final int id) {
-		Response response;
+    /**
+     * Delete an existing country.
+     *
+     * @param id
+     *            The id of the country to delete
+     * @return HTTP 200 if the country has been deleted, HTTP 404 (not found) if
+     *         the country to delete doesn't exists
+     */
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(@PathParam("id") final int id) {
+        Response response;
 
-		DaoFactory daoFactory = DataManager.getInstance().getManager();
-		CountryDao dao = daoFactory.countryDao();
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
 
-		Country country = dao.find(id);
-		if (country != null) {
-			dao.delete(country);
+        Country country = dao.find(id);
+        if (country != null) {
+            dao.delete(country);
 
-			response = Response
-					.ok(new WsReturn(Status.OK.getStatusCode(), "Country " + country.getName() + " deleted !")).build();
-		} else {
-			response = Response.status(Status.NOT_FOUND)
-					.entity(new WsReturn(Status.NOT_FOUND.getStatusCode(), "Country #" + id + " not found !")).build();
-		}
+            response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
+                    "Country " + country.getName() + " deleted !")).build();
+        } else {
+            response = Response.status(Status.NOT_FOUND)
+                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
+                            "Country #" + id + " not found !"))
+                    .build();
+        }
 
-		daoFactory.close();
-		return response;
-	}
+        daoFactory.close();
+        return response;
+    }
 
-	/**
-	 * Say if a country have a track.
-	 *
-	 * @param id
-	 *            The id of the country to ask
-	 * @return {code:1,message:""} if the country have at least one track
-	 *         {code:0,message:""} if the country have no track
-	 */
-	@GET
-	@Path("/{id}/havetrack")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response haveTrack(@PathParam("id") final Integer id) {
-		DaoFactory daoFactory = DataManager.getInstance().getManager();
-		CountryDao dao = daoFactory.countryDao();
-		boolean trackCount = dao.haveTack(id);
-		daoFactory.close();
-		return Response.ok().entity(new WsReturn(trackCount ? 1 : 0, "")).build();
-	}
+    /**
+     * Say if a country have a track.
+     *
+     * @param id
+     *            The id of the country to ask
+     * @return {code:1,message:""} if the country have at least one track
+     *         {code:0,message:""} if the country have no track
+     */
+    @GET
+    @Path("/{id}/havetrack")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response haveTrack(@PathParam("id") final Integer id) {
+        DaoFactory daoFactory = DataManager.getInstance().getManager();
+        CountryDao dao = daoFactory.countryDao();
+        boolean trackCount = dao.haveTack(id);
+        daoFactory.close();
+        return Response.ok().entity(new WsReturn(trackCount ? 1 : 0, "")).build();
+    }
 }

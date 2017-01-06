@@ -21,7 +21,7 @@ public class ChampionnatTest {
     private Championship chp;
 
     /**
-     * @throws java.lang.Exception
+     * @throws Exception Raised exception on setuo error
      */
     @Before
     public void setUp() throws Exception {
