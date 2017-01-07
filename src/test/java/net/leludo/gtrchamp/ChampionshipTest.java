@@ -14,14 +14,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * @author pmzn560
+ * Championship test class.
  */
-
-public class ChampionnatTest {
+public class ChampionshipTest {
+    /** Actor of the test. */
     private Championship chp;
 
     /**
-     * @throws Exception Raised exception on setuo error
+     * Launched method before each test.
+     * 
+     * @throws Exception
+     *             Raised exception on setup error
      */
     @Before
     public void setUp() throws Exception {
@@ -31,7 +34,7 @@ public class ChampionnatTest {
 
     /**
      * Test method for
-     * {@link net.leludo.gtrchamp.Championship#Championnat(java.lang.String)}.
+     * {@link net.leludo.gtrchamp.Championship#Championship(java.lang.String)}.
      */
     @Test
     public final void testChampionnat() {
