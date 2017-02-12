@@ -1,0 +1,1079 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Java Jersey",
+		"_postman_id": "a5af4be6-ae69-bbff-b18d-0c4ece5d1d58",
+		"description": "WS gtrchamp2 avec l'API Jersey",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Championship",
+			"description": "",
+			"item": [
+				{
+					"name": "Championships list",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Championship #1",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create championship",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"toto\",\n\"type\": \"gt\",\n\"mode\":1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update championship",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/11",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"libelle\": \"titi\",\n    \"type\": \"wtcc\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete championship",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/13",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "idAppli",
+								"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+								"description": ""
+							},
+							{
+								"key": "pwdAppli",
+								"value": "wPj6Q1Ldrli7rHZZvD76",
+								"description": ""
+							},
+							{
+								"key": "idObjet",
+								"value": "PDCS831",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Championship started",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/1/isstarted",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Championship tracks results",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/race/1/results",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Championship tracks list",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/1/grandprix/list",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Championship scheduled tracks",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/3/tracks",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Championship standings",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/1/standings",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add track to championship",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/12/35",
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete track from championship",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/championship/12/35",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Country",
+			"description": "",
+			"item": [
+				{
+					"name": "Countries list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Country list not empty\"] = data.length === 20;",
+									"tests[\"Country #1 id correct\"] = data[0].id === 1;",
+									"tests[\"Country #1 name correct\"] = data[0].name === \"France\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/country",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create country",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/country",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\":\"new country\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Countries list copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Country list not empty\"] = data.length === 21;",
+									"tests[\"Country #1 id correct\"] = data[0].id === 1;",
+									"tests[\"Country #1 name correct\"] = data[0].name === \"new country\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/country",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Country have track",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/country/24/havetrack",
+						"method": "GET",
+						"header": [
+							{
+								"key": "idAppli",
+								"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+								"description": ""
+							},
+							{
+								"key": "pwdAppli",
+								"value": "wPj6Q1Ldrli7rHZZvD76",
+								"description": ""
+							},
+							{
+								"key": "idObjet",
+								"value": "PDCS831",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update country",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/country/36",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"id\":36,\n\"name\":\"other new country\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Init database",
+			"description": "",
+			"item": [
+				{
+					"name": "Create championship 2012",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"new country has id\"] = data.code > 0;",
+									"tests[\"new country has been created\"] = data.message === \"Championship Championship 2012 created !\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Championship 2012\",\n\"type\": \"wtcc\",\n\"mode\":1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create championship 2013",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"new country has id\"] = data.code > 0;",
+									"tests[\"new country has been created\"] = data.message === \"Championship Championship 2013 created !\";",
+									"",
+									"postman.setEnvironmentVariable(\"updatableChampionship\", data.code);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Championship 2013\",\n\"type\": \"wtcc\",\n\"mode\":2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create championship 2016",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"new country has id\"] = data.code > 0;",
+									"tests[\"new country has been created\"] = data.message === \"Championship Championship 2016 created !\";",
+									"",
+									"postman.setEnvironmentVariable(\"removableChampionship\", data.code);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Championship 2016\",\n\"type\": \"gt\",\n\"mode\":2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List 3 championships",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Must find 3 championships\"] = data.length === 3;",
+									"tests[\"Championship #1 name is Championship 2012\"] = data[0].name === \"Championship 2012\";",
+									"tests[\"Championship #1 type is wtcc\"] = data[0].type === \"wtcc\";",
+									"tests[\"Championship #1 mode is 1\"] = data[0].mode === 1;",
+									"tests[\"Championship #2 name is Championship 2013\"] = data[1].name === \"Championship 2013\";",
+									"tests[\"Championship #2 type is wtcc\"] = data[1].type === \"wtcc\";",
+									"tests[\"Championship #2 mode is 2\"] = data[1].mode === 2;",
+									"tests[\"Championship #2 name is Championship 2016\"] = data[2].name === \"Championship 2016\";",
+									"tests[\"Championship #2 type is gt\"] = data[2].type === \"gt\";",
+									"tests[\"Championship #2 mode is 2\"] = data[2].mode === 2;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update championship 2013",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"new country has id\"] = data.code === 200;",
+									"tests[\"new country has been created\"] = data.message === \"Championship Updated championship updated !\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship/{{updatableChampionship}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": {{updatableChampionship}},\n  \"name\": \"Updated championship\",\n    \"type\": \"wtcc\",\n    \"mode\": 2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List 3 championships",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Must find 3 championships\"] = data.length === 3;",
+									"tests[\"Championship #1 name is Championship 2012\"] = data[0].name === \"Championship 2012\";",
+									"tests[\"Championship #1 type is wtcc\"] = data[0].type === \"wtcc\";",
+									"tests[\"Championship #1 mode is 1\"] = data[0].mode === 1;",
+									"tests[\"Championship #2 name is Updated championship\"] = data[1].name === \"Updated championship\";",
+									"tests[\"Championship #2 type is wtcc\"] = data[1].type === \"wtcc\";",
+									"tests[\"Championship #2 mode is 2\"] = data[1].mode === 2;",
+									"tests[\"Championship #3 name is Championship 2016\"] = data[2].name === \"Championship 2016\";",
+									"tests[\"Championship #3 type is gt\"] = data[2].type === \"gt\";",
+									"tests[\"Championship #3 mode is 2\"] = data[2].mode === 2;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete championship 2016",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship/{{removableChampionship}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "idAppli",
+								"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+								"description": ""
+							},
+							{
+								"key": "pwdAppli",
+								"value": "wPj6Q1Ldrli7rHZZvD76",
+								"description": ""
+							},
+							{
+								"key": "idObjet",
+								"value": "PDCS831",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List 2 championships",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Must find 2 championships\"] = data.length === 2;",
+									"tests[\"Championship #1 name is Championship 2012\"] = data[0].name === \"Championship 2012\";",
+									"tests[\"Championship #1 type is wtcc\"] = data[0].type === \"wtcc\";",
+									"tests[\"Championship #1 mode is 1\"] = data[0].mode === 1;",
+									"tests[\"Championship #2 name is Updated championship\"] = data[1].name === \"Updated championship\";",
+									"tests[\"Championship #2 type is wtcc\"] = data[1].type === \"wtcc\";",
+									"tests[\"Championship #2 mode is 2\"] = data[1].mode === 2;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete championship 2016 again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"tests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Error message is not found\"] = data.message === \"Championship #\"+ environment[\"removableChampionship\"]+\" not found !\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/{{webapp}}/api/championship/{{removableChampionship}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "idAppli",
+								"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+								"description": ""
+							},
+							{
+								"key": "pwdAppli",
+								"value": "wPj6Q1Ldrli7rHZZvD76",
+								"description": ""
+							},
+							{
+								"key": "idObjet",
+								"value": "PDCS831",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Race",
+			"description": "",
+			"item": [
+				{
+					"name": "Create race result",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/race/results",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"raceId\":31,\n\"driverId\":1,\n\"startingPosition\":1,\n\"arrivalPosition\":1,\n\"raceNumber\":2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update race result",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/race/result",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"raceId\":234,\n\"driverId\":1,\n\"startingPosition\":6,\n\"arrivalPosition\":13,\n\"raceNumber\":2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete race result",
+					"request": {
+						"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/race/result/234/31/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tracks list",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/track",
+				"method": "GET",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Track #1",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/track/21",
+				"method": "GET",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create track",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/track",
+				"method": "POST",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"nom\":\"toto\",\n\"longueur\":10,\n\"idPays\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete track",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/track/37",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Track was run",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/track/5/wasrun",
+				"method": "GET",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update track",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/track/38",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\":38,\n\"nom\":\"titi\",\n\"longueur\":5,\n\"idPays\": 2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Drivers list",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/driver",
+				"method": "GET",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Driver #",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/driver/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create driver",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/driver",
+				"method": "POST",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"nom\":\"toto\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update driver",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/driver/13",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\":13,\n\"nom\":\"titi\",\n\"dateNaissance\": \"14/02/1970\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete driver",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/driver/13",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "idAppli",
+						"value": "CN=SER_sMOS_LDAPAuth,OU=services,OU=MOSAIC,ou=Services,dc=groupe,dc=intra,dc=laposte,dc=fr",
+						"description": ""
+					},
+					{
+						"key": "pwdAppli",
+						"value": "wPj6Q1Ldrli7rHZZvD76",
+						"description": ""
+					},
+					{
+						"key": "idObjet",
+						"value": "PDCS831",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Stats victories",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/stat/victory",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Race results list",
+			"request": {
+				"url": "http://{{hostname}}:{{port}}/gtrchamp2/api/race/results/31/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"raceId\":31,\n\"driverId\":1,\n\"startingPosition\":1,\n\"arrivalPosition\":1,\n\"raceNumber\":2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
