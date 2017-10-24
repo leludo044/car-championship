@@ -37,7 +37,7 @@ controllers.controller('GraphCtrl', [ '$scope', '$routeParams', '$http',
 			};
 /*
 			$http({
-				url : './ws/stat/' + $scope.url,
+				url : './api/stat/' + $scope.url,
 				method : "GET",
 				isArray : true
 			}).success(function(data) {
@@ -57,7 +57,7 @@ controllers.controller('GraphCtrl', [ '$scope', '$routeParams', '$http',
 				console.log("watch"+$scope.url);
 
 				$http({
-					url : './ws/stat/' + $scope.url+$scope.filter,
+					url : './api/stat/' + $scope.url+$scope.filter,
 					method : "GET",
 					isArray : true
 				}).success(function(data) {
