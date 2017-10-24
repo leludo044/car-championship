@@ -14,6 +14,7 @@ public class GtrChampApplication extends ResourceConfig {
      * Constructor.
      */
     public GtrChampApplication() {
-        packages("net.leludo.gtrchamp.ws").register(JacksonFeature.class);
+        packages("net.leludo.gtrchamp.ws").register(JacksonFeature.class)
+                .register(CORSResponseFilter.class);
     }
 }
