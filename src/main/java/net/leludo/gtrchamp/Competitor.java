@@ -47,6 +47,9 @@ public class Competitor {
     @JoinColumn(name = "arrivalPosition", insertable = false, updatable = false)
     private PointSet points;
 
+    @Column(name = "pole", nullable = false)
+    boolean pole;
+
     /**
      * Default constructor.
      */
@@ -55,6 +58,7 @@ public class Competitor {
         this.id = new CompetitorId();
         this.startingPosition = 0;
         this.arrivalPosition = 0;
+        this.pole = false ;
     }
 
     /**
