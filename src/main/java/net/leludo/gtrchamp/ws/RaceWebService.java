@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.Status;
 
 import net.leludo.gtrchamp.ChampionshipException;
 import net.leludo.gtrchamp.Competitor;
+import net.leludo.gtrchamp.CompetitorId;
 import net.leludo.gtrchamp.Driver;
 import net.leludo.gtrchamp.Race;
 import net.leludo.gtrchamp.dao.DaoFactory;
@@ -151,7 +152,12 @@ public class RaceWebService {
 
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             ResultDao resultDao = daoFactory.resultDao();
-            resultDao.update(competitor);
+            Competitor competitorToUpdate = resultDao
+                    .find(new CompetitorId(competitor.getDriver().getId(),
+                            competitor.getRace().getId(), competitor.getRaceNumber()));
+            competitorToUpdate.setStartingPosition(competitor.getStartingPosition());
+            competitorToUpdate.setArrivalPosition(competitor.getArrivalPosition());
+            resultDao.update(competitorToUpdate);
             response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
                     "Results for driver " + competitor.getDriver().getName() + " updated !"))
                     .build();
