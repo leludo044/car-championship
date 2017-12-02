@@ -97,7 +97,7 @@ controllers.controller('ChampionnatListController', ['$scope', '$rootScope', '$h
 		$scope.onSelect = function(track, index) {
 			var exists = $scope.selectedTracks[index];
 			if (!exists) {
-					if (selectedIndex != -1 & selectedIndex != index) {
+					if (selectedIndex != -1 && selectedIndex != index) {
 						delete $scope.selectedTracks[selectedIndex];
 					}
 					$scope.selectedTracks[index]={selected:true, dateFr:""};

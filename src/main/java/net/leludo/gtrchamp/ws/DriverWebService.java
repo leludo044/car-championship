@@ -38,8 +38,7 @@ public class DriverWebService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Driver> drivers() {
         DriverDao dao = DataManager.getInstance().getManager().driverDao();
-        List<Driver> drivers = dao.findAll();
-        return drivers;
+        return dao.findAll();
     }
 
     /**
@@ -55,8 +54,7 @@ public class DriverWebService {
     @Produces(MediaType.APPLICATION_JSON)
     public Driver driver(@PathParam("id") final int id) {
         DriverDao dao = DataManager.getInstance().getManager().driverDao();
-        Driver driver = dao.find(id);
-        return driver;
+        return dao.find(id);
     }
 
     /**
@@ -78,14 +76,14 @@ public class DriverWebService {
         String name = params.getName();
         String birthdate = params.getBirthdate();
 
-        if (name == null || name.equals("")) {
+        if (name == null || "".equals(name)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Driver firstname is missing !"))
                     .build();
         } else {
             LocalDate date = null;
-            if (birthdate != null && !birthdate.equals("")) {
+            if (birthdate != null && !"".equals(birthdate)) {
                 date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
             Driver driver = new Driver(name, date);
@@ -121,19 +119,19 @@ public class DriverWebService {
         String name = params.getName();
         String birthdate = params.getBirthdate();
 
-        if (name == null || name.equals("")) {
+        if (name == null || "".equals(name)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Diver firstname is missing !"))
                     .build();
         } else {
             LocalDate date = null;
-            if (birthdate != null && !birthdate.equals("")) {
+            if (birthdate != null && !"".equals(birthdate)) {
                 date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             DriverDao dao = daoFactory.driverDao();
-            Driver driver = dao.find(params.getId().intValue());
+            Driver driver = dao.find(params.getId());
             if (driver != null) {
                 driver.setName(name);
                 driver.setBirthdate(date);

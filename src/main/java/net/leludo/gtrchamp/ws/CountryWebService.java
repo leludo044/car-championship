@@ -35,8 +35,7 @@ public class CountryWebService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Country> countries() {
         CountryDao dao = DataManager.getInstance().getManager().countryDao();
-        List<Country> country = dao.all();
-        return country;
+        return dao.all();
     }
 
     /**
@@ -59,7 +58,7 @@ public class CountryWebService {
 
         String name = params.getName();
 
-        if (name == null || name.equals("")) {
+        if (name == null || "".equals(name)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Country name is missing !"))
@@ -97,14 +96,14 @@ public class CountryWebService {
 
         String name = params.getName();
 
-        if (name == null || name.equals("")) {
+        if (name == null || "".equals(name)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Country name is missing !"))
                     .build();
         } else {
 
-            Country country = dao.find(params.getId().intValue());
+            Country country = dao.find(params.getId());
             if (country != null) {
                 country.setName(name);
                 dao.update(country);

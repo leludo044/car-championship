@@ -34,8 +34,7 @@ public class CountryDao extends DefaultDao<Country, Integer> {
         EntityManager session = this.getSession();
         String queryString = "from Country";
         javax.persistence.Query query = session.createQuery(queryString);
-        List<Country> countries = query.getResultList();
-        return countries;
+        return query.getResultList();
     }
 
     /**
