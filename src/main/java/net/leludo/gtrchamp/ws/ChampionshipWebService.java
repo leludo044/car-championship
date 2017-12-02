@@ -96,8 +96,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }
@@ -141,8 +140,7 @@ public class ChampionshipWebService {
                 g.writeEndObject();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }
@@ -341,8 +339,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             servletResponse.setHeader("Access-Control-Allow-Origin", "*");
             return sw.toString();
@@ -383,8 +380,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }
@@ -562,8 +558,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }
