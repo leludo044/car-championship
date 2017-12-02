@@ -9,9 +9,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.leludo</groupId>
+	<artifactId>car-championship-server</artifactId>
+	<description>Gestion du championnat de course de bagnoles entre pôtes</description>
+	<name>car-championship-server</name>
+	<version>2.0-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>GtrChamp</name>
+	<properties>
+		<jersey.version>2.23.2</jersey.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -117,11 +124,4 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	<groupId>net.leludo</groupId>
-	<artifactId>gtrchamp2</artifactId>
-	<description>Gestion du championnat GTR entre pôtes</description>
-	<properties>
-		<jersey.version>2.23.2</jersey.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 </project>
