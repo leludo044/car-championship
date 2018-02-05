@@ -8,6 +8,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 /**
  * Configuration of the Jersey web service controllers.
  */
+ @Component
 @ApplicationPath("ws")
 public class GtrChampApplication extends ResourceConfig {
     /**
