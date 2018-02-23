@@ -42,7 +42,6 @@ public class DefaultDao<T, PK> extends Dao {
      * @return The corresponding entity
      */
     public T find(final PK id) {
-        T entity = this.getSession().find(entityClass, id);
-        return entity;
+        return this.getSession().find(entityClass, id);
     }
 }

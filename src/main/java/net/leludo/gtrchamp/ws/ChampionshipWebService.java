@@ -96,8 +96,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }
@@ -116,7 +115,7 @@ public class ChampionshipWebService {
     public String championship(@PathParam("id") final int id) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
-        Championship chp = championshipDao.find(new Integer(id));
+        Championship chp = championshipDao.find(id);
         daoFactory.close();
         if (chp == null) {
             return "Unknown !";
@@ -141,8 +140,7 @@ public class ChampionshipWebService {
                 g.writeEndObject();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }
@@ -168,12 +166,12 @@ public class ChampionshipWebService {
         String type = params.getType();
         int mode = params.getMode();
 
-        if (name == null || name.equals("")) {
+        if (name == null || "".equals(name)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Championship name is missing !"))
                     .build();
-        } else if (type == null || type.equals("")) {
+        } else if (type == null || "".equals(type)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Championship type is missing !"))
@@ -217,12 +215,12 @@ public class ChampionshipWebService {
         String type = params.getType();
         int mode = params.getMode();
 
-        if (name == null || name.equals("")) {
+        if (name == null || "".equals(name)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Championship name is missing !"))
                     .build();
-        } else if (type == null || type.equals("")) {
+        } else if (type == null || "".equals(type)) {
             response = Response.status(Status.NOT_ACCEPTABLE)
                     .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
                             "Championship type is missing !"))
@@ -235,7 +233,7 @@ public class ChampionshipWebService {
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             ChampionshipDao championshipDao = daoFactory.championshipDao();
-            Championship championship = championshipDao.find(params.getId().intValue());
+            Championship championship = championshipDao.find(params.getId());
             if (championship != null) {
                 championship.setName(name);
                 championship.setType(type);
@@ -319,7 +317,7 @@ public class ChampionshipWebService {
     public String races(@PathParam("championshipId") final int championshipId) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
-        Championship chp = championshipDao.find(new Integer(championshipId));
+        Championship chp = championshipDao.find(championshipId);
         daoFactory.close();
         if (chp == null) {
             return "Unknown !";
@@ -341,8 +339,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             servletResponse.setHeader("Access-Control-Allow-Origin", "*");
             return sw.toString();
@@ -383,8 +380,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }
@@ -449,7 +445,7 @@ public class ChampionshipWebService {
             Track track = trackDao.find(trackId);
             if (track != null) {
                 LocalDate date = null;
-                if (params.getDate() != null && !params.getDate().equals("")) {
+                if (params.getDate() != null && !"".equals(params.getDate())) {
                     date = LocalDate.parse(params.getDate(),
                             DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 }
@@ -562,8 +558,7 @@ public class ChampionshipWebService {
                 g.writeEndArray();
                 g.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error("Unable to generate response.", e);
             }
             return sw.toString();
         }

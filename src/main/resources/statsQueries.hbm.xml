@@ -20,7 +20,7 @@
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
 	select driver.name as name, sum(!isnull(result.arrivalPosition)) as count from race 
-	join championnats on championnats.id = race.championshipId and race.championshipId = :id 
+	join championship on championship.id = race.championshipId and race.championshipId = :id 
 	join result on result.raceId = race.id and result.arrivalPosition=1 right 
 	join driver on driver.id = result.driverId 
 	group by driver.name 
@@ -45,7 +45,7 @@
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
 	select driver.name as name, sum(!isnull(result.arrivalPosition)) as count from race
-	join championnats on championnats.id = race.championshipId and race.championshipId = :id
+	join championship on championship.id = race.championshipId and race.championshipId = :id
 	join result on result.raceId = race.id and result.arrivalPosition >=1 and result.arrivalPosition <=3 right
 	join driver on driver.id = result.driverId
 	group by driver.name 
@@ -70,7 +70,7 @@
 		<return-scalar column="count" type="integer" />
 	<![CDATA[
 	select driver.name as name, sum(!isnull(result.arrivalPosition)) as count from race 
-	join championnats on championnats.id = race.championshipId and race.championshipId = :id 
+	join championship on championship.id = race.championshipId and race.championshipId = :id 
 	join result on result.raceId = race.id and result.startingPosition=1 right 
 	join driver on driver.id = result.driverId 
 	group by driver.name 

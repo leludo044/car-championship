@@ -52,8 +52,7 @@ public class TrackWebService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Track> tracks() {
         TrackDao dao = DataManager.getInstance().getManager().trackDao();
-        List<Track> tracks = dao.findAll();
-        return tracks;
+        return dao.findAll();
     }
 
     /**
@@ -69,8 +68,7 @@ public class TrackWebService {
     @Produces(MediaType.APPLICATION_JSON)
     public Track track(@PathParam("id") final int id) {
         TrackDao dao = DataManager.getInstance().getManager().trackDao();
-        Track track = dao.find(id);
-        return track;
+        return dao.find(id);
     }
 
     /**
@@ -127,11 +125,11 @@ public class TrackWebService {
         String countryId = params.getCountryId();
         String message = "";
 
-        if (name == null || name.equals("")) {
+        if (name == null || "".equals(name)) {
             message = "Track name is missing !";
         } else if (params.getLength() == null) {
             message = "Track length is missing !";
-        } else if (countryId == null || countryId.equals("")) {
+        } else if (countryId == null || "".equals(countryId)) {
             message = "Country is missing !";
         } else if (countryDao.find(Integer.valueOf(countryId)) == null) {
             message = "Country #" + countryId + " not found !";
@@ -177,7 +175,7 @@ public class TrackWebService {
             TrackDao dao = daoFactory.trackDao();
             CountryDao countryDao = daoFactory.countryDao();
             Country country = countryDao.find(Integer.valueOf(countryId));
-            Track track = dao.find(params.getId().intValue());
+            Track track = dao.find(params.getId());
             if (track != null) {
                 track.setName(name);
                 track.setLength(params.getLength());

@@ -99,7 +99,7 @@ public class Race {
      *             race is finished
      */
     public List<Competitor> results() throws ChampionshipException {
-        if (this.competitors.size() == 0) {
+        if (this.competitors.isEmpty()) {
             throw new ChampionshipException();
         } else if (!this.isFinished()) {
             throw new ChampionshipException();

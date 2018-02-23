@@ -2,10 +2,12 @@ package net.leludo.gtrchamp.ws;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import net.leludo.gtrchamp.dao.DaoFactory;
@@ -18,6 +20,9 @@ import net.leludo.gtrchamp.stat.Stat;
  */
 @Path("stat")
 public class Stats {
+
+    /** Servlet response. */
+    private HttpServletResponse servletResponse;
 
     /**
      * Return all the drivers with their number of victories.
@@ -121,4 +126,15 @@ public class Stats {
         return stats;
     }
 
+    /**
+     * Set response headers.
+     *
+     * @param pServletResponse
+     *            Response to send to the user with the headers HTTP needed
+     */
+    @Context
+    public void setHttpServletResponse(final HttpServletResponse pServletResponse) {
+        this.servletResponse = pServletResponse;
+        this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+    }
 }

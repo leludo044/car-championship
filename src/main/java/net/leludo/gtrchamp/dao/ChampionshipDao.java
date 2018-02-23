@@ -65,8 +65,7 @@ public class ChampionshipDao extends DefaultDao<Championship, Integer> {
 
         javax.persistence.Query query = this.getSession().createQuery(queryString);
         query.setParameter("id", idChampionnat);
-        List<Object[]> toto = query.getResultList();
-        return toto;
+        return query.getResultList();
     }
 
     /**
