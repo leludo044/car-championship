@@ -1,27 +1,30 @@
-package net.leludo.connector;
+package net.leludo.gtrchamp.jersey;
 
 import java.net.URISyntaxException;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
+import net.leludo.connector.DbConnector;
 import net.leludo.gtrchamp.dao.DataManager;
 
 /**
- * Servlet listener providing JPA initialization.
+ * Listener pour prendre la main au moment ou l'application est prête à rendre
+ * le service
  */
-@WebListener
-public class ServletListener implements ServletContextListener {
+@Component
+public class AppListener implements ApplicationListener<ApplicationReadyEvent> {
 
-    /** Logger. */
-    private static final Logger LOG = LoggerFactory.getLogger(ServletListener.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(AppListener.class);
 
     /** Environment variable name holding connection URL to SGBD. */
     private static final String DATABASE_URL = "CLEARDB_DATABASE_URL";
@@ -29,17 +32,20 @@ public class ServletListener implements ServletContextListener {
     /** The unique instance of entity manager factory. */
     private EntityManagerFactory emf;
 
-    @Override
-    public void contextDestroyed(final ServletContextEvent arg0) {
-        emf.close();
-    }
+	/**
+	 * Environnement préchargé avec les données du fichier application.properties
+	 */
+	@Autowired
+	Environment env;
 
-    @Override
-    public void contextInitialized(final ServletContextEvent arg0) {
+	@Override
+	public void onApplicationEvent(ApplicationReadyEvent event) {
+		LOGGER.debug("ApplicationReadyEvent...");
+
         try {
             String uri = System.getenv(DATABASE_URL);
             if (uri != null) {
-                LOG.info(DATABASE_URL + " variable found.");
+                LOGGER.info(DATABASE_URL + " variable found.");
 
                 DbConnector connector = new DbConnector(uri);
 
@@ -58,14 +64,13 @@ public class ServletListener implements ServletContextListener {
 
                 DataManager.getInstance().setEntityManagerfactory(emf);
 
-                arg0.getServletContext().setAttribute(EntityManagerFactory.class.getName(), emf);
             } else {
-                LOG.error(DATABASE_URL + " variable not found ! SGBD connection impossible.");
+                LOGGER.error(DATABASE_URL + " variable not found ! SGBD connection impossible.");
             }
 
         } catch (URISyntaxException e) {
-            LOG.error(DATABASE_URL + " variable malformed ! SGBD connection impossible.");
+            LOGGER.error(DATABASE_URL + " variable malformed ! SGBD connection impossible.");
         }
-    }
 
+	}
 }

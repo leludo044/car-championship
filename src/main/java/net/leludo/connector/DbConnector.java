@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class DbConnector {
 
     /** Logger. */
-    private static final Logger LOG = LoggerFactory.getLogger(ServletListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DbConnector.class);
 
     /** Connection URL. */
     private String url;

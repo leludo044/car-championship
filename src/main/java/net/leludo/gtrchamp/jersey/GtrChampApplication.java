@@ -4,11 +4,12 @@ import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.springframework.stereotype.Component;
 
 /**
  * Configuration of the Jersey web service controllers.
  */
- @Component
+@Component
 @ApplicationPath("api")
 public class GtrChampApplication extends ResourceConfig {
     /**
