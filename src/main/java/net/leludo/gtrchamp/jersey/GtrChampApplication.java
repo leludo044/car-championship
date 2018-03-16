@@ -10,6 +10,7 @@ import net.leludo.gtrchamp.ws.ChampionshipWebService;
 import net.leludo.gtrchamp.ws.CountryWebService;
 import net.leludo.gtrchamp.ws.DriverWebService;
 import net.leludo.gtrchamp.ws.RaceWebService;
+import net.leludo.gtrchamp.ws.Stats;
 import net.leludo.gtrchamp.ws.TrackWebService;
 
 /**
@@ -29,6 +30,7 @@ public class GtrChampApplication extends ResourceConfig {
         register(ChampionshipWebService.class)
                 .register(CountryWebService.class).register(DriverWebService.class)
                 .register(RaceWebService.class).register(TrackWebService.class)
+                .register(Stats.class)
                 .register(JacksonFeature.class).register(CORSResponseFilter.class);
     }
 }
