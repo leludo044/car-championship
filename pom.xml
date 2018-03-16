@@ -14,7 +14,7 @@
 	<description>Gestion du championnat de course de bagnoles entre pôtes</description>
 	<name>car-championship-server</name>
 	<version>2.0-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<properties>
 		<jersey.version>2.23.2</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -67,6 +67,14 @@
 			<version>3.4</version>
 		</dependency>
 	</dependencies>
+	<build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
