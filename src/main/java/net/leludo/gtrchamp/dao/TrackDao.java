@@ -2,16 +2,15 @@ package net.leludo.gtrchamp.dao;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Track;
+import org.springframework.stereotype.Component;
 
 /**
  * DAO for track access.
  */
-@Singleton
 public class TrackDao extends DefaultDao<Track, Integer> {
 
     /**

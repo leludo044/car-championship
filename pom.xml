@@ -13,26 +13,21 @@
 	<artifactId>car-championship-server</artifactId>
 	<description>Gestion du championnat de course de bagnoles entre pôtes</description>
 	<name>car-championship-server</name>
-	<version>2.0.0</version>
+	<version>3.0.0</version>
 	<packaging>jar</packaging>
 	<properties>
-		<jersey.version>2.23.2</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
+		<version>2.4.5</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

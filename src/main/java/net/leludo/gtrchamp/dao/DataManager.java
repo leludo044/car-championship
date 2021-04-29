@@ -1,6 +1,7 @@
 package net.leludo.gtrchamp.dao;
 
-import javax.inject.Singleton;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -8,7 +9,7 @@ import javax.persistence.EntityManagerFactory;
  * entity manager.
  *
  */
-@Singleton
+@Component
 public final class DataManager {
 
     /** The instance of the manager. */

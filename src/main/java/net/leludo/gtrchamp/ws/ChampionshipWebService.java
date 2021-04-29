@@ -6,22 +6,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.inject.Singleton;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,23 +21,21 @@ import net.leludo.gtrchamp.dao.ChampionshipDao;
 import net.leludo.gtrchamp.dao.DaoFactory;
 import net.leludo.gtrchamp.dao.DataManager;
 import net.leludo.gtrchamp.dao.TrackDao;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Championship web service.
  */
-@Singleton
-@Path("/championship")
+@RestController
+@RequestMapping("/championship")
 public class ChampionshipWebService {
 
     /** Logger. */
     private static final Logger LOG = LoggerFactory.getLogger(ChampionshipWebService.class);
-
-    /** Servlet context. */
-    @Context
-    private ServletContext servletContext;
-
-    /** Servlet response. */
-    private HttpServletResponse servletResponse;
 
     /**
      * Constructor.
@@ -69,9 +51,8 @@ public class ChampionshipWebService {
      *
      * @return The championships list to JSON format
      */
-    @GET
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public String championships() {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
@@ -109,10 +90,9 @@ public class ChampionshipWebService {
      *            Id of the Championship to return
      * @return A championship representation to JSON format
      */
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String championship(@PathParam("id") final int id) {
+    @ResponseBody
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String championship(@PathVariable("id") final int id) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship chp = championshipDao.find(id);
@@ -155,39 +135,31 @@ public class ChampionshipWebService {
      * @return HTTP 200 if the championship has been created, HTTP 406 (not
      *         acceptable) if one of the request parameters is wrong.
      */
-    @POST
-    @Path("/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response create(final ChampionshipParams params) {
-        Response response;
+    @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> create(@RequestBody final ChampionshipParams params) {
+        ResponseEntity<WsReturn> response;
 
         String name = params.getName();
         String type = params.getType();
         int mode = params.getMode();
 
         if (name == null || "".equals(name)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Championship name is missing !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(),
+                            "Championship name is missing !"), HttpStatus.NOT_ACCEPTABLE);
         } else if (type == null || "".equals(type)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Championship type is missing !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(),
+                            "Championship type is missing !"), HttpStatus.NOT_ACCEPTABLE);
         } else if (mode != 1 && mode != 2) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Championship mode is wrong !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(),
+                            "Championship mode is wrong !"), HttpStatus.NOT_ACCEPTABLE);
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             ChampionshipDao championshipDao = daoFactory.championshipDao();
             Championship championship = new Championship(name, type, mode);
             championshipDao.save(championship);
-            response = Response.ok(new WsReturn(championship.getId(),
-                    "Championship " + championship.getName() + " created !")).build();
+            response = new ResponseEntity<>(new WsReturn(championship.getId(),
+                    "Championship " + championship.getName() + " created !"),
+                    HttpStatus.OK);
             daoFactory.close();
         }
 
@@ -204,32 +176,23 @@ public class ChampionshipWebService {
      *         found) if the championship to update doesn't exists, HTTP 406
      *         (not acceptable) if one of the request parameters is wrong.
      */
-    @PUT
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response update(final ChampionshipParams params) {
-        Response response;
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> update(@RequestBody final ChampionshipParams params) {
+        ResponseEntity<WsReturn> response;
 
         String name = params.getName();
         String type = params.getType();
         int mode = params.getMode();
 
         if (name == null || "".equals(name)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Championship name is missing !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(),
+                            "Championship name is missing !"), HttpStatus.NOT_ACCEPTABLE);
         } else if (type == null || "".equals(type)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Championship type is missing !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(),
+                            "Championship type is missing !"), HttpStatus.NOT_ACCEPTABLE);
         } else if (mode != 1 && mode != 2) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Championship mode is wrong !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(),
+                            "Championship mode is wrong !"), HttpStatus.NOT_ACCEPTABLE);
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             ChampionshipDao championshipDao = daoFactory.championshipDao();
@@ -239,13 +202,11 @@ public class ChampionshipWebService {
                 championship.setType(type);
                 championship.setMode(mode);
                 championshipDao.update(championship);
-                response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Championship " + championship.getName() + " updated !")).build();
+                response = new ResponseEntity<>(new WsReturn(HttpStatus.OK.value(),
+                        "Championship " + championship.getName() + " updated !"), HttpStatus.OK);
             } else {
-                response = Response.status(Status.NOT_FOUND)
-                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Driver #" + params.getId() + " not found !"))
-                        .build();
+                response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                                "Driver #" + params.getId() + " not found !"), HttpStatus.OK);
             }
             daoFactory.close();
         }
@@ -261,11 +222,9 @@ public class ChampionshipWebService {
      *         found) if the championship to delete doesn't exists
      */
 
-    @DELETE
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") final int id) {
-        Response response;
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> delete(@PathVariable("id") final int id) {
+        ResponseEntity<WsReturn> response;
 
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
@@ -273,13 +232,11 @@ public class ChampionshipWebService {
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             championshipDao.delete(championship);
-            response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                    "Championship " + championship.getName() + " deleted !")).build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.OK.value(),
+                    "Championship " + championship.getName() + " deleted !"), HttpStatus.OK);
         } else {
-            response = Response.status(Status.NOT_FOUND)
-                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championship #" + id + " not found !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                            "Championship #" + id + " not found !"), HttpStatus.NOT_FOUND);
         }
         daoFactory.close();
         return response;
@@ -293,15 +250,13 @@ public class ChampionshipWebService {
      * @return {code:1,message:""} if the championship is started
      *         {code:0,message:""} if the championship is not started
      */
-    @GET
-    @Path("/{id}/isstarted")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response isStarted(@PathParam("id") final Integer id) {
+    @GetMapping(path = "/{id}/isstarted", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> isStarted(@PathVariable("id") final Integer id) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         boolean isStarted = championshipDao.isStarted(id);
         daoFactory.close();
-        return Response.ok().entity(new WsReturn(isStarted ? 1 : 0, "")).build();
+        return new ResponseEntity<>(new WsReturn(isStarted ? 1 : 0, ""), HttpStatus.OK);
     }
 
     /**
@@ -311,10 +266,9 @@ public class ChampionshipWebService {
      *            The id of the championship to ask
      * @return Return the scheduled races for a championship in JSON format
      */
-    @GET
-    @Path("/{championshipId}/race/list")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String races(@PathParam("championshipId") final int championshipId) {
+    @ResponseBody
+    @GetMapping(path = "/{championshipId}/race/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String races(@PathVariable("championshipId") final int championshipId) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship chp = championshipDao.find(championshipId);
@@ -341,7 +295,6 @@ public class ChampionshipWebService {
             } catch (IOException e) {
                 LOG.error("Unable to generate response.", e);
             }
-            servletResponse.setHeader("Access-Control-Allow-Origin", "*");
             return sw.toString();
         }
     }
@@ -353,10 +306,9 @@ public class ChampionshipWebService {
      *            The id of the championship to ask
      * @return The standings of a championship in JSON format
      */
-    @GET
-    @Path("/{championshipId}/standings")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String standings(@PathParam("championshipId") final int championshipId) {
+    @ResponseBody
+    @GetMapping(path = "/{championshipId}/standings", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String standings(@PathVariable("championshipId") final int championshipId) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         List<Object[]> standings = championshipDao.standings(championshipId);
@@ -393,24 +345,20 @@ public class ChampionshipWebService {
      *            The id of the championship to ask
      * @return The scheduled races for a championship in JSON format
      */
-    @GET
-    @Path("/{id}/tracks")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") final Integer id) {
+    @ResponseBody
+    @GetMapping(path = "/{id}/tracks", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@PathVariable("id") final Integer id) {
         List<Race> races;
-        Response response;
+        ResponseEntity<?> response;
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship championship = championshipDao.find(id);
         if (championship != null) {
             races = championship.getPlannedRaces();
-            response = Response.ok(races).build();
+            response = new ResponseEntity<>(races, HttpStatus.OK);
         } else {
-            response = Response.status(Status.NOT_FOUND)
-                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championship #" + id + " not found !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                            "Championship #" + id + " not found !"), HttpStatus.NOT_FOUND);
         }
         daoFactory.close();
 
@@ -430,13 +378,10 @@ public class ChampionshipWebService {
      * @return HTTP 200 if the race has been scheduled, HTTP 404 (not found) if
      *         the championship or the track to schedule doesn't exists
      */
-    @PUT
-    @Path("/{id}/{trackId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") final Integer id,
-            @PathParam("trackId") final Integer trackId, final RaceParams params) {
-        Response response;
+    @PutMapping(path = "/{id}/{trackId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> update(@PathVariable("id") final Integer id,
+            @PathVariable("trackId") final Integer trackId, @RequestBody final RaceParams params) {
+        ResponseEntity<WsReturn> response;
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         TrackDao trackDao = daoFactory.trackDao();
@@ -451,21 +396,15 @@ public class ChampionshipWebService {
                 }
                 championship.planRace(track, date);
                 championshipDao.update(championship);
-                response = Response
-                        .ok(new WsReturn(championship.lastRace().getId(), "Track " + track.getName()
-                                + " added to championship " + championship.getName() + "."))
-                        .build();
+                response = new ResponseEntity<>(new WsReturn(championship.lastRace().getId(), "Track " + track.getName()
+                                + " added to championship " + championship.getName() + "."), HttpStatus.OK);
             } else {
-                response = Response.status(Status.NOT_FOUND)
-                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Track #" + trackId + " not found !"))
-                        .build();
+                response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                                "Track #" + trackId + " not found !"), HttpStatus.NOT_FOUND);
             }
         } else {
-            response = Response.status(Status.NOT_FOUND)
-                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championship #" + id + " not found !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                            "Championship #" + id + " not found !"), HttpStatus.NOT_FOUND);
         }
         daoFactory.close();
         return response;
@@ -481,13 +420,10 @@ public class ChampionshipWebService {
      * @return HTTP 200 if the race has been canceled, HTTP 404 (not found) if
      *         the championship or the track to cancel doesn't exists
      */
-    @DELETE
-    @Path("/{id}/{trackId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("id") final Integer id,
-            @PathParam("trackId") final Integer trackId) {
-        Response response;
+    @DeleteMapping(path = "/{id}/{trackId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> remove(@PathVariable("id") final Integer id,
+            @PathVariable("trackId") final Integer trackId) {
+        ResponseEntity<WsReturn> response;
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         Championship championship = championshipDao.find(id);
@@ -495,21 +431,16 @@ public class ChampionshipWebService {
             if (trackId != null) {
                 Race race = championship.cancelRace(trackId);
                 championshipDao.update(championship);
-                response = Response.ok(
-                        new WsReturn(Status.OK.getStatusCode(), "Track " + race.getTrack().getName()
-                                + " deleted from championship " + championship.getName() + "."))
-                        .build();
+                response = new ResponseEntity<>(
+                        new WsReturn(HttpStatus.OK.value(), "Track " + race.getTrack().getName()
+                                + " deleted from championship " + championship.getName() + "."), HttpStatus.OK);
             } else {
-                response = Response.status(Status.NOT_FOUND)
-                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Undefined track to delete !"))
-                        .build();
+                response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                                "Undefined track to delete !"), HttpStatus.NOT_FOUND);
             }
         } else {
-            response = Response.status(Status.NOT_FOUND)
-                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Championship #" + id + " not found !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                            "Championship #" + id + " not found !"), HttpStatus.NOT_FOUND);
         }
         daoFactory.close();
 
@@ -523,11 +454,8 @@ public class ChampionshipWebService {
      *            The id of the race to ask
      * @return The results of a race in JSON format
      */
-
-    @GET
-    @Path("/race/{raceId}/results")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String results(@PathParam("raceId") final int raceId) {
+    @GetMapping(path = "/race/{raceId}/results", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String results(@PathVariable("raceId") final int raceId) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ChampionshipDao championshipDao = daoFactory.championshipDao();
         List<Object[]> results = championshipDao.results(raceId);
@@ -564,15 +492,4 @@ public class ChampionshipWebService {
         }
     }
 
-    /**
-     * Set response headers.
-     *
-     * @param pServletResponse
-     *            Response to send to the user with the headers HTTP needed
-     */
-    @Context
-    public void setHttpServletResponse(final HttpServletResponse pServletResponse) {
-        this.servletResponse = pServletResponse;
-        this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-    }
 }

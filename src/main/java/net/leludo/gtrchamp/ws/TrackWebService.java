@@ -3,18 +3,6 @@ package net.leludo.gtrchamp.ws;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,6 +12,10 @@ import net.leludo.gtrchamp.dao.CountryDao;
 import net.leludo.gtrchamp.dao.DaoFactory;
 import net.leludo.gtrchamp.dao.DataManager;
 import net.leludo.gtrchamp.dao.TrackDao;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Track web service.
@@ -37,19 +29,15 @@ import net.leludo.gtrchamp.dao.TrackDao;
  * </ul>
  *
  */
-@Path("/track")
+@RestController
+@RequestMapping("/track")
 public class TrackWebService {
-
-    /** Servlet context. */
-    @Context
-    private ServletContext servletContext;
 
     /**
      * @return the track list in JSON format
      */
-    @GET
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Track> tracks() {
         TrackDao dao = DataManager.getInstance().getManager().trackDao();
         return dao.findAll();
@@ -63,10 +51,9 @@ public class TrackWebService {
      *
      * @return the track corresponding to the id
      */
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Track track(@PathParam("id") final int id) {
+    @ResponseBody
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Track track(@PathVariable("id") final int id) {
         TrackDao dao = DataManager.getInstance().getManager().trackDao();
         return dao.find(id);
     }
@@ -79,20 +66,16 @@ public class TrackWebService {
      * @return HTTP 200 if the track has been created, HTTP 406 (not acceptable)
      *         if one of the request parameters is wrong.
      */
-    @POST
-    @Path("/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response create(final TrackParams params) {
+    @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> create(@RequestBody final TrackParams params) {
         String name = params.getName();
         String countryId = params.getCountryId();
 
-        Response response;
+        ResponseEntity<WsReturn> response;
         String message = validate(params);
 
         if (StringUtils.isNotEmpty(message)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), message)).build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(), message), HttpStatus.NOT_ACCEPTABLE);
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             TrackDao dao = daoFactory.trackDao();
@@ -100,9 +83,7 @@ public class TrackWebService {
             Country country = countryDao.find(Integer.valueOf(countryId));
             Track track = new Track(name, params.getLength(), country);
             dao.create(track);
-            response = Response
-                    .ok(new WsReturn(track.getId(), "Track " + track.getName() + " created !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(track.getId(), "Track " + track.getName() + " created !"), HttpStatus.OK);
             daoFactory.close();
         }
 
@@ -155,21 +136,17 @@ public class TrackWebService {
      *         the track to update doesn't exists, HTTP 406 (not acceptable) if
      *         one of the request parameters is wrong.
      */
-    @PUT
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response update(final TrackParams params) {
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> update(@RequestBody final TrackParams params) {
 
         String name = params.getName();
         String countryId = params.getCountryId();
 
-        Response response;
+        ResponseEntity<WsReturn> response;
         String message = validate(params);
 
         if (StringUtils.isNotEmpty(message)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(), message)).build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_ACCEPTABLE.value(), message), HttpStatus.NOT_ACCEPTABLE);
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             TrackDao dao = daoFactory.trackDao();
@@ -181,13 +158,11 @@ public class TrackWebService {
                 track.setLength(params.getLength());
                 track.setCountry(country);
                 dao.update(track);
-                response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "TRack " + track.getName() + " updated !")).build();
+                response = new ResponseEntity<>(new WsReturn(HttpStatus.OK.value(),
+                        "TRack " + track.getName() + " updated !"), HttpStatus.OK);
             } else {
-                response = Response.status(Status.NOT_FOUND)
-                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Track #" + params.getId() + " not found !"))
-                        .build();
+                response = new ResponseEntity<>(new WsReturn(HttpStatus.NOT_FOUND.value(),
+                                "Track #" + params.getId() + " not found !"), HttpStatus.NOT_FOUND);
             }
             daoFactory.close();
         }
@@ -202,11 +177,9 @@ public class TrackWebService {
      * @return HTTP 200 if the track has been deleted, HTTP 404 (not found) if
      *         the track to delete doesn't exists
      */
-    @DELETE
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") final int id) {
-        Response response;
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> delete(@PathVariable("id") final int id) {
+        ResponseEntity<WsReturn> response;
 
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         TrackDao dao = daoFactory.trackDao();
@@ -214,12 +187,11 @@ public class TrackWebService {
         Track track = dao.find(id);
         if (track != null) {
             dao.delete(track);
-            response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                    "Track " + track.getName() + " deleted !")).build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.OK.value(),
+                    "Track " + track.getName() + " deleted !"), HttpStatus.OK);
         } else {
-            response = Response.status(Status.NOT_FOUND).entity(
-                    new WsReturn(Status.NOT_FOUND.getStatusCode(), "Track #" + id + " not found !"))
-                    .build();
+            response = new ResponseEntity<>(
+                    new WsReturn(HttpStatus.NOT_FOUND.value(), "Track #" + id + " not found !"), HttpStatus.NOT_FOUND);
         }
         daoFactory.close();
         return response;
@@ -233,14 +205,12 @@ public class TrackWebService {
      * @return {code:1,message:""} if the track has been run as least once
      *         {code:0,message:""} if the track has not been run
      */
-    @GET
-    @Path("/{id}/wasrun")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response wasRun(@PathParam("id") final Integer id) {
+    @GetMapping(path = "/{id}/wasrun", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> wasRun(@PathVariable("id") final Integer id) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         TrackDao dao = daoFactory.trackDao();
         boolean wasRun = dao.wasRun(id);
         daoFactory.close();
-        return Response.ok().entity(new WsReturn(wasRun ? 1 : 0, "")).build();
+        return new ResponseEntity<>(new WsReturn(wasRun ? 1 : 0, ""), HttpStatus.OK);
     }
 }

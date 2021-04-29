@@ -2,16 +2,15 @@ package net.leludo.gtrchamp.dao;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Country;
+import org.springframework.stereotype.Component;
 
 /**
  * DAO for country access.
  */
-@Singleton
 public class CountryDao extends DefaultDao<Country, Integer> {
 
     /**

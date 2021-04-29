@@ -2,17 +2,16 @@ package net.leludo.gtrchamp.dao;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Competitor;
 import net.leludo.gtrchamp.CompetitorId;
+import org.springframework.stereotype.Component;
 
 /**
  * DAO for result access.
  */
-@Singleton
 public class ResultDao extends DefaultDao<Competitor, CompetitorId> {
 
     /**

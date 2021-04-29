@@ -2,16 +2,15 @@ package net.leludo.gtrchamp.dao;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Driver;
+import org.springframework.stereotype.Component;
 
 /**
  * DAO for driver access.
  */
-@Singleton
 public class DriverDao extends DefaultDao<Driver, Integer> {
 
     /**

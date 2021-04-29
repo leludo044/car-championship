@@ -1,28 +1,21 @@
 package net.leludo.gtrchamp.ws;
 
 import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import java.util.Properties;
 
 import net.leludo.gtrchamp.Country;
 import net.leludo.gtrchamp.dao.CountryDao;
 import net.leludo.gtrchamp.dao.DaoFactory;
 import net.leludo.gtrchamp.dao.DataManager;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Web service for all country requests.
  */
-@Path("/country")
+@RestController
+@RequestMapping("/country")
 public class CountryWebService {
 
     /**
@@ -30,9 +23,8 @@ public class CountryWebService {
      *
      * @return The countries list
      */
-    @GET
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Country> countries() {
         CountryDao dao = DataManager.getInstance().getManager().countryDao();
         return dao.all();
@@ -46,12 +38,11 @@ public class CountryWebService {
      * @return HTTP 200 if the country has been created, HTTP 406 (not
      *         acceptable) if one of the request parameters is wrong.
      */
-    @POST
-    @Path("/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response create(final CountryParams params) {
-        Response response;
+
+    @ResponseBody
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Properties create(@RequestBody final CountryParams params) {
+        Properties response = new Properties();
 
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
@@ -59,16 +50,13 @@ public class CountryWebService {
         String name = params.getName();
 
         if (name == null || "".equals(name)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Country name is missing !"))
-                    .build();
+            response.put("code", HttpStatus.NOT_ACCEPTABLE.value());
+            response.put("message", "Country name is missing !");
         } else {
             Country country = new Country(name);
             dao.create(country);
-            response = Response
-                    .ok(new WsReturn(country.getId(), "Country " + country.getName() + " added !"))
-                    .build();
+            response.put("code", country.getId());
+            response.put("message", "Country " + country.getName() + " added !");
         }
 
         daoFactory.close();
@@ -84,12 +72,11 @@ public class CountryWebService {
      *         the country to update doesn't exists, HTTP 406 (not acceptable)
      *         if one of the request parameters is wrong.
      */
-    @PUT
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response update(final CountryParams params) {
-        Response response;
+
+    @ResponseBody
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Properties update(@RequestBody final CountryParams params) {
+        Properties response = new Properties();
 
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
@@ -97,23 +84,20 @@ public class CountryWebService {
         String name = params.getName();
 
         if (name == null || "".equals(name)) {
-            response = Response.status(Status.NOT_ACCEPTABLE)
-                    .entity(new WsReturn(Status.NOT_ACCEPTABLE.getStatusCode(),
-                            "Country name is missing !"))
-                    .build();
+            response.put("code", HttpStatus.NOT_ACCEPTABLE.value());
+            response.put("message", "Country name is missing !");
+
         } else {
 
             Country country = dao.find(params.getId());
             if (country != null) {
                 country.setName(name);
                 dao.update(country);
-                response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                        "Country  " + country.getName() + " updated !")).build();
+                response.put("code", HttpStatus.OK.value());
+                response.put("message", "Country  " + country.getName() + " updated !");
             } else {
-                response = Response.status(Status.NOT_FOUND)
-                        .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                                "Driver #" + params.getId() + " not found !"))
-                        .build();
+                response.put("code", HttpStatus.NOT_FOUND.value());
+                response.put("message", "Driver #" + params.getId() + " not found !");
             }
 
             daoFactory.close();
@@ -129,11 +113,10 @@ public class CountryWebService {
      * @return HTTP 200 if the country has been deleted, HTTP 404 (not found) if
      *         the country to delete doesn't exists
      */
-    @DELETE
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") final int id) {
-        Response response;
+    @ResponseBody
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Properties delete(@PathVariable("id") final int id) {
+        Properties response = new Properties();
 
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
@@ -142,13 +125,11 @@ public class CountryWebService {
         if (country != null) {
             dao.delete(country);
 
-            response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                    "Country " + country.getName() + " deleted !")).build();
+            response.put("code", HttpStatus.OK.value());
+            response.put("message", "Country " + country.getName() + " deleted !");
         } else {
-            response = Response.status(Status.NOT_FOUND)
-                    .entity(new WsReturn(Status.NOT_FOUND.getStatusCode(),
-                            "Country #" + id + " not found !"))
-                    .build();
+            response.put("code", HttpStatus.NOT_FOUND.value());
+            response.put("message", "Country #" + id + " not found !");
         }
 
         daoFactory.close();
@@ -163,14 +144,16 @@ public class CountryWebService {
      * @return {code:1,message:""} if the country have at least one track
      *         {code:0,message:""} if the country have no track
      */
-    @GET
-    @Path("/{id}/havetrack")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response haveTrack(@PathParam("id") final Integer id) {
+    @ResponseBody
+    @GetMapping(path = "/{id}/havetrack", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Properties haveTrack(@PathVariable("id") final Integer id) {
+        Properties response = new Properties();
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         CountryDao dao = daoFactory.countryDao();
         boolean trackCount = dao.haveTack(id);
         daoFactory.close();
-        return Response.ok().entity(new WsReturn(trackCount ? 1 : 0, "")).build();
+        response.put("code", trackCount ? 1 : 0);
+        response.put("message", "");
+        return response;
     }
 }

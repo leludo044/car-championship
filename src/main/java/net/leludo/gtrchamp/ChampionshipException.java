@@ -1,6 +1,6 @@
 package net.leludo.gtrchamp;
 
-import javax.ws.rs.core.Response.Status;
+import org.springframework.http.HttpStatus;
 
 /**
  * General exception for championship problems.
@@ -9,13 +9,13 @@ import javax.ws.rs.core.Response.Status;
 public class ChampionshipException extends Exception {
 
     /** The status (HTTP return code) of the exception. */
-    private Status status;
+    private HttpStatus status;
 
     /**
      * Default constructor. No message, no status code
      *
      * @deprecated Use {@link #ChampionshipException(String)} or
-     *             {@link #ChampionshipException(Status, String)}
+     *             {@link #ChampionshipException(HttpStatus, String)}
      */
     @Deprecated
     public ChampionshipException() {
@@ -40,7 +40,7 @@ public class ChampionshipException extends Exception {
      * @param message
      *            Exception message
      */
-    public ChampionshipException(final Status status, final String message) {
+    public ChampionshipException(final HttpStatus status, final String message) {
         super(message);
         this.status = status;
     }
@@ -50,7 +50,7 @@ public class ChampionshipException extends Exception {
      *
      * @return the status (HTTP return code) of the exception
      */
-    public Status status() {
+    public HttpStatus status() {
         return status;
     }
 

@@ -2,11 +2,11 @@ package net.leludo.gtrchamp.dao;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import net.leludo.gtrchamp.Championship;
+import org.springframework.stereotype.Component;
 
 /**
  * Championship repository based on JPA configuration.
@@ -14,7 +14,6 @@ import net.leludo.gtrchamp.Championship;
  * @author Ludovic THOMAS
  *
  */
-@Singleton
 public class ChampionshipDao extends DefaultDao<Championship, Integer> {
 
     /**

@@ -1,14 +1,13 @@
 package net.leludo.gtrchamp.dao;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
 import net.leludo.gtrchamp.PointSet;
+import org.springframework.stereotype.Component;
 
 /**
  * DAO for scoring system access.
  */
-@Singleton
 public class ScoringDao extends DefaultDao<PointSet, String> {
 
     /**

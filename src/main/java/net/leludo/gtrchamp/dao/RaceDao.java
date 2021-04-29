@@ -1,15 +1,14 @@
 package net.leludo.gtrchamp.dao;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
 import net.leludo.gtrchamp.Race;
+import org.springframework.stereotype.Component;
 
 /**
  * DAO for race persistence.
  *
  */
-@Singleton
 public class RaceDao extends DefaultDao<Race, Integer> {
 
     /**

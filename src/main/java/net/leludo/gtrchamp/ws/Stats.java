@@ -3,35 +3,28 @@ package net.leludo.gtrchamp.ws;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 
 import net.leludo.gtrchamp.dao.DaoFactory;
 import net.leludo.gtrchamp.dao.DataManager;
 import net.leludo.gtrchamp.dao.StatDao;
 import net.leludo.gtrchamp.stat.Stat;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Stat web service. Provide victories, poles and podiums statistics
  */
-@Path("stat")
+@RestController
+@RequestMapping("/stat")
 public class Stats {
-
-    /** Servlet response. */
-    private HttpServletResponse servletResponse;
 
     /**
      * Return all the drivers with their number of victories.
      *
      * @return all the driver with their number of victories
      */
-    @GET
-    @Path("/victory")
-    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    @GetMapping(path = "/victory", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Stat> victory() {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         StatDao dao = daoFactory.statDao();
@@ -47,10 +40,9 @@ public class Stats {
      *            The championship id to filter
      * @return all the drivers with their number of victories
      */
-    @GET
-    @Path("/victory/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Stat> victory(@PathParam("id") final int id) {
+    @ResponseBody
+    @GetMapping(path = "/victory/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Stat> victory(@PathVariable("id") final int id) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         StatDao dao = daoFactory.statDao();
         List<Stat> stats = dao.findNbVictories(id);
@@ -63,9 +55,8 @@ public class Stats {
      *
      * @return all the drivers with their number of pole positions
      */
-    @GET
-    @Path("/pole")
-    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    @GetMapping(path = "/pole", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Stat> pole() {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         StatDao dao = daoFactory.statDao();
@@ -81,10 +72,9 @@ public class Stats {
      *            The championship id to filter
      * @return all the drivers with their number of pole positions
      */
-    @GET
-    @Path("/pole/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Stat> pole(@PathParam("id") final int id) {
+    @ResponseBody
+    @GetMapping(path = "/pole/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Stat> pole(@PathVariable("id") final int id) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         StatDao dao = daoFactory.statDao();
         List<Stat> stats = dao.findNbPoles(id);
@@ -97,9 +87,8 @@ public class Stats {
      *
      * @return all the drivers with their number of podiums
      */
-    @GET
-    @Path("/podium")
-    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    @GetMapping(path = "/podium", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Stat> podium() {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         StatDao dao = daoFactory.statDao();
@@ -115,10 +104,9 @@ public class Stats {
      *            The championship id to filter
      * @return all the drivers with their number of podiums
      */
-    @GET
-    @Path("/podium/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Stat> podium(@PathParam("id") final int id) {
+    @ResponseBody
+    @GetMapping(path = "/podium/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Stat> podium(@PathVariable("id") final int id) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         StatDao dao = daoFactory.statDao();
         List<Stat> stats = dao.findNbPodium(id);
@@ -126,15 +114,4 @@ public class Stats {
         return stats;
     }
 
-    /**
-     * Set response headers.
-     *
-     * @param pServletResponse
-     *            Response to send to the user with the headers HTTP needed
-     */
-    @Context
-    public void setHttpServletResponse(final HttpServletResponse pServletResponse) {
-        this.servletResponse = pServletResponse;
-        this.servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-    }
 }

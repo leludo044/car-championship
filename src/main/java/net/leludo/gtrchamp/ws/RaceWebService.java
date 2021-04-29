@@ -2,21 +2,6 @@ package net.leludo.gtrchamp.ws;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import net.leludo.gtrchamp.ChampionshipException;
 import net.leludo.gtrchamp.Competitor;
 import net.leludo.gtrchamp.CompetitorId;
@@ -28,6 +13,10 @@ import net.leludo.gtrchamp.dao.DriverDao;
 import net.leludo.gtrchamp.dao.RaceDao;
 import net.leludo.gtrchamp.dao.ResultDao;
 import net.leludo.gtrchamp.dao.ScoringDao;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Race web service. Provides functionality for results management
@@ -39,12 +28,9 @@ import net.leludo.gtrchamp.dao.ScoringDao;
  * <li>DELETE /result/:raceId/:driverId/:raceNumber</li>
  * </ul>
  */
-@Path("/race")
+@RestController
+@RequestMapping("/race")
 public class RaceWebService {
-
-    /** Servlet context. */
-    @Context
-    private ServletContext servletContext;
 
     /**
      * Provide the track list for a particular race and his race number.
@@ -55,11 +41,10 @@ public class RaceWebService {
      *            The race number
      * @return the track list in JSON format
      */
-    @GET
-    @Path("/results/{raceId}/{raceNumber}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Competitor> competitors(@PathParam("raceId") final int id,
-            @PathParam("raceNumber") final int raceNumber) {
+    @ResponseBody
+    @GetMapping(path = "/results/{raceId}/{raceNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Competitor> competitors(@PathVariable("raceId") final int id,
+            @PathVariable("raceNumber") final int raceNumber) {
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ResultDao resultDao = daoFactory.resultDao();
         List<Competitor> competitors = resultDao.find(id, raceNumber);
@@ -77,12 +62,9 @@ public class RaceWebService {
      *         wrong, HTTP 404 (not found) if the driver or the race cannot be
      *         found.
      */
-    @POST
-    @Path("/result")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addResult(final ResultParams params) {
-        Response response;
+    @PostMapping(path = "/result", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> addResult(@RequestBody final ResultParams params) {
+        ResponseEntity<WsReturn> response;
 
         try {
 
@@ -104,14 +86,11 @@ public class RaceWebService {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
             ResultDao resultDao = daoFactory.resultDao();
             resultDao.create(competitor);
-            response = Response
-                    .ok(new WsReturn(Status.OK.getStatusCode(),
-                            "Results for driver " + competitor.getDriver().getName() + " saved !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.OK.value(),
+                            "Results for driver " + competitor.getDriver().getName() + " saved !"), HttpStatus.OK);
             daoFactory.close();
         } catch (final ChampionshipException ce) {
-            response = Response.status(ce.status())
-                    .entity(new WsReturn(ce.status().getStatusCode(), ce.getMessage())).build();
+            response = new ResponseEntity<>(new WsReturn(ce.status().value(), ce.getMessage()), ce.status());
         }
 
         return response;
@@ -127,12 +106,9 @@ public class RaceWebService {
      *         wrong, HTTP 404 (not found) if the driver or the race cannot be
      *         found.
      */
-    @PUT
-    @Path("/result")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateResult(final ResultParams params) {
-        Response response;
+    @PutMapping(path = "/result", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> updateResult(@RequestBody final ResultParams params) {
+        ResponseEntity<WsReturn> response;
 
         try {
             Driver driver = checkDriver(params.getDriverId());
@@ -158,13 +134,11 @@ public class RaceWebService {
             competitorToUpdate.setStartingPosition(competitor.getStartingPosition());
             competitorToUpdate.setArrivalPosition(competitor.getArrivalPosition());
             resultDao.update(competitorToUpdate);
-            response = Response.ok(new WsReturn(Status.OK.getStatusCode(),
-                    "Results for driver " + competitor.getDriver().getName() + " updated !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.OK.value(),
+                    "Results for driver " + competitor.getDriver().getName() + " updated !"), HttpStatus.OK);
             daoFactory.close();
         } catch (final ChampionshipException ce) {
-            response = Response.status(ce.status())
-                    .entity(new WsReturn(ce.status().getStatusCode(), ce.getMessage())).build();
+            response = new ResponseEntity<>(new WsReturn(ce.status().value(), ce.getMessage()), ce.status());
         }
 
         return response;
@@ -184,30 +158,24 @@ public class RaceWebService {
      *         wrong, HTTP 404 (not found) if the driver or the race cannot be
      *         found.
      */
-    @DELETE
-    @Path("/result/{raceId}/{driverId}/{raceNumber}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response removeResult(@PathParam("raceId") final int raceId,
-            @PathParam("driverId") final int driverId,
-            @PathParam("raceNumber") final int raceNumber) {
-        Response response;
+    @DeleteMapping(path = "/result/{raceId}/{driverId}/{raceNumber}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WsReturn> removeResult(@PathVariable("raceId") final int raceId,
+            @PathVariable("driverId") final int driverId,
+            @PathVariable("raceNumber") final int raceNumber) {
+        ResponseEntity<WsReturn> response;
 
         DaoFactory daoFactory = DataManager.getInstance().getManager();
         ResultDao resultDao = daoFactory.resultDao();
 
         int rowCount = resultDao.delete(raceId, driverId, raceNumber);
         if (rowCount == 1) {
-            response = Response.ok(new WsReturn(Status.OK.getStatusCode(), "Result removed !"))
-                    .build();
+            response = new ResponseEntity<>(new WsReturn(HttpStatus.OK.value(), "Result removed !"), HttpStatus.OK);
         } else if (rowCount == 0) {
-            response = Response.status(Status.BAD_REQUEST).entity(
-                    new WsReturn(Status.BAD_REQUEST.getStatusCode(), "No result to remove !"))
-                    .build();
+            response = new ResponseEntity<>(
+                    new WsReturn(HttpStatus.BAD_REQUEST.value(), "No result to remove !"), HttpStatus.BAD_REQUEST);
         } else {
-            response = Response.status(Status.BAD_REQUEST).entity(
-                    new WsReturn(Status.BAD_REQUEST.getStatusCode(), "To many results removed  !"))
-                    .build();
+            response = new ResponseEntity<>(
+                    new WsReturn(HttpStatus.BAD_REQUEST.value(), "To many results removed  !"), HttpStatus.BAD_REQUEST);
         }
         daoFactory.close();
         return response;
@@ -224,7 +192,7 @@ public class RaceWebService {
      */
     private void checkArrivalPosition(final ResultParams params) throws ChampionshipException {
         if (params.getArrivalPosition() <= 0) {
-            throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+            throw new ChampionshipException(HttpStatus.NOT_ACCEPTABLE,
                     "Incorrect arrival position ! Must be > 0 !");
         } else {
             DaoFactory daoFactory = DataManager.getInstance().getManager();
@@ -232,7 +200,7 @@ public class RaceWebService {
             Integer maxArrivalPosition = scoringDao.max(params.getScoringSystem());
             daoFactory.close();
             if (params.getArrivalPosition() > maxArrivalPosition) {
-                throw new ChampionshipException(Status.NOT_ACCEPTABLE, String.format(
+                throw new ChampionshipException(HttpStatus.NOT_ACCEPTABLE, String.format(
                         "Incorrect arrival position ! Must be <= %s !", maxArrivalPosition));
             }
         }
@@ -248,7 +216,7 @@ public class RaceWebService {
      */
     private void checkStartingPosition(final int startingPosition) throws ChampionshipException {
         if (startingPosition <= 0) {
-            throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+            throw new ChampionshipException(HttpStatus.NOT_ACCEPTABLE,
                     "Incorrect starting position ! Must be > 0 !");
         }
 
@@ -264,7 +232,7 @@ public class RaceWebService {
      */
     private void checkRaceNumber(final int raceNumber) throws ChampionshipException {
         if (raceNumber < 1 || raceNumber > 2) {
-            throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+            throw new ChampionshipException(HttpStatus.NOT_ACCEPTABLE,
                     "Incorrect race number ! Must be 1 or 2 !");
         }
 
@@ -284,7 +252,7 @@ public class RaceWebService {
         DriverDao driverDao = daoFactory.driverDao();
         Driver driver = driverDao.find(id);
         if (driver == null) {
-            throw new ChampionshipException(Status.NOT_FOUND, "Driver #" + id + " not found !");
+            throw new ChampionshipException(HttpStatus.NOT_FOUND, "Driver #" + id + " not found !");
         }
         daoFactory.close();
         return driver;
@@ -304,7 +272,7 @@ public class RaceWebService {
         RaceDao raceDao = daoFactory.raceDao();
         Race race = raceDao.find(id);
         if (race == null) {
-            throw new ChampionshipException(Status.NOT_FOUND, "Race #" + id + " not found !");
+            throw new ChampionshipException(HttpStatus.NOT_FOUND, "Race #" + id + " not found !");
         }
         daoFactory.close();
         return race;
@@ -332,13 +300,13 @@ public class RaceWebService {
         for (Competitor other : competitors) {
             if (other.getDriver().getId() != competitor.getDriver().getId()) {
                 if (other.getStartingPosition() == competitor.getStartingPosition()) {
-                    throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                    throw new ChampionshipException(HttpStatus.NOT_ACCEPTABLE,
                             competitor.getDriver().getName()
                                     + " has already the same starting position than "
                                     + other.getDriver().getName());
                 }
                 if (other.getArrivalPosition() == competitor.getArrivalPosition()) {
-                    throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                    throw new ChampionshipException(HttpStatus.NOT_ACCEPTABLE,
                             competitor.getDriver().getName()
                                     + " has already the same arrival position than "
                                     + other.getDriver().getName());
@@ -368,20 +336,9 @@ public class RaceWebService {
         daoFactory.close();
         for (Competitor other : competitors) {
             if (other.getDriver().getId() == competitor.getDriver().getId()) {
-                throw new ChampionshipException(Status.NOT_ACCEPTABLE,
+                throw new ChampionshipException(HttpStatus.NOT_ACCEPTABLE,
                         competitor.getDriver().getName() + " has already a result for this race !");
             }
         }
-    }
-
-    /**
-     * Set response headers.
-     *
-     * @param pServletResponse
-     *            Response to send to the user with the headers HTTP needed
-     */
-    @Context
-    public void setHttpServletResponse(final HttpServletResponse pServletResponse) {
-        pServletResponse.setHeader("Access-Control-Allow-Origin", "*");
     }
 }
